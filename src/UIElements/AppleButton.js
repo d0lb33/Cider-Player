@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { CustomIcon } from './CustomIcons';
+import { APPLE_PINK, APPLE_GREY } from './ColorConsts';
 
 // Defaults
 const WIDTH = 25;
@@ -16,9 +17,9 @@ export default class AppleButton extends Component {
 
   getTextColor = () =>{
     if (this.props.selected || this.state.hovered){
-      return "#ff004f";
+      return APPLE_PINK;
     }else{
-      return "#cccccc";
+      return APPLE_GREY;
     }
   }
 

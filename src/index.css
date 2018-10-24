@@ -1,7 +1,16 @@
 body {
 }
 
+
 .bottom-nav-bar {
+  position: absolute;
+  padding: 20px;
+  border-top: 1px solid #c5c5c5;
+  width: 100%;
+  bottom: 0px;
+}
+
+.bottom-nav-bar .content {
   /* We first create a flex layout context */
   display: flex;
   /* Then we define the flow direction and if we allow the items to wrap */
@@ -9,6 +18,11 @@ body {
   /* Then we define how is distributed the remaining space */
   justify-content: space-around;
   
+}
+
+.bottom-nav-bar .divider {
+  height: 25px;
+  width: 1px;
 }
 
 .unselectable {
