@@ -5,7 +5,7 @@ import { PAGENAMES } from './consts';
 
 const initialState = {
     page: { currentPage: PAGENAMES.LIBRARY },
-    library : {isAuthenticated : false}
+    library : {isAuthenticated : false, musicKitInstance: {}}
 };
 
 const middleWare = [thunk];

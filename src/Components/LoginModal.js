@@ -3,6 +3,9 @@ import { connect } from 'react-redux';
 import AppleButton from '../UIElements/AppleButton';
 import { Modal } from 'antd';
 class LoginModal extends Component {
+
+  // Add event listener to onclick so we know if the autorization status changes.
+
   render() {
     return (
       <Modal
@@ -13,7 +16,6 @@ class LoginModal extends Component {
         
       >
       <div className="login-modal">
-
         <h1>Login To Apple Music</h1>
         
         {this.props.isAuthenticated ? "Authed" : "Not Authed"}
@@ -21,7 +23,7 @@ class LoginModal extends Component {
           deauthorize [inset app name here] from your apple account follow the instructions listed here: <a target="_blank" href="https://support.apple.com/en-us/HT207830">https://support.apple.com/en-us/HT207830</a>
         </p>
         <br /><br /><br /><br />
-        <AppleButton inverseSelection btnWidth={120} title={"Login"} />
+        <AppleButton onClick={() => this.props.musicKitInstance.authorize()} inverseSelection btnWidth={120} title={"Login"} />
         <br />
         Made Possible with <a target="_blank" href="https://developer.apple.com/documentation/musickitjs" >MusicKitJS</a> | Devloped by Jonathan Dolbee
         
@@ -32,7 +34,8 @@ class LoginModal extends Component {
 }
 
 const mapStateToProps = state => ({
-  isAuthenticated: !state.library.isAuthenticated
+  isAuthenticated: state.library.isAuthenticated,
+  musicKitInstance : state.library.musicKitInstance
 })
 
 export default connect(mapStateToProps, null)(LoginModal);
