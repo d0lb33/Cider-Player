@@ -4,13 +4,13 @@ import { Provider } from 'react-redux';
 import store from './store';
 import AppleButton from './UIElements/AppleButton';
 
+
 class App extends Component {
 
   render() {
     return (
       <Provider store={store}>
         <div>
-          <AppleButton />
           <BottomNavBar />
         </div>
       </Provider>

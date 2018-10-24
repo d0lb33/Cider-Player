@@ -1,5 +1,2 @@
-/*export const FETCH_POSTS = 'FETCH_POSTS';
-export const NEW_POST = 'NEW_POST';
-*/
-
 export const UPDATE_PAGE = 'UPDATE_PAGE';
+export const FETCH_CURRENT_USER_SONGS = "FETCH_CURRENT_USER_SONGS";
