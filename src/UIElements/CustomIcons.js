@@ -13,6 +13,8 @@ import RadioWavesPink from '../icons/radio-waves-pink.png';
 import RadioWavesGrey from '../icons/radio-waves-grey.png';
 import SearchPink from '../icons/search-pink.png';
 import SearchGrey from '../icons/search-grey.png';
+import ShufflePink from '../icons/shuffle-pink.png';
+import ShuffleGrey from '../icons/shuffle-grey.png';
 
 export class Browse extends Component {
 
@@ -90,6 +92,19 @@ export class Search extends Component {
     }
 }
 
+export class Shuffle extends Component {
+
+    render() {
+        var imgSrc;
+        if (this.props.selected) {
+            imgSrc = ShufflePink;
+        } else {
+            imgSrc = ShuffleGrey;
+        }
+        return <img alt={"browse"} width={this.props.width} height={this.props.height} src={imgSrc}></img>
+    }
+}
+
 export class CustomIcon extends Component {
     render() {
         switch (this.props.icon) {
@@ -105,6 +120,8 @@ export class CustomIcon extends Component {
                 return <RadioWaves {...this.props} />
             case "search":
                 return <Search {...this.props} />
+            case "shuffle":
+                return <Shuffle {...this.props} />
             default:
                 return <p>No Icon Given!!</p>
         }
