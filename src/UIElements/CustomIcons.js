@@ -7,13 +7,15 @@ import ForYouPink from '../icons/for-you-pink.png';
 import ForYouGrey from '../icons/for-you-grey.png';
 import MusicLibraryPink from '../icons/music-libary-pink.png';
 import MusicLibraryGrey from '../icons/music-libary-grey.png';
+import PlayArrowPink from '../icons/play-arrow-pink.png';
+import PlayArrowGrey from '../icons/play-arrow-grey.png';
 import RadioWavesPink from '../icons/radio-waves-pink.png';
 import RadioWavesGrey from '../icons/radio-waves-grey.png';
 import SearchPink from '../icons/search-pink.png';
 import SearchGrey from '../icons/search-grey.png';
 
 export class Browse extends Component {
-   
+
     render() {
         var imgSrc;
         if (this.props.selected) {
@@ -26,7 +28,7 @@ export class Browse extends Component {
 }
 
 export class ForYou extends Component {
-   
+
     render() {
         var imgSrc;
         if (this.props.selected) {
@@ -50,8 +52,20 @@ export class MusicLibrary extends Component {
     }
 };
 
+export class PlayArrow extends Component {
+    render() {
+        var imgSrc;
+        if (this.props.selected) {
+            imgSrc = PlayArrowPink;
+        } else {
+            imgSrc = PlayArrowGrey;
+        }
+        return <img alt={this.props.icon} width={this.props.width} height={this.props.height} src={imgSrc}></img>
+    }
+};
+
 export class RadioWaves extends Component {
-   
+
     render() {
         var imgSrc;
         if (this.props.selected) {
@@ -64,7 +78,7 @@ export class RadioWaves extends Component {
 }
 
 export class Search extends Component {
-   
+
     render() {
         var imgSrc;
         if (this.props.selected) {
@@ -83,6 +97,8 @@ export class CustomIcon extends Component {
                 return <ForYou {...this.props} />
             case "music-library":
                 return <MusicLibrary {...this.props} />
+            case "play-arrow":
+                return <PlayArrow {...this.props} />
             case "browse":
                 return <Browse {...this.props} />
             case "radio-waves":
