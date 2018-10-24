@@ -48,7 +48,8 @@ class BottomNavBar extends Component {
 }
 
 const mapStateToProps = state => ({
-    currentPage: state.page.currentPage
+    currentPage: state.page.currentPage,
+    musicKitInstance : state.library.musicKitInstance
 });
 
 export default connect(mapStateToProps, { updatePage })(BottomNavBar)
