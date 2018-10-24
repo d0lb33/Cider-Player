@@ -5,6 +5,8 @@ import BrowsePink from '../icons/browse-pink.png';
 import BrowseGrey from '../icons/browse-grey.png';
 import ForYouPink from '../icons/for-you-pink.png';
 import ForYouGrey from '../icons/for-you-grey.png';
+import LoginArrowPink from '../icons/login-arrow-pink.png';
+import LoginArrowGrey from '../icons/login-arrow-grey.png';
 import MusicLibraryPink from '../icons/music-libary-pink.png';
 import MusicLibraryGrey from '../icons/music-libary-grey.png';
 import PlayArrowPink from '../icons/play-arrow-pink.png';
@@ -37,6 +39,19 @@ export class ForYou extends Component {
             imgSrc = ForYouPink;
         } else {
             imgSrc = ForYouGrey;
+        }
+        return <img alt={this.props.icon} width={this.props.width} height={this.props.height} src={imgSrc}></img>
+    }
+}
+
+export class LoginArrow extends Component {
+
+    render() {
+        var imgSrc;
+        if (this.props.selected) {
+            imgSrc = LoginArrowPink;
+        } else {
+            imgSrc = LoginArrowGrey;
         }
         return <img alt={this.props.icon} width={this.props.width} height={this.props.height} src={imgSrc}></img>
     }
@@ -110,6 +125,8 @@ export class CustomIcon extends Component {
         switch (this.props.icon) {
             case "for-you":
                 return <ForYou {...this.props} />
+            case "login-arrow":
+                return <LoginArrow {...this.props} />
             case "music-library":
                 return <MusicLibrary {...this.props} />
             case "play-arrow":
@@ -122,8 +139,7 @@ export class CustomIcon extends Component {
                 return <Search {...this.props} />
             case "shuffle":
                 return <Shuffle {...this.props} />
-            default:
-                return <p>No Icon Given!!</p>
+            default: return null
         }
     }
 }

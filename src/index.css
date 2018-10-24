@@ -25,6 +25,35 @@ body {
   width: 1px;
 }
 
+.ant-modal-body  {
+  background-image: #bc4e9c; /* fallback for old browsers */
+  background-image: -webkit-linear-gradient(to left, #bc4e9c, #f80759); /* Chrome 10-25, Safari 5.1-6 */
+  background-image: linear-gradient(to left, #bc4e9c, #f80759); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background-color: transparent;
+  border-radius: 3px;
+  padding-bottom: 10px !important;
+}
+
+.login-modal {
+  color : white;
+  text-align: center;
+  margin: auto;
+}
+
+.login-modal h1 {
+  color : white;
+}
+
+.login-modal a {
+  color : #56284c
+}
+
+.login-modal a:hover {
+  color : black
+}
+
+
+
 .unselectable {
   -webkit-touch-callout: none;
   -webkit-user-select: none;
