@@ -1,16 +1,8 @@
 import { combineReducers } from 'redux';
-
-
-/*
-import postReducer from './postReducer';
-
-export default combineReducers({
-    posts : postReducer
-})
-*/
-
 import pageReducer from './pageReducer';
+import libraryReducer from './libraryReducer'
 
 export default combineReducers({
-    page : pageReducer
+    page : pageReducer,
+    library : libraryReducer,
 })

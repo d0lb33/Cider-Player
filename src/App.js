@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import BottomNavBar from './Components/BottomNavBar';
 import { Provider } from 'react-redux';
 import store from './store';
+import LoginModal from './Components/LoginModal';
 import AppleButton from './UIElements/AppleButton';
 
 
@@ -11,6 +12,9 @@ class App extends Component {
     return (
       <Provider store={store}>
         <div>
+          
+
+          <LoginModal />
           <BottomNavBar />
         </div>
       </Provider>

@@ -3,7 +3,7 @@ import AppleButton from '../UIElements/AppleButton';
 import { Row, Col } from 'antd';
 import { APPLE_GREY } from '../UIElements/ColorConsts';
 import { connect } from 'react-redux';
-import {updatePage} from '../actions/pageActions';
+import { updatePage } from '../actions/pageActions';
 import { PAGENAMES } from '../consts';
 
 
@@ -14,9 +14,9 @@ class BottomNavBar extends Component {
     }
 
     shouldBeSelected = (e) => {
-        if (this.props.currentPage === e){
+        if (this.props.currentPage === e) {
             return true;
-        }else {
+        } else {
             return false;
         }
     }
@@ -51,4 +51,4 @@ const mapStateToProps = state => ({
     currentPage: state.page.currentPage
 });
 
-export default connect(mapStateToProps, {updatePage})(BottomNavBar)
+export default connect(mapStateToProps, { updatePage })(BottomNavBar)

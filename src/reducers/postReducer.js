@@ -18,6 +18,6 @@ export default (state = initialState, action) => {
                 item: state.items.unshift(action.payload)
             }
         default: 
-            return state;
+            return {...state};
     }
 }

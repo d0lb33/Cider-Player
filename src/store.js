@@ -4,7 +4,8 @@ import rootReducer from './reducers/';
 import { PAGENAMES } from './consts';
 
 const initialState = {
-    page: { currentPage: PAGENAMES.LIBRARY }
+    page: { currentPage: PAGENAMES.LIBRARY },
+    library : {isAuthenticated : false}
 };
 
 const middleWare = [thunk];
