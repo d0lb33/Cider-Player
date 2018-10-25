@@ -10,9 +10,9 @@ export const fetchUserSongs = () => dispatch => {
     // FIGURE THIS OUT
     let getSongs = () => {
         if (musicKitInstance.api.library) {
-            musicKitInstance.api.library.songs(null, {offset : offset, limit:100}).then((songs) => {
+            musicKitInstance.api.library.songs(null, { offset: offset, limit: 100 }).then((songs) => {
                 songArray = songArray.concat(songs);
-                if (songs.length !== 0){
+                if (songs.length !== 0) {
                     offset += 100
                     getSongs();
                     dispatch({
@@ -20,7 +20,7 @@ export const fetchUserSongs = () => dispatch => {
                         payload: songArray,
                         loadingState: LOADINGSTATES.LOADEDPARTIAL
                     })
-                }else {
+                } else {
                     dispatch({
                         type: FETCH_USER_SONGS,
                         payload: songArray,
@@ -28,26 +28,33 @@ export const fetchUserSongs = () => dispatch => {
                     })
                 }
             });
-        }else {
+        } else {
             getSongs();
         }
-        
+
     }
     getSongs();
 }
 
 export const authenticateUser = () => dispatch => {
-    
+
     var musicKitInstance = window.MusicKit.getInstance();
     musicKitInstance.authorize();
     musicKitInstance.addEventListener("authorizationStatusDidChange", (e) => {
         console.log("Authorization Status: " + e);
+        console.log(musicKitInstance.api.library)
         if (e.authorizationStatus === 3) {
-            dispatch({
-                type: AUTHENTICATE_USER,
-                isAuthenticated: musicKitInstance.isAuthorized,
-                musicKitInstance: musicKitInstance
-            })
+
+            // Sometimes the state update happens to fast and everything else wants to use musicKit before its loading.
+            let libraryCheck = setTimeout(() => {
+                    clearInterval(libraryCheck);
+                    dispatch({
+                        type: AUTHENTICATE_USER,
+                        isAuthenticated: musicKitInstance.isAuthorized,
+                        musicKitInstance: musicKitInstance
+                    })
+            }, 100)
+
         }
     });
 }

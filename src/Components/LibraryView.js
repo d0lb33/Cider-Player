@@ -23,7 +23,7 @@ class LibraryView extends Component {
         if ((this.props.loadingState === LOADINGSTATES.LOADEDPARTIAL || this.props.loadingState === LOADINGSTATES.LOADED) && this.props.songs){
             
             let x = this.props.songs.map((song) => {
-                return <h1>{song.attributes.name}</h1>
+                return <h1 key={song.id}>{song.attributes.name}</h1>
             })
             return x;
         }
