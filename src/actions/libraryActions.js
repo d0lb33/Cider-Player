@@ -7,26 +7,31 @@ export const fetchUserSongs = () => dispatch => {
 
     let offset = 0;
     let songArray = [];
-    
+    // FIGURE THIS OUT
     let getSongs = () => {
-        musicKitInstance.api.library.songs(null, {offset : offset, limit:100}).then((songs) => {
-            songArray = songArray.concat(songs);
-            if (songs.length !== 0){
-                offset += 100
-                getSongs();
-                dispatch({
-                    type: FETCH_USER_SONGS,
-                    payload: songArray,
-                    loadingState: LOADINGSTATES.LOADEDPARTIAL
-                })
-            }else {
-                dispatch({
-                    type: FETCH_USER_SONGS,
-                    payload: songArray,
-                    loadingState: LOADINGSTATES.LOADED
-                })
-            }
-        });
+        if (musicKitInstance.api.library) {
+            musicKitInstance.api.library.songs(null, {offset : offset, limit:100}).then((songs) => {
+                songArray = songArray.concat(songs);
+                if (songs.length !== 0){
+                    offset += 100
+                    getSongs();
+                    dispatch({
+                        type: FETCH_USER_SONGS,
+                        payload: songArray,
+                        loadingState: LOADINGSTATES.LOADEDPARTIAL
+                    })
+                }else {
+                    dispatch({
+                        type: FETCH_USER_SONGS,
+                        payload: songArray,
+                        loadingState: LOADINGSTATES.LOADED
+                    })
+                }
+            });
+        }else {
+            getSongs();
+        }
+        
     }
     getSongs();
 }
