@@ -1,11 +1,11 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import rootReducer from './reducers/';
-import { PAGENAMES } from './consts';
+import { PAGENAMES, LOADINGSTATES } from './consts';
 
 const initialState = {
     page: { currentPage: PAGENAMES.LIBRARY },
-    library : {isAuthenticated : false, musicKitInstance: {}}
+    library : {isAuthenticated : false, musicKitInstance: {}, loadingState: LOADINGSTATES.LOADING}
 };
 
 const middleWare = [thunk];

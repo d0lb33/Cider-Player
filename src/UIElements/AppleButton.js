@@ -19,7 +19,7 @@ function filledBtnStyle(props) {
         borderRadius: 15,
         width: props.btnWidth ? props.btnWidth : 200,
         backgroundColor: props.btnBackgroundColor ? props.btnBackgroundColor : APPLE_BTN_BACKGROUND,
-        lineHeight: "48px",
+        lineHeight: "48px", 
         height: "50px",
         margin: "auto"
     }

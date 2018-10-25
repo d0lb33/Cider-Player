@@ -1,57 +1,65 @@
-import { FETCH_CURRENT_USER_SONGS, AUTHENTICATE_USER, SETUP_MUSICKIT } from './types';
-import store from '../store';
-import {developerToken} from '../private.js'
+import { FETCH_USER_SONGS, AUTHENTICATE_USER, SETUP_MUSICKIT } from './types';
+import { developerToken } from '../private.js'
+import { LOADINGSTATES } from '../consts';
 
-export const fetchCurrentUserSongs = () => dispatch => {
-    fetch('')
-        .then(res => res.json())
-        .then(posts => dispatch({
-            type: FETCH_CURRENT_USER_SONGS,
-            payload: posts,
-        }));
+export const fetchUserSongs = () => dispatch => {
+    var musicKitInstance = window.MusicKit.getInstance();
+
+    let offset = 0;
+    let songArray = [];
+    
+    let getSongs = () => {
+        musicKitInstance.api.library.songs(null, {offset : offset, limit:100}).then((songs) => {
+            songArray = songArray.concat(songs);
+            if (songs.length !== 0){
+                offset += 100
+                getSongs();
+                dispatch({
+                    type: FETCH_USER_SONGS,
+                    payload: songArray,
+                    loadingState: LOADINGSTATES.LOADEDPARTIAL
+                })
+            }else {
+                dispatch({
+                    type: FETCH_USER_SONGS,
+                    payload: songArray,
+                    loadingState: LOADINGSTATES.LOADED
+                })
+            }
+        });
+    }
+    getSongs();
 }
 
 export const authenticateUser = () => dispatch => {
-
+    
+    var musicKitInstance = window.MusicKit.getInstance();
+    musicKitInstance.authorize();
+    musicKitInstance.addEventListener("authorizationStatusDidChange", (e) => {
+        console.log("Authorization Status: " + e);
+        if (e.authorizationStatus === 3) {
+            dispatch({
+                type: AUTHENTICATE_USER,
+                isAuthenticated: musicKitInstance.isAuthorized,
+                musicKitInstance: musicKitInstance
+            })
+        }
+    });
 }
 
 export const setupMusicKit = () => dispatch => {
-        window.MusicKit.configure({
-            developerToken: developerToken,
-            app: {
-                name: 'Apple Music Web Player',
-                build: '0.0.1'
-            }
-        });
+    window.MusicKit.configure({
+        developerToken: developerToken,
+        app: {
+            name: 'Apple Music Web Player',
+            build: '0.0.1'
+        }
+    });
 
-        var musicKitInstance = window.MusicKit.getInstance();
-        dispatch({
-            type: SETUP_MUSICKIT,
-            isAuthenticated: musicKitInstance.isAuthorized,
-            musicKitInstance: musicKitInstance
-        })
-        
-
-        /*
-        this.state.musicKitInstance.addEventListener("authorizationStatusDidChange", (e) => {
-
-            // 3 = User Authorized and good!
-            if (e.authorizationStatus === 3) {
-                this.state.musicKitInstance.addEventListener("userTokenDidChange", (e) => {
-                    // This function will handle when user is logged in and out.
-                    this.setState({
-                        loggedIn: this.state.musicKitInstance.isAuthorized,
-                        loading: false
-                    })
-                })
-
-            } else if (e.authorizationStatus === 0) {  // 0 = User logged out!
-                this.state.musicKitInstance.removeEventListener("userTokenDidChange");
-                this.setState({
-                    loggedIn: this.state.musicKitInstance.isAuthorized,
-                    loading: false
-                })
-            }
-        })*/
-
+    var musicKitInstance = window.MusicKit.getInstance();
+    dispatch({
+        type: SETUP_MUSICKIT,
+        isAuthenticated: musicKitInstance.isAuthorized,
+        musicKitInstance: musicKitInstance
+    })
 }
