@@ -6,6 +6,13 @@ export const PAGENAMES = {
     SEARCH : 4
 }
 
+export const LOADINGSTATES = {
+    LOADING : 0,
+    LOADEDPARTIAL : 1,
+    LOADED : 2,
+    LOADINGERROR : 3,
+}
+
 /**
  * Converts a pageID/Number to a name.
  * @param {Number} pageID 
