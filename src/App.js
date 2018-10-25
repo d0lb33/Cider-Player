@@ -33,7 +33,7 @@ class App extends Component {
   }
 
   testComp = () => {
-   if (this.state.musicKitLoaded) return <LibraryView />
+   if (this.state.musicKitLoaded && this.props.isAuthenticated) return <LibraryView />
   }
 
 
@@ -48,4 +48,8 @@ class App extends Component {
   }
 }
 
-export default connect(null, {setupMusicKit})(App);
+const mapStateToProps = (state) => ({
+  isAuthenticated : state.library.isAuthenticated
+})
+
+export default connect(mapStateToProps, {setupMusicKit})(App);
