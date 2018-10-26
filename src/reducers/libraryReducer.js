@@ -4,7 +4,8 @@ import { LOADINGSTATES } from '../consts';
 const initialState = {
     isAuthenticated : false,
     musicKitInstance : null,
-    loadingState:LOADINGSTATES.LOADING
+    loadingState:LOADINGSTATES.LOADING,
+    musicKitLoaded:false
 }
 
 export default (state = initialState, action) => {
@@ -13,7 +14,9 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 isAuthenticated: action.isAuthenticated,
-                musicKitInstance: action.musicKitInstance
+                musicKitInstance: action.musicKitInstance,
+                musicKitLoaded: action.musicKitLoaded
+                
             }
         case AUTHENTICATE_USER:
             return {

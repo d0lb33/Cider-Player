@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import LoginModal from './Components/LoginModal';
 import {setupMusicKit} from './actions/libraryActions';
 import LibraryView from './Components/LibraryView';
+import { PAGENAMES } from './consts';
 
 class App extends Component {
 
@@ -17,23 +18,12 @@ class App extends Component {
 
   componentDidMount = () => {
     
-    if (window.MusicKit) {
-      //call action
-      console.log('To quick')
-      this.props.setupMusicKit();
-      this.setState({musicKitLoaded : true});
-    } else {
-      document.addEventListener('musickitloaded', () => {
-        //call action
-        this.props.setupMusicKit();
-        this.setState({musicKitLoaded : true});
-      });
-    }
+    this.props.setupMusicKit();
     
   }
 
-  testComp = () => {
-   if (this.state.musicKitLoaded && this.props.isAuthenticated) return <LibraryView />
+  getCurrentView = () => {
+   if (this.state.musicKitLoaded && this.props.isAuthenticated && this.props.currentPage === PAGENAMES.LIBRARY) return <LibraryView />
   }
 
 
@@ -41,7 +31,7 @@ class App extends Component {
     return (
       <div>
         <LoginModal />
-        {this.testComp()}
+        {this.getCurrentView()}
         <BottomNavBar />
       </div>
     );
@@ -49,7 +39,8 @@ class App extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  isAuthenticated : state.library.isAuthenticated
+  isAuthenticated : state.library.isAuthenticated,
+  currentPage : state.page.currentPage
 })
 
 export default connect(mapStateToProps, {setupMusicKit})(App);

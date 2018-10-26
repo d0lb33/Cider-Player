@@ -37,22 +37,19 @@ export const fetchUserSongs = () => dispatch => {
 }
 
 export const authenticateUser = () => dispatch => {
-
     var musicKitInstance = window.MusicKit.getInstance();
     musicKitInstance.authorize();
     musicKitInstance.addEventListener("authorizationStatusDidChange", (e) => {
-        console.log("Authorization Status: " + e);
-        console.log(musicKitInstance.api.library)
         if (e.authorizationStatus === 3) {
 
             // Sometimes the state update happens to fast and everything else wants to use musicKit before its loading.
             let libraryCheck = setTimeout(() => {
-                    clearInterval(libraryCheck);
-                    dispatch({
-                        type: AUTHENTICATE_USER,
-                        isAuthenticated: musicKitInstance.isAuthorized,
-                        musicKitInstance: musicKitInstance
-                    })
+                clearInterval(libraryCheck);
+                dispatch({
+                    type: AUTHENTICATE_USER,
+                    isAuthenticated: musicKitInstance.isAuthorized,
+                    musicKitInstance: musicKitInstance
+                })
             }, 100)
 
         }
@@ -60,18 +57,36 @@ export const authenticateUser = () => dispatch => {
 }
 
 export const setupMusicKit = () => dispatch => {
-    window.MusicKit.configure({
-        developerToken: developerToken,
-        app: {
-            name: 'Apple Music Web Player',
-            build: '0.0.1'
-        }
-    });
 
-    var musicKitInstance = window.MusicKit.getInstance();
-    dispatch({
-        type: SETUP_MUSICKIT,
-        isAuthenticated: musicKitInstance.isAuthorized,
-        musicKitInstance: musicKitInstance
-    })
+    console.log("HERE")
+
+    let loadedEvent = () => {
+        console.log("HEREE")
+        window.MusicKit.configure({
+            developerToken: developerToken,
+            app: {
+                name: 'Apple Music Web Player',
+                build: '0.0.1'
+            }
+        });
+
+        var musicKitInstance = window.MusicKit.getInstance();
+        dispatch({
+            type: SETUP_MUSICKIT,
+            isAuthenticated: musicKitInstance.isAuthorized,
+            musicKitInstance: musicKitInstance,
+            musicKitLoaded: true
+        })
+    }
+
+    if (window.MusicKit) {
+        //call action
+        loadedEvent();
+    } else {
+        document.addEventListener('musickitloaded', () => {
+            loadedEvent();
+        });
+    }
+
+
 }
