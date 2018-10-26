@@ -5,7 +5,7 @@ import { PAGENAMES, LOADINGSTATES } from './consts';
 
 const initialState = {
     page: { currentPage: PAGENAMES.LIBRARY },
-    library : {isAuthenticated : false, musicKitInstance: {}, loadingState: LOADINGSTATES.LOADING}
+    library : {isAuthenticated : false, musicKitInstance: {}, loadingState: LOADINGSTATES.LOADING, musicKitLoaded: false}
 };
 
 const middleWare = [thunk];

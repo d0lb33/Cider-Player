@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import AppleButton from '../UIElements/AppleButton';
-import { Modal } from 'antd';
+import { Modal, Spin } from 'antd';
 import { authenticateUser } from "../actions/libraryActions";
 
 class LoginModal extends Component {
@@ -13,13 +13,15 @@ class LoginModal extends Component {
 
   render() {
     return (
+      
+        
       <Modal
         centered
         visible={!this.props.isAuthenticated}
         footer={null}
         closable={false}
       >
-      {console.log(this.props)}
+      <Spin spinning={!this.props.musicKitLoaded} tip="Loading MusicKitJS" >
       <div className="login-modal">
         <h1>Login To Apple Music</h1>
         
@@ -33,6 +35,7 @@ class LoginModal extends Component {
         Made Possible with <a target="_blank" rel="noopener noreferrer" href="https://developer.apple.com/documentation/musickitjs" >MusicKitJS</a> | Devloped by Jonathan Dolbee
         
       </div>
+      </Spin>
       </Modal>
     )
   }
@@ -40,7 +43,8 @@ class LoginModal extends Component {
 
 const mapStateToProps = state => ({
   isAuthenticated: state.library.isAuthenticated,
-  musicKitInstance : state.library.musicKitInstance
+  musicKitInstance : state.library.musicKitInstance,
+  musicKitLoaded: state.library.musicKitLoaded
 })
 
 export default connect(mapStateToProps, {authenticateUser})(LoginModal);

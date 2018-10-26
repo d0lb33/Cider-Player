@@ -52,8 +52,6 @@ body {
   color : black
 }
 
-
-
 .unselectable {
   -webkit-touch-callout: none;
   -webkit-user-select: none;
@@ -61,4 +59,11 @@ body {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+}
+
+.library-view {
+  position: absolute;
+  height: calc(100vh - 66px);
+  overflow-y: auto;
+  width: 100%;
 }
