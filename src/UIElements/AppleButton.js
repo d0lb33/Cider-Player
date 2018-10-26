@@ -19,7 +19,7 @@ function filledBtnStyle(props) {
         borderRadius: 15,
         width: props.btnWidth ? props.btnWidth : 200,
         backgroundColor: props.btnBackgroundColor ? props.btnBackgroundColor : APPLE_BTN_BACKGROUND,
-        lineHeight: "48px", 
+        lineHeight: "48px",
         height: "50px",
         margin: "auto"
     }
@@ -45,6 +45,10 @@ export default class AppleButton extends Component {
                     style: tabStyle
                 })
                 break;
+            case "filled":
+                this.setState({
+                    style: filledBtnStyle(this.props)
+                });
             default:
                 this.setState({
                     style: filledBtnStyle(this.props)
@@ -55,8 +59,8 @@ export default class AppleButton extends Component {
 
     getTextColor = () => {
 
-        if (this.props.inverseSelection){
-                return APPLE_PINK;
+        if (this.props.inverseSelection) {
+            return APPLE_PINK;
         } else {
             if (this.props.selected || this.state.hovered) {
                 return APPLE_PINK;
@@ -64,8 +68,18 @@ export default class AppleButton extends Component {
                 return APPLE_GREY;
             }
         }
+    }
 
-        
+    getIconSelection = () => {
+        if (this.props.inverseSelection) {
+            return true;
+        } else {
+            if (this.props.selected) {
+                return this.props.selected;
+            } else {
+                return this.state.hovered;
+            }
+        }
     }
 
     render() {
@@ -76,10 +90,18 @@ export default class AppleButton extends Component {
                     icon={this.props.icon}
                     width={this.props.width ? this.props.width : WIDTH}
                     height={this.props.height ? this.props.height : HEIGHT}
-                    selected={this.props.selected ? this.props.selected : this.state.hovered} />
+                    selected={this.getIconSelection()} />
                 <span style={{ paddingLeft: this.props.icon ? 6 : 0, color: this.getTextColor(), fontWeight: "bold" }}>{this.props.title}</span>
             </div>
         )
     }
 };
 
+/**
+ * icon: optional,
+ * width: optional, // Width of icon
+ * height: optional, // height of icon
+ * selected: optional, // Weather icon is selected or not
+ * inverseSelection: optional, // Weather button is always filled
+ * type: required, // Type of button that should be rendered
+ */
