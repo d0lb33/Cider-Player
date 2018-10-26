@@ -13,13 +13,13 @@ class LibraryView extends Component {
         this.props.fetchUserSongs();
     }
 
-    getLoader = () => {
+    /*getLoader = () => {
         if (this.props.loadingState === LOADINGSTATES.LOADEDPARTIAL) {
             return <h1>Loading Partial Songs</h1>
         } else if (this.props.loadingState === LOADINGSTATES.LOADING) {
             return <h1>Loading Songs</h1>
         }
-    }
+    }*/
 
     getSongs = () => {
         if ((this.props.loadingState >= LOADINGSTATES.LOADEDPARTIAL) && this.props.songs) {
@@ -83,7 +83,6 @@ class LibraryView extends Component {
                     </Col>
                 </Row>
                 <Divider style={{ margin: "15px 0px 15px 0px" }} />
-                {this.getLoader()}
                 {this.getSongs()}
             </div>
         )
