@@ -7,10 +7,10 @@ export const PAGENAMES = {
 }
 
 export const LOADINGSTATES = {
-    LOADING : 0,
-    LOADEDPARTIAL : 1,
-    LOADED : 2,
-    LOADINGERROR : 3,
+    LOADINGERROR : 0,
+    LOADING : 1,
+    LOADEDPARTIAL : 2,
+    LOADED : 3,
 }
 
 /**

@@ -11,9 +11,6 @@ class App extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      musicKitLoaded : false
-    }
   }
 
   componentDidMount = () => {
@@ -23,7 +20,7 @@ class App extends Component {
   }
 
   getCurrentView = () => {
-   if (this.state.musicKitLoaded && this.props.isAuthenticated && this.props.currentPage === PAGENAMES.LIBRARY) return <LibraryView />
+   if (this.props.musicKitLoaded && this.props.isAuthenticated && this.props.currentPage === PAGENAMES.LIBRARY) return <LibraryView />
   }
 
 
@@ -40,7 +37,8 @@ class App extends Component {
 
 const mapStateToProps = (state) => ({
   isAuthenticated : state.library.isAuthenticated,
-  currentPage : state.page.currentPage
+  currentPage : state.page.currentPage,
+  musicKitLoaded : state.library.musicKitLoaded
 })
 
 export default connect(mapStateToProps, {setupMusicKit})(App);
