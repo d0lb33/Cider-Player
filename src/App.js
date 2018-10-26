@@ -14,7 +14,6 @@ class App extends Component {
   }
 
   componentDidMount = () => {
-    window.screen.orientation.lock("landscape");
     this.props.setupMusicKit();
     
   }
