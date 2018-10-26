@@ -5,6 +5,7 @@ import { LOADINGSTATES } from '../consts';
 import { Row, Col, Spin, Divider } from 'antd';
 import AppleButton from '../UIElements/AppleButton';
 import { APPLE_GREY } from '../UIElements/ColorConsts';
+import VirtualizedSongList from './VirtualizedSongList';
 
 class LibraryView extends Component {
 
@@ -22,7 +23,9 @@ class LibraryView extends Component {
 
     getSongs = () => {
         if ((this.props.loadingState >= LOADINGSTATES.LOADEDPARTIAL) && this.props.songs) {
-            let x = this.props.songs.map((song) => {
+           
+          return <VirtualizedSongList />
+            /*let x = this.props.songs.map((song) => {
                 return (
                     <div className="testMe" key={song.id}>
                         <h1 >{song.attributes.name}</h1>
@@ -35,7 +38,7 @@ class LibraryView extends Component {
                         <h1 >{song.attributes.name}</h1>
                     </div>)
             }))
-            return x;
+            return x;*/
         }
     }
 
