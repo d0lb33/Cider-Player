@@ -3,7 +3,8 @@ body {
 
 
 .bottom-nav-bar {
-  position: absolute;
+  position: fixed;
+  background-color: white;
   padding: 20px;
   border-top: 1px solid #c5c5c5;
   width: 100%;
@@ -63,8 +64,6 @@ body {
 
 .library-view {
   position: absolute;
-  height: calc(100vh - 66px);
-  overflow-y: auto;
   width: 100%;
   padding: 0px 25px 0px 25px;
 }
@@ -72,4 +71,8 @@ body {
 .testMe:hover {
   background-color: black;
   cursor: pointer;
+}
+
+.list {
+  outline: none;
 }
