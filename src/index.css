@@ -66,13 +66,68 @@ body {
   position: absolute;
   width: 100%;
   padding: 0px 25px 0px 25px;
+  margin-bottom: 70px;
 }
 
-.testMe:hover {
-  background-color: black;
+.now-playing {
+  position: fixed;
   cursor: pointer;
+  height: calc(100vh);
+  width: 35%;
+  background-color: white;
+  bottom: calc(65px - 100vh);
+  right: 0px;
+  -webkit-transition:bottom, .3s ease-in;
+  -moz-transition: bottom, .3s ease-in;
+  -ms-transition: bottom, .3s ease-in;
+  -o-transition: bottom, .3s ease-in;
+  transition: bottom, .3s ease-in;
+  z-index: 1;
+}
+
+.now-playing.open {
+  bottom: -10px;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  cursor: initial;
+  overflow-y: auto;
+}
+
+.now-playing .minimized-song-name {
+  height: 50px;
+  width: 50%;
+  line-height: 50px;
+  margin: 8px 0px 8px 50px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+}
+
+.blurBackground {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  background-color: rgba(0,0,0,.8);
+
+
+  -webkit-transition:bottom, .5s ease-in;
+  -moz-transition: bottom, .5s ease-in;
+  -ms-transition: bottom, .5s ease-in;
+  -o-transition: bottom, .5s ease-in;
+  transition: bottom, .5s ease-in;
 }
 
 .list {
   outline: none;
+}
+
+.listItem {
+  cursor: pointer;
+}
+
+.listItem:active {
+  background-color: #e8e8e8;
 }
