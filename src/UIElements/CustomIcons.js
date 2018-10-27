@@ -3,6 +3,7 @@
 import React, { Component } from 'react'
 import BrowsePink from '../icons/browse-pink.png';
 import BrowseGrey from '../icons/browse-grey.png';
+import FastForwardBlack from '../icons/fast-forward-black.png';
 import ForYouPink from '../icons/for-you-pink.png';
 import ForYouGrey from '../icons/for-you-grey.png';
 import LoginArrowPink from '../icons/login-arrow-pink.png';
@@ -27,6 +28,15 @@ export class Browse extends Component {
         } else {
             imgSrc = BrowseGrey;
         }
+        return <img alt={this.props.icon} width={this.props.width} height={this.props.height} src={imgSrc}></img>
+    }
+}
+
+export class FastForward extends Component {
+
+    render() {
+        var imgSrc;
+        imgSrc = FastForwardBlack;
         return <img alt={this.props.icon} width={this.props.width} height={this.props.height} src={imgSrc}></img>
     }
 }
@@ -120,9 +130,13 @@ export class Shuffle extends Component {
     }
 }
 
+
+
 export class CustomIcon extends Component {
     render() {
         switch (this.props.icon) {
+            case "fast-forward":
+                return <FastForward {...this.props} />
             case "for-you":
                 return <ForYou {...this.props} />
             case "login-arrow":

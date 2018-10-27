@@ -77,7 +77,7 @@ class LibraryView extends Component {
                         <AppleButton btnWidth={"160px"} icon="shuffle" inverseSelection title="Shuffle" type="filled" />
                     </div>
                     <div style={{ display: "inline", float: "right", marginRight: "10px" }}>
-                        <AppleButton btnWidth={"160px"} icon="play-arrow" inverseSelection title="Play" type="filled" />
+                        <AppleButton onClick={() => this.props.musicKitInstance.play()} btnWidth={"160px"} icon="play-arrow" inverseSelection title="Play" type="filled" />
                     </div>
                     <Col span={6}>
                     </Col>
@@ -91,7 +91,8 @@ class LibraryView extends Component {
 
 const mapStateToProps = state => ({
     songs: state.library.songs,
-    loadingState: state.library.loadingState
+    loadingState: state.library.loadingState,
+    musicKitInstance: state.library.musicKitInstance
 });
 
 export default connect(mapStateToProps, { fetchUserSongs })(LibraryView);

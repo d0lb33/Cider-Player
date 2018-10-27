@@ -7,7 +7,7 @@ export const fetchUserSongs = () => dispatch => {
 
     let offset = 0;
     let songArray = [];
-    // FIGURE THIS OUT
+
     let getSongs = () => {
         if (musicKitInstance.api.library) {
             musicKitInstance.api.library.songs(null, { offset: offset, limit: 100 }).then((songs) => {
@@ -21,6 +21,9 @@ export const fetchUserSongs = () => dispatch => {
                         loadingState: LOADINGSTATES.LOADEDPARTIAL
                     })
                 } else {
+
+                    musicKitInstance.setQueue(songArray);
+
                     dispatch({
                         type: FETCH_USER_SONGS,
                         payload: songArray,
@@ -57,11 +60,7 @@ export const authenticateUser = () => dispatch => {
 }
 
 export const setupMusicKit = () => dispatch => {
-
-    console.log("HERE")
-
     let loadedEvent = () => {
-        console.log("HEREE")
         window.MusicKit.configure({
             developerToken: developerToken,
             app: {
