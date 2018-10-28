@@ -1,20 +1,15 @@
 import React, { Component } from 'react'
-import { Column, Table, WindowScroller, AutoSizer, List } from 'react-virtualized';
+import { WindowScroller, AutoSizer, List } from 'react-virtualized';
 import 'react-virtualized/styles.css'; // only needs to be imported once
 import { connect } from 'react-redux';
-import { APPLE_GREY } from '../UIElements/ColorConsts';
+import { formatImgSrc } from '../consts';
+import { createAlert } from '../actions/pageActions';
 
 class VirtualizedSongList extends Component {
 
     constructor(props) {
         super(props);
         this.rowRenderer = this.rowRenderer.bind(this);
-    }
-
-    formatImgSrc = (src) => {
-        src = src.replace("{w}", "60");
-        src = src.replace("{h}", "60");
-        return src;
     }
 
     rowRenderer({
@@ -29,10 +24,20 @@ class VirtualizedSongList extends Component {
                 key={key}
                 style={style}
             >
-                <div className="listItem">
+                <div className="listItem" onClick={() => {
+                    this.props.musicKitInstance.changeToMediaAtIndex(index)
+                        .catch((error) => {
+                            this.props.createAlert({ 
+                                message: "Error Occured:", 
+                                description: error.description, 
+                                type: "error",
+                                closable: true
+                             })
+                            {/*<Alert closable message="Error Occured During Playback:" description={error}/> */ }
+                        });
+                }}>
                     <div style={{ borderRadius: "5px", float: "left", backgroundColor: "#e8e8e8" }}>
-
-                        <img style={{ borderRadius: "5px" }} width={50} height={50} src={this.formatImgSrc(this.props.songs[index].attributes.artwork.url)}></img>
+                        <img style={{ borderRadius: "5px" }} width={50} height={50} src={formatImgSrc(this.props.songs[index].attributes.artwork.url, 50, 50)}></img>
                     </div>
                     <div style={{ borderBottom: "1px solid #e8e8e8", lineHeight: "49px", marginLeft: 60 }}>
                         {this.props.songs[index].attributes.name}
@@ -77,7 +82,8 @@ class VirtualizedSongList extends Component {
 }
 
 const mapStateToProps = state => ({
-    songs: state.library.songs
+    songs: state.library.songs,
+    musicKitInstance: state.library.musicKitInstance
 })
 
-export default connect(mapStateToProps, null)(VirtualizedSongList);
+export default connect(mapStateToProps, { createAlert })(VirtualizedSongList);

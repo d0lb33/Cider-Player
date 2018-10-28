@@ -27,3 +27,15 @@ export function getPageName(pageID) {
         default : return "No Known Page Name"
     }
 }
+
+/**
+ * Removes the {w} and {h} property and replaces them with valid height and widths
+ * @param {String} src // Image src from apple media item 
+ * @param {Number} h // Image height
+ * @param {Number} w // Image width
+ */
+export function formatImgSrc(src, h, w) {
+    src = src.replace("{w}", w);
+    src = src.replace("{h}", h);
+    return src;
+}
