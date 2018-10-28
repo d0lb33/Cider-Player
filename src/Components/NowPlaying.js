@@ -99,7 +99,7 @@ class NowPlaying extends Component {
 
 
                 </div>
-                <div onMouseDown={this.hideView} className={this.state.blurBackgroundClass}>
+                <div onClick={this.hideView} className={this.state.blurBackgroundClass}>
                 </div>
             </span>
 
