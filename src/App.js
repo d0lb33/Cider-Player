@@ -10,11 +10,6 @@ import { Alert } from 'antd';
 
 class App extends Component {
 
-  constructor(props) {
-    super(props);
-
-  }
-
   componentDidMount = () => {
     this.props.setupMusicKit();
 
@@ -28,8 +23,8 @@ class App extends Component {
     if (this.props.showAlert) {
 
       return (
-        <div style={{ position: "fixed", display: "inline-block", bottom: 70, right:0, zIndex: 1 }}>
-          <Alert style={{paddingRight:40}} {...this.props.alertProps} onClose={this.props.dismissAlert} />
+        <div style={{ position: "fixed", display: "inline-block", bottom: 70, right:15, zIndex: 1 }}>
+          <Alert style={{paddingRight:60}} {...this.props.alertProps} onClose={this.props.dismissAlert} />
         </div>)
     }
   }

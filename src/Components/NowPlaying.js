@@ -26,7 +26,9 @@ class NowPlaying extends Component {
         this.setState({ nowPlayingClass: "open", blurBackgroundClass: "blurBackground" });
     }
 
-    hideView = () => {
+    hideView = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
         this.setState({ nowPlayingClass: "", blurBackgroundClass: "" })
     }
 
@@ -38,12 +40,12 @@ class NowPlaying extends Component {
 
     currentPlayingArtwork = () => {
         let getSrc = () => {
-            if (this.props.musicKitInstance.player.isPlaying && this.props.musicKitInstance.player.nowPlayingItem.attributes)
+            if (this.props.musicKitInstance.player.nowPlayingItem)
                 return formatImgSrc(this.props.musicKitInstance.player.nowPlayingItem.attributes.artwork.url, 60, 60)
             else
                 return "https://us.rosco.com/sites/default/files/Rosco_Screens_FrontWhite.jpg" // TODO: Download a gry img
         }
-        return <img style={{ margin: "8px 8px 8px 0px", float: "left", borderRadius: "5px", backgroundColor: "grey" }} height={50} width={50} src={getSrc()}></img>
+        return <img className={"nowPlayingArtwork " + this.state.nowPlayingClass} src={getSrc()}></img>
     }
 
     currentPlayingText = () => {
@@ -62,16 +64,21 @@ class NowPlaying extends Component {
             switch (this.props.musicKitInstance.player.playbackState) {
                 case window.MusicKit.PlaybackStates.playing:
                 case window.MusicKit.PlaybackStates.paused:
-                    return this.props.musicKitInstance.player.nowPlayingItem.attributes.name
-                    break;
+                    if (this.props.musicKitInstance.player.nowPlayingItem) {
+                        return this.props.musicKitInstance.player.nowPlayingItem.attributes.name
+                    } else {
+                        return "Loading";
+                    }
                 case window.MusicKit.PlaybackStates.loading:
                 case window.MusicKit.PlaybackStates.waiting:
                     return "Loading";
-                    break;
                 case window.MusicKit.PlaybackStates.none:
                     return "Not Playing";
-                    break;
             }
+
+
+
+
         }
 
         return (
@@ -81,10 +88,27 @@ class NowPlaying extends Component {
         )
     }
     minimizedMediaActions = () => {
+
+        let playBtn = () => {
+            if (this.props.musicKitInstance.player.playbackState === window.MusicKit.PlaybackStates.playing) {
+                return <span href="#" style={{ cursor: "pointer" }} onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    this.props.musicKitInstance.player.pause();
+                }}><CustomIcon width={40} icon="play-arrow" /></span>
+            } else {
+                return <span href="#" style={{ cursor: "pointer" }} onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    this.props.musicKitInstance.player.play();
+                }}><CustomIcon width={40} icon="play-arrow" /></span>
+            }
+        }
+
         if (this.state.nowPlayingClass !== "open") {
-            return (<div style={{ position: "absolute", right: 0, top: 8 }}>
-                <CustomIcon width={50} icon="play-arrow" />
-                <CustomIcon width={50} icon="fast-forward" />
+            return (<div style={{ position: "absolute", right: 3, top: 12 }}>
+                {playBtn()}
+                <CustomIcon width={40} icon="fast-forward" />
             </div>)
         }
     }
@@ -99,7 +123,7 @@ class NowPlaying extends Component {
 
 
                 </div>
-                <div onClick={this.hideView} className={this.state.blurBackgroundClass}>
+                <div onClick={(e) => { this.hideView(e) }} className={this.state.blurBackgroundClass}>
                 </div>
             </span>
 
