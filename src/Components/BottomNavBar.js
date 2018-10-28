@@ -36,8 +36,7 @@ class BottomNavBar extends Component {
                             <div style={{ backgroundColor: APPLE_GREY }} className="divider"></div>
                         </span>
                     </Col>
-                    <NowPlaying />
-                        
+                    {this.props.musicKitInstance.player ? <NowPlaying /> : ""}
                 </Row>
             </div>
         )

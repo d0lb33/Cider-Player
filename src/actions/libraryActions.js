@@ -15,14 +15,21 @@ export const fetchUserSongs = () => dispatch => {
                 if (songs.length !== 0) {
                     offset += 100
                     getSongs();
+                    musicKitInstance.setQueue(songArray);
                     dispatch({
                         type: FETCH_USER_SONGS,
                         payload: songArray,
                         loadingState: LOADINGSTATES.LOADEDPARTIAL
                     })
                 } else {
-
                     musicKitInstance.setQueue(songArray);
+                    
+                    /*let sum = 0; These songs will be unplayable on some libraries. AHHHH
+                    musicKitInstance.player.queue.items.map((song) => {
+                        if (song.isPlayable === undefined) {
+                            sum++;
+                        }
+                    });*/
 
                     dispatch({
                         type: FETCH_USER_SONGS,

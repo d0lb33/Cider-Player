@@ -4,7 +4,7 @@ import rootReducer from './reducers/';
 import { PAGENAMES, LOADINGSTATES } from './consts';
 
 const initialState = {
-    page: { currentPage: PAGENAMES.LIBRARY },
+    page: { currentPage: PAGENAMES.LIBRARY, showAlert: false },
     library : {isAuthenticated : false, musicKitInstance: {}, loadingState: LOADINGSTATES.LOADING, musicKitLoaded: false}
 };
 
