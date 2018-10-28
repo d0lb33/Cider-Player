@@ -28,12 +28,11 @@ class VirtualizedSongList extends Component {
                     this.props.musicKitInstance.changeToMediaAtIndex(index)
                         .catch((error) => {
                             this.props.createAlert({ 
-                                message: "Error Occured:", 
+                                message: "Error occured while trying to play \"" + this.props.songs[index].attributes.name + "\":", 
                                 description: error.description, 
                                 type: "error",
                                 closable: true
                              })
-                            {/*<Alert closable message="Error Occured During Playback:" description={error}/> */ }
                         });
                 }}>
                     <div style={{ borderRadius: "5px", float: "left", backgroundColor: "#e8e8e8" }}>

@@ -131,3 +131,26 @@ body {
 .listItem:active {
   background-color: #e8e8e8;
 }
+
+.nowPlayingArtwork {
+
+  margin: 8px 8px 8px 0px;
+  float: left;
+  border-radius: 5px;
+  width: 50px;
+
+  -webkit-transition:bottom, .2s linear;
+  -moz-transition: bottom, .2s linear;
+  -ms-transition: bottom, .2s linear;
+  -o-transition: bottom, .2s linear;
+  transition: bottom, .2s linear;
+}
+
+.nowPlayingArtwork.open {
+  width: 95%;
+  margin: auto;
+  float: none;
+  height: auto;
+  border-radius: 5px;
+  display: block;
+}

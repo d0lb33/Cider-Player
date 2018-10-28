@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { fetchUserSongs } from '../actions/libraryActions';
 import { LOADINGSTATES } from '../consts';
-import { Row, Col, Spin, Divider } from 'antd';
+import { Row, Col, Spin, Divider, Icon, Dropdown, Menu } from 'antd';
 import AppleButton from '../UIElements/AppleButton';
-import { APPLE_GREY } from '../UIElements/ColorConsts';
+import { APPLE_GREY, APPLE_PINK } from '../UIElements/ColorConsts';
 import VirtualizedSongList from './VirtualizedSongList';
 
 class LibraryView extends Component {
@@ -12,17 +12,17 @@ class LibraryView extends Component {
     componentWillMount = () => {
         this.props.fetchUserSongs();
     }
-    
+
     getSongs = () => {
         if ((this.props.loadingState >= LOADINGSTATES.LOADEDPARTIAL) && this.props.songs) {
-          return <VirtualizedSongList />
+            return <VirtualizedSongList />
         }
     }
 
     getSongCount = () => {
         switch (this.props.loadingState) {
             case LOADINGSTATES.LOADEDPARTIAL:
-                return <span><Spin></Spin> {this.props.songs.length}</span>
+                return <span><Spin indicator={<Icon type="loading" spin/>}></Spin> {this.props.songs.length}</span>
             case LOADINGSTATES.LOADED:
                 return this.props.songs.length
             default:
@@ -30,12 +30,35 @@ class LibraryView extends Component {
         }
     }
 
+    getTypeDropdown = () => {
+        const menu = (
+            <Menu>
+                <Menu.Item>
+                    <a>1st menu item</a>
+                </Menu.Item>
+                <Menu.Item>
+                    <a>2nd menu item</a>
+                </Menu.Item>
+                <Menu.Item>
+                    <a>3rd menu item</a>
+                </Menu.Item>
+            </Menu>
+        );
+
+
+        return (<Dropdown overlay={menu}>
+            <a href="#">
+                <span style={{color : APPLE_PINK, paddingRight: 5}}>Library</span><Icon style={{color:APPLE_PINK}} type="down" />
+            </a>
+        </Dropdown>)
+    }
+
     render() {
         return (
             <div className="library-view">
                 <Row>
                     <Col span={12}>
-                        Library
+                        {this.getTypeDropdown()}
                     </Col>
                     <Col span={12}>
                         <div style={{ display: "inline", float: "right" }}>Sort</div>
