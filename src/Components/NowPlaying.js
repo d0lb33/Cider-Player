@@ -95,7 +95,7 @@ class NowPlaying extends Component {
                     e.preventDefault();
                     e.stopPropagation();
                     this.props.musicKitInstance.player.pause();
-                }}><CustomIcon width={40} icon="play-arrow" /></span>
+                }}><CustomIcon width={40} icon="pause" /></span>
             } else {
                 return <span href="#" style={{ cursor: "pointer" }} onClick={(e) => {
                     e.preventDefault();
@@ -108,7 +108,11 @@ class NowPlaying extends Component {
         if (this.state.nowPlayingClass !== "open") {
             return (<div style={{ position: "absolute", right: 3, top: 12 }}>
                 {playBtn()}
-                <CustomIcon width={40} icon="fast-forward" />
+                <span href="#" style={{ cursor: "pointer" }} onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    this.props.musicKitInstance.player.skipToNextItem();
+                }}><CustomIcon width={40} icon="fast-forward" /></span>
             </div>)
         }
     }
