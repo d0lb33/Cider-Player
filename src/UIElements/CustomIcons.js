@@ -10,7 +10,9 @@ import LoginArrowPink from '../icons/login-arrow-pink.png';
 import LoginArrowGrey from '../icons/login-arrow-grey.png';
 import MusicLibraryPink from '../icons/music-libary-pink.png';
 import MusicLibraryGrey from '../icons/music-libary-grey.png';
+import PauseBlack from '../icons/pause-black.png';
 import PlayArrowPink from '../icons/play-arrow-pink.png';
+import PlayArrowBlack from '../icons/play-arrow-black.png';
 import PlayArrowGrey from '../icons/play-arrow-grey.png';
 import RadioWavesPink from '../icons/radio-waves-pink.png';
 import RadioWavesGrey from '../icons/radio-waves-grey.png';
@@ -79,13 +81,20 @@ export class MusicLibrary extends Component {
     }
 };
 
+export class Pause extends Component {
+    render() {
+        var imgSrc = PauseBlack;
+        return <img alt={this.props.icon} width={this.props.width} height={this.props.height} src={imgSrc}></img>
+    }
+};
+
 export class PlayArrow extends Component {
     render() {
         var imgSrc;
         if (this.props.selected) {
-            imgSrc = PlayArrowPink;
-        } else {
             imgSrc = PlayArrowGrey;
+        } else {
+            imgSrc = PlayArrowBlack;
         }
         return <img alt={this.props.icon} width={this.props.width} height={this.props.height} src={imgSrc}></img>
     }
@@ -145,6 +154,8 @@ export class CustomIcon extends Component {
                 return <MusicLibrary {...this.props} />
             case "play-arrow":
                 return <PlayArrow {...this.props} />
+            case "pause":
+                return <Pause {...this.props} />
             case "browse":
                 return <Browse {...this.props} />
             case "radio-waves":
