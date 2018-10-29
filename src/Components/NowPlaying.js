@@ -88,24 +88,24 @@ class NowPlaying extends Component {
         )
     }
     minimizedMediaActions = () => {
-
-        let playBtn = () => {
-            if (this.props.musicKitInstance.player.playbackState === window.MusicKit.PlaybackStates.playing) {
-                return <span href="#" style={{ cursor: "pointer" }} onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    this.props.musicKitInstance.player.pause();
-                }}><CustomIcon width={40} icon="pause" /></span>
-            } else {
-                return <span href="#" style={{ cursor: "pointer" }} onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    this.props.musicKitInstance.player.play();
-                }}><CustomIcon width={40} icon="play-arrow" /></span>
-            }
-        }
-
         if (this.state.nowPlayingClass !== "open") {
+            let playBtn = () => {
+                if (this.props.musicKitInstance.player.playbackState === window.MusicKit.PlaybackStates.playing) {
+                    return <span href="#" style={{ cursor: "pointer" }} onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        this.props.musicKitInstance.player.pause();
+                    }}><CustomIcon width={40} icon="pause" /></span>
+                } else {
+                    return <span href="#" style={{ cursor: "pointer" }} onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        this.props.musicKitInstance.player.play();
+                    }}><CustomIcon width={40} icon="play-arrow" /></span>
+                }
+            }
+
+
             return (<div style={{ position: "absolute", right: 3, top: 12 }}>
                 {playBtn()}
                 <span href="#" style={{ cursor: "pointer" }} onClick={(e) => {
