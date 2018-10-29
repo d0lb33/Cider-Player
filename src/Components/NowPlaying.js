@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import ChevronDown from '../icons/chevron-down-grey.png';
 import { CustomIcon } from '../UIElements/CustomIcons';
 import { formatImgSrc } from '../consts';
+import GreyBackground from '../icons/GreyBackground.png';
 
 class NowPlaying extends Component {
     constructor(props) {
@@ -12,81 +13,109 @@ class NowPlaying extends Component {
         this.state = {
             nowPlayingClass: "",
             blurBackgroundClass: "",
+            currentSongName: "Not Playing",
+            currentArtworkSource: GreyBackground,
         }
     }
 
     componentDidMount = () => {
+        // Check for a playback state change to know when to update the ui
         this.props.musicKitInstance.addEventListener('playbackStateDidChange', (e) => {
-            console.log(e)
-            this.forceUpdate();
+            this.updateStateWithCurrentSongAttributes();
         });
     }
 
+    /**
+     * Updates the state of the songName and the currentAlbumArtwork. Handles no items in the player.
+     */
+    updateStateWithCurrentSongAttributes = () => {
+
+        let currentImgSrc = GreyBackground;
+        let currentSongName = "Not Playing";
+        /*
+        Loading States Enums
+        completed: 10
+        ended: 5
+        loading: 1
+        none: 0
+        paused: 3
+        playing: 2
+        seeking: 6
+        stalled: 9
+        stopped: 4
+        waiting: 8*/
+        switch (this.props.musicKitInstance.player.playbackState) {
+            case window.MusicKit.PlaybackStates.playing:
+            case window.MusicKit.PlaybackStates.paused:
+                if (this.props.musicKitInstance.player.nowPlayingItem) {
+                    currentImgSrc = formatImgSrc(this.props.musicKitInstance.player.nowPlayingItem.attributes.artwork.url, 60, 60);
+                    currentSongName = this.props.musicKitInstance.player.nowPlayingItem.attributes.name;
+                } else {
+                    currentSongName = "Loading";
+                }
+                break;
+            case window.MusicKit.PlaybackStates.loading:
+            case window.MusicKit.PlaybackStates.waiting:
+                currentSongName = "Loading";
+                break;
+            case window.MusicKit.PlaybackStates.none:
+                currentSongName = "Not Playing";
+                break;
+        }
+
+        this.setState({
+            currentSongName: currentSongName,
+            currentArtworkSource: currentImgSrc
+        }, () => this.forceUpdate());
+    }
+
+    /**
+     * Appends the open class to the nowPlaying item to create an amazing animation! Along with showing the blurBackground div.
+     */
     showView = () => {
         this.setState({ nowPlayingClass: "open", blurBackgroundClass: "blurBackground" });
     }
 
+
+    /**
+     * Slides the nowPlaying view down into its minimified position.
+     */
     hideView = (e) => {
         e.preventDefault();
         e.stopPropagation();
         this.setState({ nowPlayingClass: "", blurBackgroundClass: "" })
     }
 
+    /**
+     * The clickable down chevron at the top of the nowPLaying view when open.
+     */
     getDownChevron = () => {
         if (this.state.nowPlayingClass === "open") {
             return <img onMouseDown={this.hideView} style={{ display: "block", margin: "auto", cursor: "pointer" }} width={35} src={ChevronDown}></img>
         }
     }
 
+    /**
+     * Returns the nowPlayingArtwork
+     */
     currentPlayingArtwork = () => {
-        let getSrc = () => {
-            if (this.props.musicKitInstance.player.nowPlayingItem)
-                return formatImgSrc(this.props.musicKitInstance.player.nowPlayingItem.attributes.artwork.url, 60, 60)
-            else
-                return "https://us.rosco.com/sites/default/files/Rosco_Screens_FrontWhite.jpg" // TODO: Download a gry img
-        }
-        return <img className={"nowPlayingArtwork " + this.state.nowPlayingClass} src={getSrc()}></img>
+        return <img className={"nowPlayingArtwork " + this.state.nowPlayingClass} src={this.state.currentArtworkSource}></img>
     }
 
+    /**
+     * Returns the the currentlyPlayingText
+     */
     currentPlayingText = () => {
-        let getCurrentSongName = () => {
-            /*
-            completed: 10
-            ended: 5
-            loading: 1
-            none: 0
-            paused: 3
-            playing: 2
-            seeking: 6
-            stalled: 9
-            stopped: 4
-            waiting: 8*/
-            switch (this.props.musicKitInstance.player.playbackState) {
-                case window.MusicKit.PlaybackStates.playing:
-                case window.MusicKit.PlaybackStates.paused:
-                    if (this.props.musicKitInstance.player.nowPlayingItem) {
-                        return this.props.musicKitInstance.player.nowPlayingItem.attributes.name
-                    } else {
-                        return "Loading";
-                    }
-                case window.MusicKit.PlaybackStates.loading:
-                case window.MusicKit.PlaybackStates.waiting:
-                    return "Loading";
-                case window.MusicKit.PlaybackStates.none:
-                    return "Not Playing";
-            }
-
-
-
-
-        }
-
         return (
             <div className="minimized-song-name">
-                <span style={{ fontSize: "1.3em" }}>{getCurrentSongName()}</span>
+                <span style={{ fontSize: "1.3em" }}>{this.state.currentSongName}</span>
             </div>
         )
     }
+
+    /**
+     * Returns the buttons to be displayed in the now playing view that is minimized.
+     */
     minimizedMediaActions = () => {
         if (this.state.nowPlayingClass !== "open") {
             let playBtn = () => {
@@ -124,8 +153,6 @@ class NowPlaying extends Component {
                     {this.currentPlayingArtwork()}
                     {this.currentPlayingText()}
                     {this.minimizedMediaActions()}
-
-
                 </div>
                 <div onClick={(e) => { this.hideView(e) }} className={this.state.blurBackgroundClass}>
                 </div>

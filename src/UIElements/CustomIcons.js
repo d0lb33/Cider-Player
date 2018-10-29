@@ -92,7 +92,7 @@ export class PlayArrow extends Component {
     render() {
         var imgSrc;
         if (this.props.selected) {
-            imgSrc = PlayArrowGrey;
+            imgSrc = PlayArrowPink;
         } else {
             imgSrc = PlayArrowBlack;
         }
