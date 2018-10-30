@@ -17,6 +17,7 @@ function filledBtnStyle(props) {
         fontSize: 25,
         textAlign: "center",
         borderRadius: 15,
+        padding: "10px 15px 10px 15px",
         width: props.btnWidth ? props.btnWidth : 200,
         backgroundColor: props.btnBackgroundColor ? props.btnBackgroundColor : APPLE_BTN_BACKGROUND,
         lineHeight: "48px",
@@ -25,6 +26,12 @@ function filledBtnStyle(props) {
     }
 };
 
+function iconBtnStyle(props) {
+    return {
+
+    }
+}
+
 export default class AppleButton extends Component {
     constructor(props) {
         super(props);
@@ -32,6 +39,7 @@ export default class AppleButton extends Component {
         this.state = {
             hovered: false,
             style: {},
+            hideText: false
         }
 
 
@@ -47,8 +55,16 @@ export default class AppleButton extends Component {
                 break;
             case "filled":
                 this.setState({
-                    style: filledBtnStyle(this.props)
+                    style: filledBtnStyle(this.props),
+                    customIconStyle: { marginTop: "-5px" }
                 });
+                break;
+            case "icon":
+                this.setState({
+                    style: iconBtnStyle(this.props),
+                    hideText: true
+                });
+                break;
             default:
                 this.setState({
                     style: filledBtnStyle(this.props)
@@ -56,43 +72,60 @@ export default class AppleButton extends Component {
         }
     }
 
-
-    getTextColor = () => {
-
-        if (this.props.inverseSelection) {
-            return APPLE_PINK;
-        } else {
-            if (this.props.selected || this.state.hovered) {
-                return APPLE_PINK;
+    getBtnIcon = () => {
+        let getIconSelection = () => {
+            if (this.props.notSelectable) return
+            if (this.props.inverseSelection) {
+                return true;
             } else {
-                return APPLE_GREY;
+                if (this.props.selected) {
+                    return this.props.selected;
+                } else {
+                    return this.state.hovered;
+                }
             }
         }
+
+        return <CustomIcon
+                icon={this.props.icon}
+                width={this.props.width ? this.props.width : WIDTH}
+                height={this.props.height ? this.props.height : HEIGHT}
+                selected={getIconSelection()}
+                customIconStyle={this.state.customIconStyle}
+            />
     }
 
-    getIconSelection = () => {
-        if (this.props.inverseSelection) {
-            return true;
-        } else {
-            if (this.props.selected) {
-                return this.props.selected;
+    getBtnText = () => {
+
+        if (this.state.hideText) return;
+
+        let getTextColor = () => {
+            if (this.props.inverseSelection) {
+                return APPLE_PINK;
             } else {
-                return this.state.hovered;
+                if (this.props.selected || this.state.hovered) {
+                    return APPLE_PINK;
+                } else {
+                    return APPLE_GREY;
+                }
             }
         }
+
+        return <span style={{ paddingLeft: this.props.icon ? 6 : 0, color: getTextColor(), fontWeight: "bold" }}>{this.props.title}</span>
     }
 
     render() {
         return (
-            <div style={this.state.style} onMouseDown={() => console.log('s')} onMouseOut={() => this.setState({ hovered: false })} onMouseOver={() => this.setState({ hovered: true })} onClick={this.props.onClick} className="unselectable" >
+            <span
+                className="unselectable"
+                style={this.state.style}
+                onMouseOut={() => this.setState({ hovered: false })}
+                onMouseOver={() => this.setState({ hovered: true })}
+                onClick={this.props.onClick} >
 
-                <CustomIcon
-                    icon={this.props.icon}
-                    width={this.props.width ? this.props.width : WIDTH}
-                    height={this.props.height ? this.props.height : HEIGHT}
-                    selected={this.getIconSelection()} />
-                <span style={{ paddingLeft: this.props.icon ? 6 : 0, color: this.getTextColor(), fontWeight: "bold" }}>{this.props.title}</span>
-            </div>
+                {this.getBtnIcon()}
+                {this.getBtnText()}
+            </span>
         )
     }
 };

@@ -118,30 +118,57 @@ class NowPlaying extends Component {
      */
     minimizedMediaActions = () => {
         if (this.state.nowPlayingClass !== "open") {
-            let playBtn = () => {
+
+            let playPauseBtn = () => {
                 if (this.props.musicKitInstance.player.playbackState === window.MusicKit.PlaybackStates.playing) {
-                    return <span href="#" style={{ cursor: "pointer" }} onClick={(e) => {
+                    return <AppleButton onClick={(e) => {
                         e.preventDefault();
                         e.stopPropagation();
                         this.props.musicKitInstance.player.pause();
-                    }}><CustomIcon width={40} icon="pause" /></span>
+                    }}
+                        notSelectable
+                        width={40}
+                        height={40}
+                        type="icon"
+                        icon="pause" />
                 } else {
-                    return <span href="#" style={{ cursor: "pointer" }} onClick={(e) => {
+                    return <AppleButton onClick={(e) => {
                         e.preventDefault();
                         e.stopPropagation();
                         this.props.musicKitInstance.player.play();
-                    }}><CustomIcon width={40} icon="play-arrow" /></span>
+                    }}
+                        notSelectable
+                        width={40}
+                        height={40}
+                        type="icon"
+                        icon="play-arrow" />
                 }
+
+
+
             }
 
 
             return (<div style={{ position: "absolute", right: 3, top: 12 }}>
-                {playBtn()}
-                <span href="#" style={{ cursor: "pointer" }} onClick={(e) => {
+                {playPauseBtn()}
+
+                {/*                <span href="#" style={{ cursor: "pointer" }} onClick={(e) => {
                     e.preventDefault();
                     e.stopPropagation();
                     this.props.musicKitInstance.player.skipToNextItem();
-                }}><CustomIcon width={40} icon="fast-forward" /></span>
+                }}><CustomIcon width={40} icon="fast-forward" /></span>*/}
+
+                <AppleButton
+                    onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        this.props.musicKitInstance.player.skipToNextItem();
+                    }}
+                    notSelectable
+                    width={40}
+                    height={40}
+                    type="icon"
+                    icon="fast-forward" />
             </div>)
         }
     }

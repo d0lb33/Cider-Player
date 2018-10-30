@@ -112,12 +112,14 @@ body {
   left: 0;
   background-color: rgba(0,0,0,.8);
 
+  
 
-  -webkit-transition:bottom, .5s ease-in;
-  -moz-transition: bottom, .5s ease-in;
-  -ms-transition: bottom, .5s ease-in;
-  -o-transition: bottom, .5s ease-in;
-  transition: bottom, .5s ease-in;
+
+  -webkit-transition:bottom, .2s ease-in;
+  -moz-transition: bottom, .2s ease-in;
+  -ms-transition: bottom, .2s ease-in;
+  -o-transition: bottom, .2s ease-in;
+  transition: bottom, .2s ease-in;
 }
 
 .list {

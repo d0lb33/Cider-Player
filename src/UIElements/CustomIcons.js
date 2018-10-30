@@ -21,6 +21,10 @@ import SearchGrey from '../icons/search-grey.png';
 import ShufflePink from '../icons/shuffle-pink.png';
 import ShuffleGrey from '../icons/shuffle-grey.png';
 
+// Here for future cases.
+const customIconStyle = {
+}
+
 export class Browse extends Component {
 
     render() {
@@ -30,7 +34,7 @@ export class Browse extends Component {
         } else {
             imgSrc = BrowseGrey;
         }
-        return <img alt={this.props.icon} width={this.props.width} height={this.props.height} src={imgSrc}></img>
+        return <img style={{...customIconStyle, ...this.props.customIconStyle}} alt={this.props.icon} width={this.props.width} height={this.props.height} src={imgSrc}></img>
     }
 }
 
@@ -39,7 +43,7 @@ export class FastForward extends Component {
     render() {
         var imgSrc;
         imgSrc = FastForwardBlack;
-        return <img alt={this.props.icon} width={this.props.width} height={this.props.height} src={imgSrc}></img>
+        return <img style={{...customIconStyle, ...this.props.customIconStyle}} alt={this.props.icon} width={this.props.width} height={this.props.height} src={imgSrc}></img>
     }
 }
 
@@ -52,7 +56,7 @@ export class ForYou extends Component {
         } else {
             imgSrc = ForYouGrey;
         }
-        return <img alt={this.props.icon} width={this.props.width} height={this.props.height} src={imgSrc}></img>
+        return <img style={{...customIconStyle, ...this.props.customIconStyle}} alt={this.props.icon} width={this.props.width} height={this.props.height} src={imgSrc}></img>
     }
 }
 
@@ -65,7 +69,7 @@ export class LoginArrow extends Component {
         } else {
             imgSrc = LoginArrowGrey;
         }
-        return <img alt={this.props.icon} width={this.props.width} height={this.props.height} src={imgSrc}></img>
+        return <img style={{...customIconStyle, ...this.props.customIconStyle}} alt={this.props.icon} width={this.props.width} height={this.props.height} src={imgSrc}></img>
     }
 }
 
@@ -77,14 +81,14 @@ export class MusicLibrary extends Component {
         } else {
             imgSrc = MusicLibraryGrey;
         }
-        return <img alt={this.props.icon} width={this.props.width} height={this.props.height} src={imgSrc}></img>
+        return <img style={{...customIconStyle, ...this.props.customIconStyle}} alt={this.props.icon} width={this.props.width} height={this.props.height} src={imgSrc}></img>
     }
 };
 
 export class Pause extends Component {
     render() {
         var imgSrc = PauseBlack;
-        return <img alt={this.props.icon} width={this.props.width} height={this.props.height} src={imgSrc}></img>
+        return <img style={{...customIconStyle, ...this.props.customIconStyle}} alt={this.props.icon} width={this.props.width} height={this.props.height} src={imgSrc}></img>
     }
 };
 
@@ -96,7 +100,7 @@ export class PlayArrow extends Component {
         } else {
             imgSrc = PlayArrowBlack;
         }
-        return <img alt={this.props.icon} width={this.props.width} height={this.props.height} src={imgSrc}></img>
+        return <img style={{...customIconStyle, ...this.props.customIconStyle}} alt={this.props.icon} width={this.props.width} height={this.props.height} src={imgSrc}></img>
     }
 };
 
@@ -109,7 +113,7 @@ export class RadioWaves extends Component {
         } else {
             imgSrc = RadioWavesGrey;
         }
-        return <img alt={this.props.icon} width={this.props.width} height={this.props.height} src={imgSrc}></img>
+        return <img style={{...customIconStyle, ...this.props.customIconStyle}} alt={this.props.icon} width={this.props.width} height={this.props.height} src={imgSrc}></img>
     }
 }
 
@@ -122,7 +126,7 @@ export class Search extends Component {
         } else {
             imgSrc = SearchGrey;
         }
-        return <img alt={"browse"} width={this.props.width} height={this.props.height} src={imgSrc}></img>
+        return <img style={{...customIconStyle, ...this.props.customIconStyle}} alt={"browse"} width={this.props.width} height={this.props.height} src={imgSrc}></img>
     }
 }
 
@@ -135,7 +139,7 @@ export class Shuffle extends Component {
         } else {
             imgSrc = ShuffleGrey;
         }
-        return <img alt={"browse"} width={this.props.width} height={this.props.height} src={imgSrc}></img>
+        return <img style={{...customIconStyle, ...this.props.customIconStyle}} alt={"browse"} width={this.props.width} height={this.props.height} src={imgSrc}></img>
     }
 }
 
