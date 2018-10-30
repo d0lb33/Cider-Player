@@ -13,8 +13,6 @@ class LoginModal extends Component {
 
   render() {
     return (
-      
-        
       <Modal
         centered
         visible={!this.props.isAuthenticated}
