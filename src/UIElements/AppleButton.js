@@ -28,6 +28,7 @@ function filledBtnStyle(props) {
 
 function iconBtnStyle(props) {
     return {
+        cursor: "pointer",
     }
 }
 
@@ -126,7 +127,7 @@ export default class AppleButton extends Component {
             if (this.props.showBgOnMouseDown && this.state.mouseDown) {
                 // Look into doing this with padding, and then enable for all
                 return (
-                    <div style={{ zIndex: "-1", position: "absolute", backgroundColor: "rgba(197, 197, 197, .4)", width: "50px", height: 50, left: "-6.5px", top: "-14px", borderRadius: "100px" }}>
+                    <div style={{ zIndex: "-1", position: "absolute", backgroundColor: "rgba(197, 197, 197, .4)", width: 50, height: 50, left: "-6.5px", top: "-14px", borderRadius: "100px" }}>
                     </div>)
             }
 

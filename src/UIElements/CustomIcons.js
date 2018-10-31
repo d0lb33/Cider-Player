@@ -3,7 +3,12 @@
 import React, { Component } from 'react'
 import BrowsePink from '../icons/browse-pink.png';
 import BrowseGrey from '../icons/browse-grey.png';
+import FastBackwardBlack from '../icons/fast-backward-black.png';
+import FastBackwardGrey from '../icons/fast-backward-grey.png';
+import FastBackwardPink from '../icons/fast-backward-pink.png';
 import FastForwardBlack from '../icons/fast-forward-black.png';
+import FastForwardGrey from '../icons/fast-forward-grey.png';
+import FastForwardPink from '../icons/fast-forward-pink.png';
 import ForYouPink from '../icons/for-you-pink.png';
 import ForYouGrey from '../icons/for-you-grey.png';
 import LoginArrowPink from '../icons/login-arrow-pink.png';
@@ -38,11 +43,36 @@ export class Browse extends Component {
     }
 }
 
+export class FastBackward extends Component {
+
+    render() {
+        var imgSrc;
+        if (this.props.selected) {
+            imgSrc = FastBackwardPink;
+        } else {
+            imgSrc = FastBackwardBlack;
+        }
+
+        if(this.props.disabled){
+            imgSrc = FastBackwardGrey;
+        }
+        return <img style={{...customIconStyle, ...this.props.customIconStyle}} alt={this.props.icon} width={this.props.width} height={this.props.height} src={imgSrc}></img>
+    }
+}
+
 export class FastForward extends Component {
 
     render() {
         var imgSrc;
-        imgSrc = FastForwardBlack;
+        if (this.props.selected) {
+            imgSrc = FastForwardPink;
+        } else {
+            imgSrc = FastForwardBlack;
+        }
+
+        if(this.props.disabled){
+            imgSrc = FastForwardGrey;
+        }
         return <img style={{...customIconStyle, ...this.props.customIconStyle}} alt={this.props.icon} width={this.props.width} height={this.props.height} src={imgSrc}></img>
     }
 }
@@ -152,6 +182,8 @@ export class Shuffle extends Component {
 export class CustomIcon extends Component {
     render() {
         switch (this.props.icon) {
+            case "fast-backward":
+                return <FastBackward {...this.props} />
             case "fast-forward":
                 return <FastForward {...this.props} />
             case "for-you":
