@@ -8,7 +8,9 @@ Huge thanks to Apple for there [MusicKitJS](https://developer.apple.com/document
 
 ## To Run:
 git clone git@github.com:d0lb33/Apple-Music-Player.git
+
 npm install
+
 npm start
 
 ## Huge Thanks To:
