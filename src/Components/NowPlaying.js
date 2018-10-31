@@ -130,7 +130,8 @@ class NowPlaying extends Component {
                         width={40}
                         height={40}
                         type="icon"
-                        icon="pause" />
+                        icon="pause" 
+                        showBgOnMouseDown={true}/>
                 } else {
                     return <AppleButton onClick={(e) => {
                         e.preventDefault();
@@ -141,7 +142,8 @@ class NowPlaying extends Component {
                         width={40}
                         height={40}
                         type="icon"
-                        icon="play-arrow" />
+                        icon="play-arrow" 
+                        showBgOnMouseDown={true}/>
                 }
 
 
@@ -162,13 +164,16 @@ class NowPlaying extends Component {
                     onClick={(e) => {
                         e.preventDefault();
                         e.stopPropagation();
+                        console.log("K")
                         this.props.musicKitInstance.player.skipToNextItem();
                     }}
                     notSelectable
                     width={40}
                     height={40}
                     type="icon"
-                    icon="fast-forward" />
+                    icon="fast-forward" 
+                    showBgOnMouseDown={true}
+                    />
             </div>)
         }
     }
