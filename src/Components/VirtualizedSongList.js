@@ -3,7 +3,8 @@ import { WindowScroller, AutoSizer, List } from 'react-virtualized';
 import 'react-virtualized/styles.css'; // only needs to be imported once
 import { connect } from 'react-redux';
 import { formatImgSrc } from '../consts';
-import { createAlert } from '../actions/pageActions';
+import { playSong } from '../actions/libraryActions';
+
 
 class VirtualizedSongList extends Component {
 
@@ -25,17 +26,7 @@ class VirtualizedSongList extends Component {
                 style={style}
             >
                 <div className="listItem" onClick={() => {
-                    this.props.musicKitInstance.player.changeToMediaAtIndex(index).then(() => {
-                        this.props.musicKitInstance.player.play();
-                    })
-                        .catch((error) => {
-                            this.props.createAlert({
-                                message: "Error occured while trying to play \"" + this.props.songs[index].attributes.name + "\":",
-                                description: error.description,
-                                type: "error",
-                                closable: true
-                            })
-                        });
+                    this.props.playSong(index, this.props.songs);
                 }}>
                     <div style={{ borderRadius: "5px", float: "left", backgroundColor: "#e8e8e8" }}>
                         <img style={{ borderRadius: "5px" }} width={50} height={50} src={formatImgSrc(this.props.songs[index].attributes.artwork.url, 50, 50)}></img>
@@ -86,4 +77,4 @@ const mapStateToProps = state => ({
     musicKitInstance: state.library.musicKitInstance
 })
 
-export default connect(mapStateToProps, { createAlert })(VirtualizedSongList);
+export default connect(mapStateToProps, { playSong })(VirtualizedSongList);

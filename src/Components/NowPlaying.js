@@ -154,17 +154,10 @@ class NowPlaying extends Component {
             return (<div style={{ position: "absolute", right: 3, top: 12 }}>
                 {playPauseBtn()}
 
-                {/*                <span href="#" style={{ cursor: "pointer" }} onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    this.props.musicKitInstance.player.skipToNextItem();
-                }}><CustomIcon width={40} icon="fast-forward" /></span>*/}
-
                 <AppleButton
                     onClick={(e) => {
                         e.preventDefault();
                         e.stopPropagation();
-                        console.log("K")
                         this.props.musicKitInstance.player.skipToNextItem();
                     }}
                     notSelectable
