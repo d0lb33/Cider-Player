@@ -1,6 +1,73 @@
-import { FETCH_USER_SONGS, AUTHENTICATE_USER, SETUP_MUSICKIT } from './types';
+import { FETCH_USER_SONGS, AUTHENTICATE_USER, SETUP_MUSICKIT, PLAY_SONG } from './types';
 import { developerToken } from '../private.js'
 import { LOADINGSTATES } from '../consts';
+import { createAlert } from './pageActions';
+
+/**
+ * Takes in an array of song items to set the queue to, and then plays at the index.
+ * If the songItems is not passed it will assume the queue is already set.
+ * @param {Number} atIndex // Required
+ * @param {Array[SongItem]} songItems // Optional array of song items, an error will occur if the queue is not set and you don't privde this.
+ * @param {Boolean} nextSongOnError // Optional Advance to next song on error
+ */
+export const playSong = (atIndex, songItems, nextSongOnError) => dispatch => {
+    var musicKitInstance = window.MusicKit.getInstance();
+
+    let changeIndex = () => {
+        musicKitInstance.player.changeToMediaAtIndex(atIndex).then(() => {
+            musicKitInstance.player.play();
+            dispatch({
+                type: PLAY_SONG,
+            })
+        })
+            .catch((error) => {
+
+                dispatch(createAlert({
+                    message: "Error occured while trying to play \"" + songItems[atIndex].attributes.name + "\":",
+                    description: error.description,
+                    type: "error",
+                    closable: true
+                }));
+
+                if (nextSongOnError) {
+                    atIndex++;
+                    sQ();
+                } else {
+                    dispatch({
+                        type: PLAY_SONG,
+                    })
+                }
+            });
+    }
+
+    // Create this as a function, incase of error it can be called again.
+    let sQ = () => {
+        // If no songItems provided, just go straight to changing the index
+        if (!songItems){
+            changeIndex()
+            return;
+        };
+        musicKitInstance.setQueue(songItems)
+            .then(() => {
+                changeIndex();
+            })
+            .catch((error) => {
+                dispatch({
+                    type: PLAY_SONG,
+                })
+                dispatch(createAlert({
+                    message: "Error occured while trying to set the queue",
+                    description: error.description,
+                    type: "error",
+                    closable: true
+                }))
+            })
+    }
+
+    sQ();
+
+
+}
 
 export const fetchUserSongs = () => dispatch => {
     var musicKitInstance = window.MusicKit.getInstance();
@@ -15,21 +82,12 @@ export const fetchUserSongs = () => dispatch => {
                 if (songs.length !== 0) {
                     offset += 100
                     getSongs();
-                    musicKitInstance.setQueue(songArray).catch((e) => {console.log("error setting queue")});
                     dispatch({
                         type: FETCH_USER_SONGS,
                         payload: songArray,
                         loadingState: LOADINGSTATES.LOADEDPARTIAL
                     })
                 } else {
-                    musicKitInstance.setQueue(songArray);
-                    
-                    /*let sum = 0; These songs will be unplayable on some libraries. AHHHH
-                    musicKitInstance.player.queue.items.map((song) => {
-                        if (song.isPlayable === undefined) {
-                            sum++;
-                        }
-                    });*/
 
                     dispatch({
                         type: FETCH_USER_SONGS,

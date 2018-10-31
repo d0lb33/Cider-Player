@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import AppleButton from '../UIElements/AppleButton';
 import { connect } from 'react-redux';
 import ChevronDown from '../icons/chevron-down-grey.png';
-import { CustomIcon } from '../UIElements/CustomIcons';
 import { formatImgSrc } from '../consts';
 import GreyBackground from '../icons/GreyBackground.png';
 
@@ -61,6 +60,8 @@ class NowPlaying extends Component {
             case window.MusicKit.PlaybackStates.none:
                 currentSongName = "Not Playing";
                 break;
+            default:
+                currentSongName = "Not Playing";
         }
 
         this.setState({
@@ -91,7 +92,13 @@ class NowPlaying extends Component {
      */
     getDownChevron = () => {
         if (this.state.nowPlayingClass === "open") {
-            return <img onMouseDown={this.hideView} style={{ display: "block", margin: "auto", cursor: "pointer" }} width={35} src={ChevronDown}></img>
+            return <img
+                alt="chevron-down"
+                onMouseDown={this.hideView}
+                style={{ display: "block", margin: "auto", cursor: "pointer" }}
+                width={35}
+                src={ChevronDown}>
+            </img>
         }
     }
 
@@ -99,7 +106,11 @@ class NowPlaying extends Component {
      * Returns the nowPlayingArtwork
      */
     currentPlayingArtwork = () => {
-        return <img className={"nowPlayingArtwork " + this.state.nowPlayingClass} src={this.state.currentArtworkSource}></img>
+        return <img 
+        alt={"Now Playing Artwork"}
+        className={"nowPlayingArtwork " + this.state.nowPlayingClass} 
+        src={this.state.currentArtworkSource}>
+        </img>
     }
 
     /**
@@ -130,8 +141,8 @@ class NowPlaying extends Component {
                         width={40}
                         height={40}
                         type="icon"
-                        icon="pause" 
-                        showBgOnMouseDown={true}/>
+                        icon="pause"
+                        showBgOnMouseDown={true} />
                 } else {
                     return <AppleButton onClick={(e) => {
                         e.preventDefault();
@@ -142,8 +153,8 @@ class NowPlaying extends Component {
                         width={40}
                         height={40}
                         type="icon"
-                        icon="play-arrow" 
-                        showBgOnMouseDown={true}/>
+                        icon="play-arrow"
+                        showBgOnMouseDown={true} />
                 }
 
 
@@ -154,26 +165,19 @@ class NowPlaying extends Component {
             return (<div style={{ position: "absolute", right: 3, top: 12 }}>
                 {playPauseBtn()}
 
-                {/*                <span href="#" style={{ cursor: "pointer" }} onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    this.props.musicKitInstance.player.skipToNextItem();
-                }}><CustomIcon width={40} icon="fast-forward" /></span>*/}
-
                 <AppleButton
                     onClick={(e) => {
                         e.preventDefault();
                         e.stopPropagation();
-                        console.log("K")
                         this.props.musicKitInstance.player.skipToNextItem();
                     }}
                     notSelectable
                     width={40}
                     height={40}
                     type="icon"
-                    icon="fast-forward" 
+                    icon="fast-forward"
                     showBgOnMouseDown={true}
-                    />
+                />
             </div>)
         }
     }
