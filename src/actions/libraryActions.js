@@ -7,38 +7,49 @@ import { createAlert } from './pageActions';
  * Takes in an array of song items to set the queue to, and then plays at the index.
  * If the songItems is not passed it will assume the queue is already set.
  * @param {Number} atIndex // Required
- * @param {Array[SongItem]} songItems // Optional array of song items
+ * @param {Array[SongItem]} songItems // Optional array of song items, an error will occur if the queue is not set and you don't privde this.
  * @param {Boolean} nextSongOnError // Optional Advance to next song on error
  */
 export const playSong = (atIndex, songItems, nextSongOnError) => dispatch => {
     var musicKitInstance = window.MusicKit.getInstance();
 
-    // Create this as a function, incase of error it can be called again.
-    let sQ = () => {
-        musicKitInstance.setQueue(songItems)
-            .then(() => {
-                musicKitInstance.player.changeToMediaAtIndex(atIndex).then(() => {
-                    musicKitInstance.player.play();
+    let changeIndex = () => {
+        musicKitInstance.player.changeToMediaAtIndex(atIndex).then(() => {
+            musicKitInstance.player.play();
+            dispatch({
+                type: PLAY_SONG,
+            })
+        })
+            .catch((error) => {
+
+                dispatch(createAlert({
+                    message: "Error occured while trying to play \"" + songItems[atIndex].attributes.name + "\":",
+                    description: error.description,
+                    type: "error",
+                    closable: true
+                }));
+
+                if (nextSongOnError) {
+                    atIndex++;
+                    sQ();
+                } else {
                     dispatch({
                         type: PLAY_SONG,
                     })
-                })
-                    .catch((error) => {
-                        if (nextSongOnError) {
-                            atIndex++;
-                            sQ();
-                        } else {
-                            dispatch({
-                                type: PLAY_SONG,
-                            })
-                        }
-                        dispatch(createAlert({
-                            message: "Error occured while trying to play \"" + songItems[atIndex].attributes.name + "\":",
-                            description: error.description,
-                            type: "error",
-                            closable: true
-                        }));
-                    });
+                }
+            });
+    }
+
+    // Create this as a function, incase of error it can be called again.
+    let sQ = () => {
+        // If no songItems provided, just go straight to changing the index
+        if (!songItems){
+            changeIndex()
+            return;
+        };
+        musicKitInstance.setQueue(songItems)
+            .then(() => {
+                changeIndex();
             })
             .catch((error) => {
                 dispatch({
