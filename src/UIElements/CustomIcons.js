@@ -100,6 +100,10 @@ export class PlayArrow extends Component {
         } else {
             imgSrc = PlayArrowBlack;
         }
+
+        if(this.props.disabled){
+            imgSrc = PlayArrowGrey;
+        }
         return <img style={{...customIconStyle, ...this.props.customIconStyle}} alt={this.props.icon} width={this.props.width} height={this.props.height} src={imgSrc}></img>
     }
 };
