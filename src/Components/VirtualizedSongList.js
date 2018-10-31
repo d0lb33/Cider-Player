@@ -29,7 +29,13 @@ class VirtualizedSongList extends Component {
                     this.props.playSong(index, this.props.songs);
                 }}>
                     <div style={{ borderRadius: "5px", float: "left", backgroundColor: "#e8e8e8" }}>
-                        <img style={{ borderRadius: "5px" }} width={50} height={50} src={formatImgSrc(this.props.songs[index].attributes.artwork.url, 50, 50)}></img>
+                        <img
+                            alt={this.props.songs[index].attributes.name + " artwork"}
+                            style={{ borderRadius: "5px" }}
+                            width={50}
+                            height={50}
+                            src={formatImgSrc(this.props.songs[index].attributes.artwork.url, 50, 50)}>
+                        </img>
                     </div>
                     <div style={{ borderBottom: "1px solid #e8e8e8", lineHeight: "49px", marginLeft: 60 }}>
                         {this.props.songs[index].attributes.name}
