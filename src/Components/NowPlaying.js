@@ -30,7 +30,7 @@ class NowPlaying extends Component {
      */
     updateStateWithCurrentSongAttributes = () => {
 
-        let currentImgSrc = GreyBackground;
+        let currentImgSrc = this.state.currentArtworkSource;
         let currentSongName = "Not Playing";
         /*
         Loading States Enums
