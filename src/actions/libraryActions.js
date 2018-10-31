@@ -15,7 +15,7 @@ export const fetchUserSongs = () => dispatch => {
                 if (songs.length !== 0) {
                     offset += 100
                     getSongs();
-                    musicKitInstance.setQueue(songArray);
+                    musicKitInstance.setQueue(songArray).catch((e) => {console.log("error setting queue")});
                     dispatch({
                         type: FETCH_USER_SONGS,
                         payload: songArray,
@@ -37,6 +37,9 @@ export const fetchUserSongs = () => dispatch => {
                         loadingState: LOADINGSTATES.LOADED
                     })
                 }
+            }).catch((e) => {
+                console.log("I Caught A Bug Gee");
+                console.log(e)
             });
         } else {
             getSongs();

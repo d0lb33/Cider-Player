@@ -25,14 +25,16 @@ class VirtualizedSongList extends Component {
                 style={style}
             >
                 <div className="listItem" onClick={() => {
-                    this.props.musicKitInstance.changeToMediaAtIndex(index)
+                    this.props.musicKitInstance.player.changeToMediaAtIndex(index).then(() => {
+                        this.props.musicKitInstance.player.play();
+                    })
                         .catch((error) => {
-                            this.props.createAlert({ 
-                                message: "Error occured while trying to play \"" + this.props.songs[index].attributes.name + "\":", 
-                                description: error.description, 
+                            this.props.createAlert({
+                                message: "Error occured while trying to play \"" + this.props.songs[index].attributes.name + "\":",
+                                description: error.description,
                                 type: "error",
                                 closable: true
-                             })
+                            })
                         });
                 }}>
                     <div style={{ borderRadius: "5px", float: "left", backgroundColor: "#e8e8e8" }}>
@@ -54,7 +56,6 @@ class VirtualizedSongList extends Component {
         return (
             <WindowScroller>
                 {({ height, isScrolling, onChildScroll, scrollTop }) => (
-
                     <AutoSizer disableHeight>
                         {({ width }) => (
                             <List
