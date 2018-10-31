@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchUserSongs } from '../actions/libraryActions';
+import { fetchUserSongs, playSong } from '../actions/libraryActions';
 import { LOADINGSTATES } from '../consts';
 import { Row, Col, Spin, Divider, Icon, Dropdown, Menu } from 'antd';
 import AppleButton from '../UIElements/AppleButton';
@@ -22,7 +22,7 @@ class LibraryView extends Component {
     getSongCount = () => {
         switch (this.props.loadingState) {
             case LOADINGSTATES.LOADEDPARTIAL:
-                return <span><Spin indicator={<Icon type="loading" spin/>}></Spin> {this.props.songs.length}</span>
+                return <span><Spin indicator={<Icon type="loading" spin />}></Spin> {this.props.songs.length}</span>
             case LOADINGSTATES.LOADED:
                 return this.props.songs.length
             default:
@@ -48,7 +48,7 @@ class LibraryView extends Component {
 
         return (<Dropdown overlay={menu}>
             <a href="#">
-                <span style={{color : APPLE_PINK, paddingRight: 5}}>Library</span><Icon style={{color:APPLE_PINK}} type="down" />
+                <span style={{ color: APPLE_PINK, paddingRight: 5 }}>Library</span><Icon style={{ color: APPLE_PINK }} type="down" />
             </a>
         </Dropdown>)
     }
@@ -77,7 +77,9 @@ class LibraryView extends Component {
                         <AppleButton btnWidth={"160px"} icon="shuffle" inverseSelection title="Shuffle" type="filled" />
                     </div>
                     <div style={{ display: "inline", float: "right", marginRight: "10px" }}>
-                        <AppleButton onClick={() => this.props.musicKitInstance.play()} btnWidth={"160px"} icon="play-arrow" inverseSelection title="Play" type="filled" />
+                        <AppleButton onClick={() => {
+                            this.props.playSong(0, this.props.songs, true);
+                        }} btnWidth={"160px"} icon="play-arrow" inverseSelection title="Play" type="filled" />
                     </div>
                     <Col span={6}>
                     </Col>
@@ -95,4 +97,4 @@ const mapStateToProps = state => ({
     musicKitInstance: state.library.musicKitInstance
 });
 
-export default connect(mapStateToProps, { fetchUserSongs })(LibraryView);
+export default connect(mapStateToProps, { fetchUserSongs, playSong })(LibraryView);

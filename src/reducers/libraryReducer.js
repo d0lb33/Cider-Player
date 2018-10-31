@@ -1,4 +1,4 @@
-import { SETUP_MUSICKIT, AUTHENTICATE_USER, FETCH_USER_SONGS } from '../actions/types';
+import { SETUP_MUSICKIT, AUTHENTICATE_USER, FETCH_USER_SONGS, PLAY_SONG } from '../actions/types';
 import { LOADINGSTATES } from '../consts';
 
 const initialState = {
@@ -23,6 +23,10 @@ export default (state = initialState, action) => {
                 ...state,
                 isAuthenticated: action.isAuthenticated,
                 musicKitInstance: action.musicKitInstance
+            }
+        case PLAY_SONG:
+            return {
+                ...state
             }
         case FETCH_USER_SONGS:
             return {
