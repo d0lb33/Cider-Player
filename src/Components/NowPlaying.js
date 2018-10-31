@@ -10,8 +10,7 @@ class NowPlaying extends Component {
         super(props);
 
         this.state = {
-            nowPlayingClass: "",
-            blurBackgroundClass: "",
+            openClass: "",
             currentSongName: "Not Playing",
             currentArtworkSource: GreyBackground,
         }
@@ -74,7 +73,7 @@ class NowPlaying extends Component {
      * Appends the open class to the nowPlaying item to create an amazing animation! Along with showing the blurBackground div.
      */
     showView = () => {
-        this.setState({ nowPlayingClass: "open", blurBackgroundClass: "blurBackground" });
+        this.setState({ openClass: "open" });
     }
 
 
@@ -84,14 +83,14 @@ class NowPlaying extends Component {
     hideView = (e) => {
         e.preventDefault();
         e.stopPropagation();
-        this.setState({ nowPlayingClass: "", blurBackgroundClass: "" })
+        this.setState({ openClass: "" })
     }
 
     /**
      * The clickable down chevron at the top of the nowPLaying view when open.
      */
     getDownChevron = () => {
-        if (this.state.nowPlayingClass === "open") {
+        if (this.state.openClass === "open") {
             return <img
                 alt="chevron-down"
                 onMouseDown={this.hideView}
@@ -106,91 +105,154 @@ class NowPlaying extends Component {
      * Returns the nowPlayingArtwork
      */
     currentPlayingArtwork = () => {
-        return <img 
-        alt={"Now Playing Artwork"}
-        className={"nowPlayingArtwork " + this.state.nowPlayingClass} 
-        src={this.state.currentArtworkSource}>
+        return <img
+            alt={"Now Playing Artwork"}
+            className={"nowPlayingArtwork " + this.state.openClass}
+            src={this.state.currentArtworkSource}>
         </img>
     }
 
-    /**
-     * Returns the the currentlyPlayingText
-     */
-    currentPlayingText = () => {
-        return (
-            <div className="minimized-song-name">
-                <span style={{ fontSize: "1.3em" }}>{this.state.currentSongName}</span>
-            </div>
-        )
-    }
+
 
     /**
      * Returns the buttons to be displayed in the now playing view that is minimized.
      */
-    minimizedMediaActions = () => {
-        if (this.state.nowPlayingClass !== "open") {
+    minimizedView = () => {
+        if (this.state.openClass === "open") return;
 
-            let playPauseBtn = () => {
-                if (this.props.musicKitInstance.player.playbackState === window.MusicKit.PlaybackStates.playing) {
-                    return <AppleButton onClick={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        this.props.musicKitInstance.player.pause();
-                    }}
-                        notSelectable
-                        width={40}
-                        height={40}
-                        type="icon"
-                        icon="pause"
-                        showBgOnMouseDown={true} />
-                } else {
-                    return <AppleButton onClick={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        this.props.musicKitInstance.player.play();
-                    }}
-                        notSelectable
-                        width={40}
-                        height={40}
-                        type="icon"
-                        icon="play-arrow"
-                        showBgOnMouseDown={true} />
-                }
+        /**
+        * Returns the the currentlyPlayingText
+        */
+        let currentPlayingText = () => {
+            return (
+                <div className="minimized-song-name">
+                    <span style={{ fontSize: "1.3em" }}>{this.state.currentSongName}</span>
+                </div>
+            )
+        }
 
-
-
-            }
-
-
-            return (<div style={{ position: "absolute", right: 3, top: 12 }}>
-                {playPauseBtn()}
-
-                <AppleButton
-                    onClick={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        this.props.musicKitInstance.player.skipToNextItem();
-                    }}
+        let minimizedPlayPauseBtn = () => {
+            if (this.props.musicKitInstance.player.playbackState === window.MusicKit.PlaybackStates.playing) {
+                return <AppleButton onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    this.props.musicKitInstance.player.pause();
+                }}
                     notSelectable
                     width={40}
                     height={40}
                     type="icon"
-                    icon="fast-forward"
-                    showBgOnMouseDown={true}
-                />
-            </div>)
+                    icon="pause"
+                    showBgOnMouseDown={true} />
+            } else {
+                return <AppleButton onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    this.props.musicKitInstance.player.play();
+                }}
+                    notSelectable
+                    width={40}
+                    height={40}
+                    type="icon"
+                    icon="play-arrow"
+                    showBgOnMouseDown={true} />
+            }
+
+
+
         }
+
+        return (
+            <span>
+                {currentPlayingText()}
+                <div style={{ position: "absolute", right: 3, top: 12 }}>
+                    {minimizedPlayPauseBtn()}
+
+                    <AppleButton
+                        onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            this.props.musicKitInstance.player.skipToNextItem();
+                        }}
+                        notSelectable
+                        width={40}
+                        height={40}
+                        type="icon"
+                        icon="fast-forward"
+                        showBgOnMouseDown={true}
+                    />
+                </div>
+            </span>)
+
     }
+
+    maximizedBody = () => {
+        let playPauseBtn = () => {
+            if (this.props.musicKitInstance.player.playbackState === window.MusicKit.PlaybackStates.playing) {
+                return <AppleButton onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    this.props.musicKitInstance.player.pause();
+                }}
+                    notSelectable
+                    width={55}
+                    height={55}
+                    type="icon"
+                    icon="pause"
+                    showBgOnMouseDown={true} />
+            } else {
+                return <AppleButton onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    this.props.musicKitInstance.player.play();
+                }}
+                    notSelectable
+                    width={55}
+                    height={55}
+                    type="icon"
+                    icon="play-arrow"
+                    showBgOnMouseDown={true} />
+            }
+        }
+
+        let buttonRow = () => {
+            let btnRowStyle = {
+                margin: 10
+            }
+            return (
+                <div>
+                    <span style={btnRowStyle}>
+                        <AppleButton showBgOnMouseDown width={55} height={55} notSelectable type="icon" icon="fast-backward" />
+                    </span>
+                    <span style={btnRowStyle}>
+                        {playPauseBtn()}
+                    </span>
+                    <span style={btnRowStyle}>
+                        <AppleButton showBgOnMouseDown width={55} height={55} notSelectable type="icon" icon="fast-forward" />
+                    </span>
+                </div>)
+        }
+
+        return (
+            <div style={{ textAlign: "center" }}>
+                {this.props.musicKitInstance.player.showPlaybackTargetPicker()}
+                <span style={{fontSize: "1.5em",fontWeight: "bold", color: "black"}}>{this.state.currentSongName}</span>
+                {buttonRow()}
+            </div>
+        )
+    }
+
     render() {
         return (
             <span>
-                <div onClick={this.showView} className={"now-playing " + this.state.nowPlayingClass} >
+                <div onClick={this.showView} className={"now-playing " + this.state.openClass} >
+
                     {this.getDownChevron()}
                     {this.currentPlayingArtwork()}
-                    {this.currentPlayingText()}
-                    {this.minimizedMediaActions()}
+                    {this.state.openClass === "open" ? this.maximizedBody() : this.minimizedView()}
+
                 </div>
-                <div onClick={(e) => { this.hideView(e) }} className={this.state.blurBackgroundClass}>
+                <div onClick={(e) => { this.hideView(e) }} className={"blurBackground " + this.state.openClass}>
                 </div>
             </span>
 
