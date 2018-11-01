@@ -13,22 +13,25 @@ import { createAlert } from './pageActions';
 export const playSong = (atIndex, songItems, nextSongOnError) => dispatch => {
     var musicKitInstance = window.MusicKit.getInstance();
 
+    console.log(musicKitInstance.player.queue.nextPlayableItem ? musicKitInstance.player.queue.nextPlayableItem.attributes.name : "");
     let changeIndex = () => {
-        musicKitInstance.player.changeToMediaAtIndex(atIndex).then(() => {
-            musicKitInstance.player.play();
-            dispatch({
-                type: PLAY_SONG,
-            })
-        })
-            .catch((error) => {
 
+        try {
+            musicKitInstance.player.changeToMediaAtIndex(atIndex).then(() => {
+                dispatch({
+                    type: PLAY_SONG,
+                })
+            }).catch((error) => {
+    
+                let songName = songItems ? songItems[atIndex].attributes.name : "";
+    
                 dispatch(createAlert({
-                    message: "Error occured while trying to play \"" + songItems[atIndex].attributes.name + "\":",
+                    message: "Error occured while trying to play \"" + songName + "\":",
                     description: error.description,
                     type: "error",
                     closable: true
                 }));
-
+    
                 if (nextSongOnError) {
                     atIndex++;
                     sQ();
@@ -37,13 +40,17 @@ export const playSong = (atIndex, songItems, nextSongOnError) => dispatch => {
                         type: PLAY_SONG,
                     })
                 }
-            });
+            })
+        } catch (error) {
+            console.log(error)
+        }   
+        
     }
 
     // Create this as a function, incase of error it can be called again.
     let sQ = () => {
         // If no songItems provided, just go straight to changing the index
-        if (!songItems){
+        if (!songItems) {
             changeIndex()
             return;
         };
