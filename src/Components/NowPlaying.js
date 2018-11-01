@@ -4,6 +4,10 @@ import { connect } from 'react-redux';
 import ChevronDown from '../icons/chevron-down-grey.png';
 import { formatImgSrc } from '../consts';
 import GreyBackground from '../icons/GreyBackground.png';
+import SongProgressSlider from './SongProgressSlider';
+import { APPLE_PINK } from '../UIElements/ColorConsts';
+import { Slider } from 'antd';
+import {playSong} from '../actions/libraryActions';
 
 class NowPlaying extends Component {
     constructor(props) {
@@ -13,6 +17,8 @@ class NowPlaying extends Component {
             openClass: "",
             currentSongName: "Not Playing",
             currentArtworkSource: GreyBackground,
+            currentSongAlbumName: "",
+            currentSongArtistName: ""
         }
     }
 
@@ -30,6 +36,8 @@ class NowPlaying extends Component {
 
         let currentImgSrc = this.state.currentArtworkSource;
         let currentSongName = "Not Playing";
+        let currentSongAlbumName = "";
+        let currentSongArtistName = "";
         /*
         Loading States Enums
         completed: 10
@@ -48,6 +56,8 @@ class NowPlaying extends Component {
                 if (this.props.musicKitInstance.player.nowPlayingItem) {
                     currentImgSrc = formatImgSrc(this.props.musicKitInstance.player.nowPlayingItem.attributes.artwork.url, 60, 60);
                     currentSongName = this.props.musicKitInstance.player.nowPlayingItem.attributes.name;
+                    currentSongAlbumName = this.props.musicKitInstance.player.nowPlayingItem.attributes.albumName;
+                    currentSongArtistName = this.props.musicKitInstance.player.nowPlayingItem.attributes.artistName;
                 } else {
                     currentSongName = "Loading";
                 }
@@ -65,7 +75,9 @@ class NowPlaying extends Component {
 
         this.setState({
             currentSongName: currentSongName,
-            currentArtworkSource: currentImgSrc
+            currentArtworkSource: currentImgSrc,
+            currentSongAlbumName: currentSongAlbumName,
+            currentSongArtistName: currentSongArtistName
         }, () => this.forceUpdate());
     }
 
@@ -111,8 +123,6 @@ class NowPlaying extends Component {
             src={this.state.currentArtworkSource}>
         </img>
     }
-
-
 
     /**
      * Returns the buttons to be displayed in the now playing view that is minimized.
@@ -222,22 +232,93 @@ class NowPlaying extends Component {
             return (
                 <div>
                     <span style={btnRowStyle}>
-                        <AppleButton showBgOnMouseDown width={55} height={55} notSelectable type="icon" icon="fast-backward" />
+                        <AppleButton
+                            showBgOnMouseDown
+                            width={55}
+                            height={55}
+                            notSelectable
+                            type="icon"
+                            icon="fast-backward"
+                            onClick={() => { this.props.musicKitInstance.player.skipToPreviousItem() }}
+                        />
                     </span>
                     <span style={btnRowStyle}>
                         {playPauseBtn()}
                     </span>
                     <span style={btnRowStyle}>
-                        <AppleButton showBgOnMouseDown width={55} height={55} notSelectable type="icon" icon="fast-forward" />
+                        <AppleButton
+                            showBgOnMouseDown
+                            width={55}
+                            height={55}
+                            notSelectable
+                            type="icon"
+                            icon="fast-forward"
+                            onClick={() => {
+                                this.props.musicKitInstance.player.skipToNextItem()
+                            }}
+                        />
                     </span>
                 </div>)
         }
 
+        let getArtistAlbumText = () => {
+            if (this.props.musicKitInstance.player.playbackState === window.MusicKit.PlaybackStates.playing || this.props.musicKitInstance.player.playbackState === window.MusicKit.PlaybackStates.paused) {
+                return (
+                    <div
+                        style={{
+                            fontSize: "1.4em",
+                            color: APPLE_PINK,
+                            width: "90%",
+                            textAlign: "center",
+                            margin: "auto"
+                        }}
+                        className="ellipsis"
+                    >
+
+                        {this.state.currentSongArtistName}<span style={{ fontWeight: "lighter" }}> – </span>{this.state.currentSongAlbumName}
+                    </div>
+                )
+            } else {
+                return <div style={{
+                    fontSize: "1.4em",
+                    color: APPLE_PINK,
+                    width: "90%",
+                    textAlign: "center",
+                    margin: "auto"
+                }}>{/*So the bottom of the view doesn't shift when there is no song playing*/}&nbsp;</div>
+            }
+        }
+
+        let getCurrentSongText = () => {
+            return (
+                <div
+                    className="ellipsis"
+                    style={{
+                        fontSize: "1.5em",
+                        fontWeight: "bold",
+                        color: "black",
+                        width: "90%",
+                        margin: "auto"
+                    }}>
+                    {this.state.currentSongName}
+                </div>
+            )
+        }
+
         return (
             <div style={{ textAlign: "center" }}>
-                {this.props.musicKitInstance.player.showPlaybackTargetPicker()}
-                <span style={{fontSize: "1.5em",fontWeight: "bold", color: "black"}}>{this.state.currentSongName}</span>
+                <SongProgressSlider />
+
+                {getCurrentSongText()}
+                {getArtistAlbumText()}
+                <br /><br />
                 {buttonRow()}
+                <Slider
+                    defaultValue={this.props.musicKitInstance.player.volume * 100}
+                    onChange={(e) => {
+                        this.props.musicKitInstance.player.volume = e / 100;
+                        console.log(this.props.musicKitInstance.player.volume)
+                    }} />
             </div>
         )
     }
@@ -246,11 +327,9 @@ class NowPlaying extends Component {
         return (
             <span>
                 <div onClick={this.showView} className={"now-playing " + this.state.openClass} >
-
                     {this.getDownChevron()}
                     {this.currentPlayingArtwork()}
                     {this.state.openClass === "open" ? this.maximizedBody() : this.minimizedView()}
-
                 </div>
                 <div onClick={(e) => { this.hideView(e) }} className={"blurBackground " + this.state.openClass}>
                 </div>
@@ -264,4 +343,4 @@ const mapStateToProps = (state) => ({
     musicKitInstance: state.library.musicKitInstance
 })
 
-export default connect(mapStateToProps, null)(NowPlaying);
+export default connect(mapStateToProps, {playSong})(NowPlaying);
