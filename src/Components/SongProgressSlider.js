@@ -8,7 +8,6 @@ class SongProgressSlider extends Component {
             <div style={{ width: "90%", margin: "auto" }}>
             <Slider 
             tipFormatter={(e) => {
-                console.log(e);
                 return e;
             }}
             max={100}

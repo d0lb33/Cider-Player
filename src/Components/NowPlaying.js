@@ -6,8 +6,9 @@ import { formatImgSrc } from '../consts';
 import GreyBackground from '../icons/GreyBackground.png';
 import SongProgressSlider from './SongProgressSlider';
 import { APPLE_PINK } from '../UIElements/ColorConsts';
-import { Slider } from 'antd';
-import {playSong} from '../actions/libraryActions';
+import { Slider, Divider } from 'antd';
+import { playSong } from '../actions/libraryActions';
+import UpNextView from './UpNextView';
 
 class NowPlaying extends Component {
     constructor(props) {
@@ -317,8 +318,25 @@ class NowPlaying extends Component {
                     defaultValue={this.props.musicKitInstance.player.volume * 100}
                     onChange={(e) => {
                         this.props.musicKitInstance.player.volume = e / 100;
-                        console.log(this.props.musicKitInstance.player.volume)
                     }} />
+
+                <Divider />
+                <div>
+                    <span style={{ marginRight: "15px" }}>
+                        <AppleButton btnWidth={"160px"} icon="shuffle" inverseSelection title="Shuffle" type="filled" />
+                    </span>
+                    <AppleButton
+                        onClick={() => {
+                            this.props.playSong(0, this.props.songs, true);
+                        }}
+                        btnWidth={"160px"}
+                        icon="none"
+                        inverseSelection
+                        title="Repeat"
+                        type="filled"
+                    />
+                </div>
+                <UpNextView />
             </div>
         )
     }
@@ -343,4 +361,4 @@ const mapStateToProps = (state) => ({
     musicKitInstance: state.library.musicKitInstance
 })
 
-export default connect(mapStateToProps, {playSong})(NowPlaying);
+export default connect(mapStateToProps, { playSong })(NowPlaying);
