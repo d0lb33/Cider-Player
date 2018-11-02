@@ -73,13 +73,20 @@ class LibraryView extends Component {
                     <Col span={6}>
                         <div style={{ fontSize: "1.5em", color: APPLE_GREY, paddingTop: '7px' }}>{this.getSongCount()} Songs</div>
                     </Col>
-                    <div style={{ display: "inline", float: "right", marginRight: "10px" }}>
+                    <div style={{ display: "inline", float: "right" }}>
+                        <span style={{marginRight: "15px"}}>
+                            <AppleButton
+                                onClick={() => {
+                                    this.props.playSong(0, this.props.songs, true);
+                                }}
+                                btnWidth={"160px"}
+                                icon="play-arrow"
+                                inverseSelection
+                                title="Play"
+                                type="filled"
+                            />
+                        </span>
                         <AppleButton btnWidth={"160px"} icon="shuffle" inverseSelection title="Shuffle" type="filled" />
-                    </div>
-                    <div style={{ display: "inline", float: "right", marginRight: "10px" }}>
-                        <AppleButton onClick={() => {
-                            this.props.playSong(0, this.props.songs, true);
-                        }} btnWidth={"160px"} icon="play-arrow" inverseSelection title="Play" type="filled" />
                     </div>
                     <Col span={6}>
                     </Col>
