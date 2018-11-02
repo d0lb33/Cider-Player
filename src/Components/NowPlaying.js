@@ -168,9 +168,6 @@ class NowPlaying extends Component {
                     icon="play-arrow"
                     showBgOnMouseDown={true} />
             }
-
-
-
         }
 
         return (
