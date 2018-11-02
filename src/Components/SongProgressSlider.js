@@ -39,10 +39,12 @@ class SongProgressSlider extends Component {
     }
 
     getMarks = () => {
+        if(this.props.musicKitInstance.player.currentPlaybackDuration === 0){
+            return;
+        }
         const marks = {
             0: window.MusicKit.formatMediaTime(this.state.progress),
             [this.props.musicKitInstance.player.currentPlaybackDuration]: "-" + window.MusicKit.formatMediaTime(this.state.timeRemaining)
-            ,
           };
 
           return marks;
@@ -50,7 +52,7 @@ class SongProgressSlider extends Component {
 
     render() {
         return (
-            <div style={{ width: "90%", margin: "auto" }}>
+            <div className="progress-slider" style={{ width: "90%", margin: "auto" }}>
                 <Slider
                     marks={this.getMarks()}
                     tipFormatter={(e) => {

@@ -341,7 +341,7 @@ class NowPlaying extends Component {
     render() {
         return (
             <span>
-                <div onClick={this.showView} className={"now-playing " + this.state.openClass} >
+                <div onClick={this.showView} className={"unselectable now-playing " + this.state.openClass} >
                     {this.getDownChevron()}
                     {this.currentPlayingArtwork()}
                     {this.state.openClass === "open" ? this.maximizedBody() : this.minimizedView()}
