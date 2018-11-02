@@ -158,5 +158,29 @@ body {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  
+}
+
+.progress-slider .ant-slider-rail {
+  background-color: #dedede !important;
+}
+
+.progress-slider .ant-slider-track {
+  background-color: #8e8e92 !important;
+}
+
+.progress-slider .ant-slider-handle{
+  background-color: #8e8e92 !important;
+  border: none !important;
+  width: 8px;
+  height: 8px;
+  margin-top: -2px !important;
+}
+
+.progress-slider .ant-slider-handle:focus{
+  background-color: #8e8e92 !important;
+  box-shadow: none !important;
+}
+
+.progress-slider .ant-slider-dot {
+  display: none !important;
 }
