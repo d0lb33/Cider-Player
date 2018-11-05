@@ -193,3 +193,58 @@ Themes the antd slider for the song progress slider.
 .progress-slider .ant-slider-dot {
   display: none !important;
 }
+
+
+/*
+Themes the antd slider for the volume progress slider.
+*/
+.volume-slider .ant-slider-rail {
+  background-color: #dedede !important;
+}
+.volume-slider .ant-slider-track {
+  background-color: #8e8e92 !important;
+}
+.volume-slider .ant-slider-handle{
+  background-color: white !important;
+  border-width: thin;
+  border: 1px solid grey !important;
+  width: 20px !important;
+  height: 20px !important;
+  margin-left: -10px !important;
+  margin-top: -7px !important;
+  webkit-transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease;
+}
+.volume-slider .ant-slider-handle:focus{
+  background-color: white !important;
+  box-shadow: none !important;
+}
+.volume-slider .ant-slider-dot {
+  display: none !important;
+}
+
+/*
+* Icon wrapper for antd sliders
+*/
+.icon-wrapper {
+  position: relative;
+  padding: 0px 30px;
+}
+
+.icon-wrapper .apple-icon {
+  position: absolute;
+  top: -2px;
+  width: 16px;
+  height: 16px;
+  line-height: 1;
+  font-size: 16px;
+  color: rgba(0, 0, 0, .25);
+}
+
+.icon-wrapper .apple-icon:first-child {
+  left: 0;
+}
+
+.icon-wrapper .apple-icon:last-child {
+  right: 0;
+}
