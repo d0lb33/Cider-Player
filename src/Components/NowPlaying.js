@@ -228,6 +228,7 @@ class NowPlaying extends Component {
             let btnRowStyle = {
                 margin: 10
             }
+            
             return (
                 <div>
                     <span style={btnRowStyle}>
@@ -304,14 +305,8 @@ class NowPlaying extends Component {
             )
         }
 
-        return (
-            <div style={{ textAlign: "center" }}>
-                <SongProgressSlider />
-
-                {getCurrentSongText()}
-                {getArtistAlbumText()}
-                <br /><br />
-                {buttonRow()}
+        let getVolumeSlider = () => {
+            return (
                 <div style={{ width: "90%", margin: "auto" }} className="volume-slider">
                     <div className="icon-wrapper">
                         <CustomIcon
@@ -329,8 +324,18 @@ class NowPlaying extends Component {
                             icon="volume-up" />
                     </div>
                 </div>
+            )
+        }
 
+        return (
+            <div style={{ textAlign: "center" }}>
+                <SongProgressSlider />
 
+                {getCurrentSongText()}
+                {getArtistAlbumText()}
+                <br /><br />
+                {buttonRow()}
+                {getVolumeSlider()}
                 <Divider />
                 <div>
                     <span style={{ marginRight: "15px" }}>
