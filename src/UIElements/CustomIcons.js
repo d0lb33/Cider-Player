@@ -25,6 +25,12 @@ import SearchPink from '../icons/search-pink.png';
 import SearchGrey from '../icons/search-grey.png';
 import ShufflePink from '../icons/shuffle-pink.png';
 import ShuffleGrey from '../icons/shuffle-grey.png';
+import VolumeUpPink from '../icons/volume-up-pink.png';
+import VolumeUpGrey from '../icons/volume-up-grey.png';
+import VolumeUpDarkGrey from '../icons/volume-up-darkGrey.png';
+import VolumeDownPink from '../icons/volume-down-pink.png';
+import VolumeDownGrey from '../icons/volume-down-grey.png';
+import VolumeDownDarkGrey from '../icons/volume-down-darkGrey.png';
 
 // Here for future cases.
 const customIconStyle = {
@@ -39,7 +45,7 @@ export class Browse extends Component {
         } else {
             imgSrc = BrowseGrey;
         }
-        return <img style={{...customIconStyle, ...this.props.customIconStyle}} alt={this.props.icon} width={this.props.width} height={this.props.height} src={imgSrc}></img>
+        return <img className={this.props.className} style={{ ...customIconStyle, ...this.props.customIconStyle }} alt={this.props.icon} width={this.props.width} height={this.props.height} src={imgSrc}></img>
     }
 }
 
@@ -53,10 +59,10 @@ export class FastBackward extends Component {
             imgSrc = FastBackwardBlack;
         }
 
-        if(this.props.disabled){
+        if (this.props.disabled) {
             imgSrc = FastBackwardGrey;
         }
-        return <img style={{...customIconStyle, ...this.props.customIconStyle}} alt={this.props.icon} width={this.props.width} height={this.props.height} src={imgSrc}></img>
+        return <img className={this.props.className} style={{ ...customIconStyle, ...this.props.customIconStyle }} alt={this.props.icon} width={this.props.width} height={this.props.height} src={imgSrc}></img>
     }
 }
 
@@ -70,10 +76,10 @@ export class FastForward extends Component {
             imgSrc = FastForwardBlack;
         }
 
-        if(this.props.disabled){
+        if (this.props.disabled) {
             imgSrc = FastForwardGrey;
         }
-        return <img style={{...customIconStyle, ...this.props.customIconStyle}} alt={this.props.icon} width={this.props.width} height={this.props.height} src={imgSrc}></img>
+        return <img className={this.props.className} style={{ ...customIconStyle, ...this.props.customIconStyle }} alt={this.props.icon} width={this.props.width} height={this.props.height} src={imgSrc}></img>
     }
 }
 
@@ -86,7 +92,7 @@ export class ForYou extends Component {
         } else {
             imgSrc = ForYouGrey;
         }
-        return <img style={{...customIconStyle, ...this.props.customIconStyle}} alt={this.props.icon} width={this.props.width} height={this.props.height} src={imgSrc}></img>
+        return <img className={this.props.className} style={{ ...customIconStyle, ...this.props.customIconStyle }} alt={this.props.icon} width={this.props.width} height={this.props.height} src={imgSrc}></img>
     }
 }
 
@@ -99,7 +105,7 @@ export class LoginArrow extends Component {
         } else {
             imgSrc = LoginArrowGrey;
         }
-        return <img style={{...customIconStyle, ...this.props.customIconStyle}} alt={this.props.icon} width={this.props.width} height={this.props.height} src={imgSrc}></img>
+        return <img className={this.props.className} style={{ ...customIconStyle, ...this.props.customIconStyle }} alt={this.props.icon} width={this.props.width} height={this.props.height} src={imgSrc}></img>
     }
 }
 
@@ -111,14 +117,14 @@ export class MusicLibrary extends Component {
         } else {
             imgSrc = MusicLibraryGrey;
         }
-        return <img style={{...customIconStyle, ...this.props.customIconStyle}} alt={this.props.icon} width={this.props.width} height={this.props.height} src={imgSrc}></img>
+        return <img className={this.props.className} style={{ ...customIconStyle, ...this.props.customIconStyle }} alt={this.props.icon} width={this.props.width} height={this.props.height} src={imgSrc}></img>
     }
 };
 
 export class Pause extends Component {
     render() {
         var imgSrc = PauseBlack;
-        return <img style={{...customIconStyle, ...this.props.customIconStyle}} alt={this.props.icon} width={this.props.width} height={this.props.height} src={imgSrc}></img>
+        return <img className={this.props.className} style={{ ...customIconStyle, ...this.props.customIconStyle }} alt={this.props.icon} width={this.props.width} height={this.props.height} src={imgSrc}></img>
     }
 };
 
@@ -131,10 +137,11 @@ export class PlayArrow extends Component {
             imgSrc = PlayArrowBlack;
         }
 
-        if(this.props.disabled){
+        if (this.props.disabled) {
             imgSrc = PlayArrowGrey;
         }
-        return <img style={{...customIconStyle, ...this.props.customIconStyle}} alt={this.props.icon} width={this.props.width} height={this.props.height} src={imgSrc}></img>
+        
+        return <img className={this.props.className} style={{ ...customIconStyle, ...this.props.customIconStyle }} alt={this.props.icon} width={this.props.width} height={this.props.height} src={imgSrc}></img>
     }
 };
 
@@ -147,7 +154,7 @@ export class RadioWaves extends Component {
         } else {
             imgSrc = RadioWavesGrey;
         }
-        return <img style={{...customIconStyle, ...this.props.customIconStyle}} alt={this.props.icon} width={this.props.width} height={this.props.height} src={imgSrc}></img>
+        return <img className={this.props.className} style={{ ...customIconStyle, ...this.props.customIconStyle }} alt={this.props.icon} width={this.props.width} height={this.props.height} src={imgSrc}></img>
     }
 }
 
@@ -160,7 +167,7 @@ export class Search extends Component {
         } else {
             imgSrc = SearchGrey;
         }
-        return <img style={{...customIconStyle, ...this.props.customIconStyle}} alt={"browse"} width={this.props.width} height={this.props.height} src={imgSrc}></img>
+        return <img className={this.props.className} style={{ ...customIconStyle, ...this.props.customIconStyle }} alt={this.props.icon} width={this.props.width} height={this.props.height} src={imgSrc}></img>
     }
 }
 
@@ -173,7 +180,34 @@ export class Shuffle extends Component {
         } else {
             imgSrc = ShuffleGrey;
         }
-        return <img style={{...customIconStyle, ...this.props.customIconStyle}} alt={"browse"} width={this.props.width} height={this.props.height} src={imgSrc}></img>
+        return <img className={this.props.className} style={{ ...customIconStyle, ...this.props.customIconStyle }} alt={this.props.icon} width={this.props.width} height={this.props.height} src={imgSrc}></img>
+    }
+}
+
+
+export class VolumeUp extends Component {
+
+    render() {
+        var imgSrc;
+        if (this.props.selected) {
+            imgSrc = VolumeUpPink;
+        } else {
+            imgSrc = VolumeUpDarkGrey;
+        }
+        return <img className={this.props.className} style={{ ...customIconStyle, ...this.props.customIconStyle }} alt={this.props.icon} width={this.props.width} height={this.props.height} src={imgSrc}></img>
+    }
+}
+
+export class VolumeDown extends Component {
+
+    render() {
+        var imgSrc;
+        if (this.props.selected) {
+            imgSrc = VolumeDownPink;
+        } else {
+            imgSrc = VolumeDownDarkGrey;
+        }
+        return <img className={this.props.className} style={{ ...customIconStyle, ...this.props.customIconStyle }} alt={this.props.icon} width={this.props.width} height={this.props.height} src={imgSrc}></img>
     }
 }
 
@@ -204,6 +238,10 @@ export class CustomIcon extends Component {
                 return <Search {...this.props} />
             case "shuffle":
                 return <Shuffle {...this.props} />
+            case "volume-up":
+                return <VolumeUp {...this.props} />
+            case "volume-down":
+                return <VolumeDown {...this.props} />
             default: return null
         }
     }

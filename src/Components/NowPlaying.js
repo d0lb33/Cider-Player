@@ -6,9 +6,10 @@ import { formatImgSrc } from '../consts';
 import GreyBackground from '../icons/GreyBackground.png';
 import SongProgressSlider from './SongProgressSlider';
 import { APPLE_PINK } from '../UIElements/ColorConsts';
-import { Slider, Divider } from 'antd';
+import { Slider, Divider, Icon } from 'antd';
 import { playSong } from '../actions/libraryActions';
 import UpNextView from './UpNextView';
+import { CustomIcon } from '../UIElements/CustomIcons';
 
 class NowPlaying extends Component {
     constructor(props) {
@@ -168,9 +169,6 @@ class NowPlaying extends Component {
                     icon="play-arrow"
                     showBgOnMouseDown={true} />
             }
-
-
-
         }
 
         return (
@@ -230,6 +228,7 @@ class NowPlaying extends Component {
             let btnRowStyle = {
                 margin: 10
             }
+            
             return (
                 <div>
                     <span style={btnRowStyle}>
@@ -306,6 +305,28 @@ class NowPlaying extends Component {
             )
         }
 
+        let getVolumeSlider = () => {
+            return (
+                <div style={{ width: "90%", margin: "auto" }} className="volume-slider">
+                    <div className="icon-wrapper">
+                        <CustomIcon
+                            className="apple-icon"
+                            width="16px"
+                            icon="volume-down" />
+                        <Slider
+                            defaultValue={this.props.musicKitInstance.player.volume * 100}
+                            onChange={(e) => {
+                                this.props.musicKitInstance.player.volume = e / 100;
+                            }} />
+                        <CustomIcon
+                            className="apple-icon"
+                            width="16px"
+                            icon="volume-up" />
+                    </div>
+                </div>
+            )
+        }
+
         return (
             <div style={{ textAlign: "center" }}>
                 <SongProgressSlider />
@@ -314,12 +335,7 @@ class NowPlaying extends Component {
                 {getArtistAlbumText()}
                 <br /><br />
                 {buttonRow()}
-                <Slider
-                    defaultValue={this.props.musicKitInstance.player.volume * 100}
-                    onChange={(e) => {
-                        this.props.musicKitInstance.player.volume = e / 100;
-                    }} />
-
+                {getVolumeSlider()}
                 <Divider />
                 <div>
                     <span style={{ marginRight: "15px" }}>
@@ -344,7 +360,7 @@ class NowPlaying extends Component {
     render() {
         return (
             <span>
-                <div onClick={this.showView} className={"now-playing " + this.state.openClass} >
+                <div onClick={this.showView} className={"unselectable now-playing " + this.state.openClass} >
                     {this.getDownChevron()}
                     {this.currentPlayingArtwork()}
                     {this.state.openClass === "open" ? this.maximizedBody() : this.minimizedView()}
