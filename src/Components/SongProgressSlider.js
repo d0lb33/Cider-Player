@@ -8,14 +8,17 @@ class SongProgressSlider extends Component {
         super(props);
 
         this.state = {
-            progress: 0,
-            timeRemaining: 0,
-            userIsSliding: false,
-            userValue: 0
+            progress: 0, // Song progress, updated in the playbackTimeDidChange event
+            timeRemaining: 0, // Time remaining, updated in the playbackTimeDidChange event
+            userIsSliding: false, // Helps to determine when the slider should listen to apples api, or the user input
+            userValue: 0 // Value set while sliding
         }
     }
 
     componentDidMount = () => {
+        /**
+         * Add an event listener to check for the playbackTime changing. Update our state with that information. Forceibly if need be ;)
+         */
         this.props.musicKitInstance.player.addEventListener("playbackTimeDidChange", (e) => {
             this.setState({
                 progress: e.currentPlaybackTime,
@@ -26,10 +29,16 @@ class SongProgressSlider extends Component {
         })
     }
 
+    /**
+     * Bad idea to not remove this event before unmounting, so lets do that here
+     */
     componentWillUnmount = () => {
         this.props.musicKitInstance.player.removeEventListener("playbackTimeDidChange");
     }
 
+    /**
+     * If the user is moving the slider, we want that value. This method handles that.
+     */
     getSliderValue = () => {
         if (!this.state.userIsSliding) {
             return this.state.progress;
@@ -38,6 +47,9 @@ class SongProgressSlider extends Component {
         }
     }
 
+    /**
+     * Gets the marks that display at the begining and end of the track beneath it.
+     */
     getMarks = () => {
         if(this.props.musicKitInstance.player.currentPlaybackDuration === 0){
             return;
@@ -59,13 +71,11 @@ class SongProgressSlider extends Component {
                         return window.MusicKit.formatMediaTime(e);
                     }}
                     onChange={(e) => {
-                        console.log('CLICKED' + e)
                         this.setState({ userIsSliding: true, userValue: e })
                     }}
                     onAfterChange={(e) => {
                         // Prevents this from getting called when the user unfocuses from the slider.
                         if (this.state.userIsSliding && this.props.musicKitInstance.player.nowPlayingItem) {
-                            console.log("CHANGED" + e)
                             this.setState({ userIsSliding: false, userValue: e })
                             this.props.musicKitInstance.seekToTime(e);
                         }
