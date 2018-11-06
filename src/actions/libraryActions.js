@@ -140,9 +140,10 @@ export const setupMusicKit = () => dispatch => {
         window.MusicKit.configure({
             developerToken: developerToken,
             app: {
-                name: 'Apple Music Web Player',
+                name: 'Cider Player',
                 build: '0.0.1'
-            }
+            },
+            storefrontId: "us"
         });
 
         var musicKitInstance = window.MusicKit.getInstance();
