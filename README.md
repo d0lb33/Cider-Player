@@ -7,11 +7,18 @@ Huge thanks to Apple for there [MusicKitJS](https://developer.apple.com/document
 **Please note that this API is still in beta and there are a few bugs that are not quite worked out yet.**
 
 ## To Run:
-git clone git@github.com:d0lb33/Apple-Music-Player.git
+**git clone git@github.com:d0lb33/Apple-Music-Player.git**
 
-npm install
+**NOTE!**
+Make sure you create a new .js file named private.js in ./src/
+The path should be ./src/private.js
+and should contain the following:
 
-npm start
+    export const developerToken =  'YOUR_MUSICKIT_DEVELOPER_TOKEN';
+
+**npm install**
+
+**npm start**
 
 ## Huge Thanks To:
 /*Insert Later*/
