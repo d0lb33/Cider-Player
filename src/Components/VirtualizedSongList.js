@@ -4,6 +4,8 @@ import 'react-virtualized/styles.css'; // only needs to be imported once
 import { connect } from 'react-redux';
 import { formatImgSrc } from '../consts';
 import { playSong } from '../actions/libraryActions';
+import { Row, Col } from 'antd';
+import { APPLE_GREY } from '../UIElements/ColorConsts';
 
 
 class VirtualizedSongList extends Component {
@@ -37,8 +39,20 @@ class VirtualizedSongList extends Component {
                             src={formatImgSrc(this.props.songs[index].attributes.artwork.url, 200, 200)}>
                         </img>
                     </div>
-                    <div style={{ borderBottom: "1px solid #e8e8e8", lineHeight: "49px", marginLeft: 60 }}>
-                        {this.props.songs[index].attributes.name}
+
+                    <div style={{ borderBottom: "1px solid #e8e8e8", lineHeight: "50px", marginLeft: 60, fontSize: "1.2em" }}>
+                        <Row gutter={20}>
+                            <Col className="ellipsis" span={10}>
+                                {this.props.songs[index].attributes.name}
+                            </Col>
+                            <Col className="ellipsis" span={7}>
+                                <span style={{ color: "#99999b" }}>{this.props.songs[index].attributes.artistName}</span>
+                            </Col>
+                            <Col className="ellipsis" span={7}>
+                                <span style={{ color: "#99999b" }}>{this.props.songs[index].attributes.albumName}</span>
+                            </Col>
+                        </Row>
+
                     </div>
                 </div>
 
@@ -63,7 +77,7 @@ class VirtualizedSongList extends Component {
                                 width={width}
                                 scrollTop={scrollTop}
                                 isScrolling={isScrolling}
-                                rowHeight={55}
+                                rowHeight={58}
                                 rowRenderer={this.rowRenderer}
                                 rowCount={this.props.songs.length}
                                 overscanRowCount={5}
