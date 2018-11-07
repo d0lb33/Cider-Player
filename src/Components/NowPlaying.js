@@ -336,8 +336,15 @@ class NowPlaying extends Component {
             // Turn shuffle off
             this.props.musicKitInstance.player.shuffleMode = 0;
 
+            
             let nowPlayingItem = this.props.musicKitInstance.player.nowPlayingItem;
+            
+            if (nowPlayingItem === null){
+                return;
+            }
+
             let srtPosition = 0;
+            let wasPlaying = this.props.musicKitInstance.player.isPlaying;
 
             // Maps through unshuffled songs to find the index of the nowPlayingItem
             this.props.songs.map((song, i) => {
@@ -358,7 +365,8 @@ class NowPlaying extends Component {
                     this.props.musicKitInstance.player.queue.position = srtPosition;
 
                     // Setting a nowPlayingItem causes the player to pause if it was playing, 
-                    this.props.musicKitInstance.play();
+                    // so we check to see if it was playing before and if so continue that.
+                    wasPlaying ? this.props.musicKitInstance.play() : this.props.musicKitInstance.pause();
                 })
         }
 
