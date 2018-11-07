@@ -34,7 +34,7 @@ class VirtualizedSongList extends Component {
                             style={{ borderRadius: "5px" }}
                             width={50}
                             height={50}
-                            src={formatImgSrc(this.props.songs[index].attributes.artwork.url, 50, 50)}>
+                            src={formatImgSrc(this.props.songs[index].attributes.artwork.url, 200, 200)}>
                         </img>
                     </div>
                     <div style={{ borderBottom: "1px solid #e8e8e8", lineHeight: "49px", marginLeft: 60 }}>
