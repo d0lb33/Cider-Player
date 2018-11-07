@@ -1,4 +1,4 @@
-# **Apple Music Player**
+# **Cider Player**
 A React based application that mimicks the iPad UI of Apple Music to create a seamless experience from the iPad and Desktop. Feel free and empowered to listen to your Apple Music Library online, with the interface your most familiar with.
 
 [Insert Image Here, But Ya Know Its Still Crap So Wait]
@@ -21,7 +21,11 @@ and should contain the following:
 **npm start**
 
 ## Huge Thanks To:
-/*Insert Later*/
+/* Insert More Here */
+
+**/u/kat_fud over on reddit for the amazing name!**
+
+**Apple for their [MusicKitJS](https://developer.apple.com/documentation/musickitjs) library!**
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
