@@ -1,1 +1,0 @@
-export const developerToken =  'YOUR_DEVELOPER_TOKEN_HERE';
