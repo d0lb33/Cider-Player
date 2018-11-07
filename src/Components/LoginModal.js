@@ -27,7 +27,7 @@ class LoginModal extends Component {
           deauthorize Cider Player from your apple account follow the instructions listed here: <a target="_blank" rel="noopener noreferrer" href="https://support.apple.com/en-us/HT207830">https://support.apple.com/en-us/HT207830</a>
         </p>
         <br /><br /><br />
-        <AppleButton onClick={() => this.onClick()} inverseSelection btnWidth={120} title={"Login"} />
+        <AppleButton onClick={() => this.onClick()} btnWidth={120} notSelectable type="filled" title={"Login"} />
         <br /><br />
         Made Possible with <a target="_blank" rel="noopener noreferrer" href="https://developer.apple.com/documentation/musickitjs" >MusicKitJS</a> | Developed by Jonathan Dolbee
         

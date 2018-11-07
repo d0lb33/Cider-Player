@@ -3,17 +3,48 @@ import { developerToken } from '../private.js'
 import { LOADINGSTATES } from '../consts';
 import { createAlert } from './pageActions';
 
+export const setupMusicKit = () => dispatch => {
+    let loadedEvent = () => {
+        window.MusicKit.configure({
+            developerToken: developerToken,
+            app: {
+                name: 'Cider Player',
+                build: '0.0.1'
+            },
+            storefrontId: "us"
+        });
+
+        var musicKitInstance = window.MusicKit.getInstance();
+        dispatch({
+            type: SETUP_MUSICKIT,
+            isAuthenticated: musicKitInstance.isAuthorized,
+            musicKitInstance: musicKitInstance,
+            musicKitLoaded: true
+        })
+    }
+
+    if (window.MusicKit) {
+        //call action
+        loadedEvent();
+    } else {
+        document.addEventListener('musickitloaded', () => {
+            loadedEvent();
+        });
+    }
+}
+
 /**
  * Takes in an array of song items to set the queue to, and then plays at the index.
  * If the songItems is not passed it will assume the queue is already set.
- * @param {Number} atIndex // Required
- * @param {Array[SongItem]} songItems // Optional array of song items, an error will occur if the queue is not set and you don't privde this.
- * @param {Boolean} nextSongOnError // Optional Advance to next song on error
+ * @param {Number} atIndex // the index of the queue to play a song at, set to -1 if playing a songlist as shuffled 
+ * @param {Array[SongItem]} songItems // array of song items, an error will occur if the queue is not set and you don't privde this or if the queue is shuffled. 
+ * @param {Boolean} nextSongOnError // Optional: Advance to next song on error
  */
 export const playSong = (atIndex, songItems, nextSongOnError) => dispatch => {
     var musicKitInstance = window.MusicKit.getInstance();
 
-    console.log(musicKitInstance.player.queue.nextPlayableItem ? musicKitInstance.player.queue.nextPlayableItem.attributes.name : "");
+    
+
     let changeIndex = () => {
 
         try {
@@ -22,7 +53,6 @@ export const playSong = (atIndex, songItems, nextSongOnError) => dispatch => {
                     type: PLAY_SONG,
                 })
             }).catch((error) => {
-
                 let songName = songItems ? songItems[atIndex].attributes.name : "";
 
                 dispatch(createAlert({
@@ -54,8 +84,25 @@ export const playSong = (atIndex, songItems, nextSongOnError) => dispatch => {
             changeIndex()
             return;
         };
+
+        
+
         musicKitInstance.setQueue(songItems)
             .then(() => {
+
+                // If the queue is shuffled, then the index of the song we want to play is going to be different
+                if (musicKitInstance.player.shuffleMode === 1 && atIndex !== -1){
+                    // Find the index of the song we want to play, in the shuffled songs
+                    for(let i = 0; i < musicKitInstance.player.queue.items.length; i++ ){
+                        if (musicKitInstance.player.queue.items[i].id === songItems[atIndex].id){
+                            atIndex = i;
+                            break;
+                        }
+                    }
+                }else if (atIndex === -1){
+                    atIndex = 0;
+                }
+                
                 changeIndex();
             })
             .catch((error) => {
@@ -135,34 +182,4 @@ export const authenticateUser = () => dispatch => {
     });
 }
 
-export const setupMusicKit = () => dispatch => {
-    let loadedEvent = () => {
-        window.MusicKit.configure({
-            developerToken: developerToken,
-            app: {
-                name: 'Cider Player',
-                build: '0.0.1'
-            },
-            storefrontId: "us"
-        });
 
-        var musicKitInstance = window.MusicKit.getInstance();
-        dispatch({
-            type: SETUP_MUSICKIT,
-            isAuthenticated: musicKitInstance.isAuthorized,
-            musicKitInstance: musicKitInstance,
-            musicKitLoaded: true
-        })
-    }
-
-    if (window.MusicKit) {
-        //call action
-        loadedEvent();
-    } else {
-        document.addEventListener('musickitloaded', () => {
-            loadedEvent();
-        });
-    }
-
-
-}

@@ -19,12 +19,14 @@ import PauseBlack from '../icons/pause-black.png';
 import PlayArrowPink from '../icons/play-arrow-pink.png';
 import PlayArrowBlack from '../icons/play-arrow-black.png';
 import PlayArrowGrey from '../icons/play-arrow-grey.png';
+import PlayArrowWhite from '../icons/play-arrow-white.png';
 import RadioWavesPink from '../icons/radio-waves-pink.png';
 import RadioWavesGrey from '../icons/radio-waves-grey.png';
 import SearchPink from '../icons/search-pink.png';
 import SearchGrey from '../icons/search-grey.png';
 import ShufflePink from '../icons/shuffle-pink.png';
 import ShuffleGrey from '../icons/shuffle-grey.png';
+import ShuffleWhite from '../icons/shuffle-white.png';
 import VolumeUpPink from '../icons/volume-up-pink.png';
 import VolumeUpGrey from '../icons/volume-up-grey.png';
 import VolumeUpDarkGrey from '../icons/volume-up-darkGrey.png';
@@ -137,6 +139,14 @@ export class PlayArrow extends Component {
             imgSrc = PlayArrowBlack;
         }
 
+        if (this.props.type === "filled"){
+            if (this.props.selected) {
+                imgSrc = PlayArrowWhite;
+            } else {
+                imgSrc = PlayArrowPink;
+            }
+        }
+
         if (this.props.disabled) {
             imgSrc = PlayArrowGrey;
         }
@@ -176,9 +186,11 @@ export class Shuffle extends Component {
     render() {
         var imgSrc;
         if (this.props.selected) {
-            imgSrc = ShufflePink;
+            imgSrc = ShuffleWhite;
+
         } else {
-            imgSrc = ShuffleGrey;
+
+            imgSrc = ShufflePink;
         }
         return <img className={this.props.className} style={{ ...customIconStyle, ...this.props.customIconStyle }} alt={this.props.icon} width={this.props.width} height={this.props.height} src={imgSrc}></img>
     }

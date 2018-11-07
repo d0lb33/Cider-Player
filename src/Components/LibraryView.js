@@ -77,16 +77,21 @@ class LibraryView extends Component {
                         <span style={{marginRight: "15px"}}>
                             <AppleButton
                                 onClick={() => {
+                                    this.props.musicKitInstance.player.shuffleMode = 0;
                                     this.props.playSong(0, this.props.songs, true);
                                 }}
                                 btnWidth={"160px"}
                                 icon="play-arrow"
-                                inverseSelection
+                                
                                 title="Play"
                                 type="filled"
                             />
                         </span>
-                        <AppleButton btnWidth={"160px"} icon="shuffle" inverseSelection title="Shuffle" type="filled" />
+                        <AppleButton onClick={() => {
+                            this.props.musicKitInstance.player.shuffleMode = 1;
+                            this.props.playSong(-1, this.props.songs, true);
+                            
+                            }} btnWidth={"160px"} icon="shuffle"  title="Shuffle" type="filled" />
                     </div>
                     <Col span={6}>
                     </Col>

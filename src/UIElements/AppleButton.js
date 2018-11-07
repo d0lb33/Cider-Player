@@ -6,6 +6,7 @@ import { CustomIcon } from './CustomIcons';
 // Defaults
 const WIDTH = 25;
 const HEIGHT = 25;
+const BTN_WIDTH = 200;
 
 const tabStyle = {
     cursor: "pointer",
@@ -18,8 +19,7 @@ function filledBtnStyle(props) {
         textAlign: "center",
         borderRadius: 15,
         padding: "10px 15px 10px 15px",
-        width: props.btnWidth ? props.btnWidth : 200,
-        backgroundColor: props.btnBackgroundColor ? props.btnBackgroundColor : APPLE_BTN_BACKGROUND,
+        width: props.btnWidth ? props.btnWidth : BTN_WIDTH,
         lineHeight: "48px",
         height: "50px",
         margin: "auto"
@@ -40,11 +40,8 @@ export default class AppleButton extends Component {
             hovered: false,
             mouseDown: false,
             style: {},
-            hideText: false
+            hideText: false,
         }
-
-
-
     }
 
     componentDidMount() {
@@ -73,20 +70,16 @@ export default class AppleButton extends Component {
         }
     }
 
-    getBtnIcon = () => {
-        let getIconSelection = () => {
-            if (this.props.notSelectable) return
-            if (this.props.inverseSelection) {
-                return true;
-            } else {
-                if (this.props.selected) {
-                    return this.props.selected;
-                } else {
-                    return this.state.hovered;
-                }
-            }
+    getSelectedStatus = () => {
+        if (this.props.notSelectable) return
+        if (this.props.selected) {
+            return this.props.selected;
+        } else {
+            return this.state.hovered;
         }
+    }
 
+    getBtnIcon = () => {
         return (
             <span
                 style={{ position: "relative" }}>
@@ -95,11 +88,21 @@ export default class AppleButton extends Component {
                     icon={this.props.icon}
                     width={this.props.width ? this.props.width : WIDTH}
                     height={this.props.height ? this.props.height : HEIGHT}
-                    selected={getIconSelection()}
+                    selected={this.getSelectedStatus()}
                     customIconStyle={this.state.customIconStyle}
-
+                    type={this.props.type}
                 />
             </span>)
+    }
+
+    getBGColor = () => {
+        if (this.props.type === "filled"){
+            if (this.getSelectedStatus()){
+                return APPLE_PINK
+            }else {
+                return APPLE_BTN_BACKGROUND
+            }
+        }
     }
 
     getBtnText = () => {
@@ -107,14 +110,16 @@ export default class AppleButton extends Component {
         if (this.state.hideText) return;
 
         let getTextColor = () => {
-            if (this.props.inverseSelection) {
+            if (this.props.type === "filled"){
+                if (this.getSelectedStatus()) {
+                    return "white";
+                } else {
+                    return APPLE_PINK;
+                }
+            }else if (this.getSelectedStatus()) {
                 return APPLE_PINK;
             } else {
-                if (this.props.selected || this.state.hovered) {
-                    return APPLE_PINK;
-                } else {
-                    return APPLE_GREY;
-                }
+                return APPLE_GREY;
             }
         }
 
@@ -136,7 +141,7 @@ export default class AppleButton extends Component {
         return (
             <span
                 className="unselectable"
-                style={{ ...this.state.style, ...{ position: "relative" } }}
+                style={{ ...this.state.style, ...{ position: "relative", backgroundColor: this.getBGColor() } }}
                 onMouseOut={() => this.setState({ hovered: false })}
                 onMouseOver={() => this.setState({ hovered: true })}
 
@@ -152,12 +157,3 @@ export default class AppleButton extends Component {
         )
     }
 };
-
-/**
- * icon: optional,
- * width: optional, // Width of icon
- * height: optional, // height of icon
- * selected: optional, // Weather icon is selected or not
- * inverseSelection: optional, // Weather button is always filled
- * type: required, // Type of button that should be rendered
- */

@@ -90,7 +90,6 @@ class NowPlaying extends Component {
         this.setState({ openClass: "open" });
     }
 
-
     /**
      * Slides the nowPlaying view down into its minimified position.
      */
@@ -228,7 +227,7 @@ class NowPlaying extends Component {
             let btnRowStyle = {
                 margin: 10
             }
-            
+
             return (
                 <div>
                     <span style={btnRowStyle}>
@@ -327,6 +326,42 @@ class NowPlaying extends Component {
             )
         }
 
+        /**
+            * MusicKitJS doesn't handle "unshuffling" the queue, so we have to find the index of 
+            * the currently playing item in the unshuffled queue to set the new queue.
+            * Gets the index of the currently playing item in the songs array.
+            * When unshuffled will set the queue to that index.
+            */
+        let unshuffle = () => {
+            // Turn shuffle off
+            this.props.musicKitInstance.player.shuffleMode = 0;
+
+            let nowPlayingItem = this.props.musicKitInstance.player.nowPlayingItem;
+            let srtPosition = 0;
+
+            // Maps through unshuffled songs to find the index of the nowPlayingItem
+            this.props.songs.map((song, i) => {
+                if (song.attributes.name === nowPlayingItem.attributes.name) {
+                    if (song.attributes.albumName === nowPlayingItem.attributes.albumName) {
+                        // Ideally we want to find an id to compare, but for some reason they are different after setting shuffle to true.
+                        srtPosition = i;
+                    }
+                }
+            });
+
+            this.props.musicKitInstance.setQueue(this.props.songs)
+                .then(() => {
+                    // nowPlayingItem goes null after setting queue
+                    this.props.musicKitInstance.player.nowPlayingItem = nowPlayingItem;
+
+                    // Sets the queue to the now playing item from the work we did above
+                    this.props.musicKitInstance.player.queue.position = srtPosition;
+
+                    // Setting a nowPlayingItem causes the player to pause if it was playing, 
+                    this.props.musicKitInstance.play();
+                })
+        }
+
         return (
             <div style={{ textAlign: "center" }}>
                 <SongProgressSlider />
@@ -339,15 +374,24 @@ class NowPlaying extends Component {
                 <Divider />
                 <div>
                     <span style={{ marginRight: "15px" }}>
-                        <AppleButton btnWidth={"160px"} icon="shuffle" inverseSelection title="Shuffle" type="filled" />
+                        <AppleButton
+                            onClick={() => {
+                                if (this.props.musicKitInstance.player.shuffleMode === 1) {
+                                    unshuffle();
+                                } else {
+                                    this.props.musicKitInstance.player.shuffleMode = 1;
+                                }
+                            }}
+                            btnWidth={"160px"} icon="shuffle" title="Shuffle" type="filled"
+                            selected={this.props.musicKitInstance.player.shuffleMode === 1 ? true : false} />
                     </span>
+
                     <AppleButton
                         onClick={() => {
                             this.props.playSong(0, this.props.songs, true);
                         }}
                         btnWidth={"160px"}
                         icon="none"
-                        inverseSelection
                         title="Repeat"
                         type="filled"
                     />
@@ -374,7 +418,8 @@ class NowPlaying extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    musicKitInstance: state.library.musicKitInstance
+    musicKitInstance: state.library.musicKitInstance,
+    songs: state.library.songs
 })
 
 export default connect(mapStateToProps, { playSong })(NowPlaying);

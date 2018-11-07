@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import { formatImgSrc } from '../consts';
 import { playSong } from '../actions/libraryActions';
 import { Row, Col } from 'antd';
-import { APPLE_GREY } from '../UIElements/ColorConsts';
 
 
 class VirtualizedSongList extends Component {
