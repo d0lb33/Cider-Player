@@ -15,13 +15,20 @@ class App extends Component {
 
   }
 
+  /**
+   * Check for the current page view
+   */
   getCurrentView = () => {
-    if (this.props.musicKitLoaded && this.props.isAuthenticated && this.props.currentPage === PAGENAMES.LIBRARY) return <LibraryView />
+    if (this.props.musicKitLoaded && this.props.isAuthenticated && this.props.currentPage === PAGENAMES.LIBRARY){
+      return <LibraryView />
+    } 
   }
 
+  /**
+   * This is an error alert to be shown when an error occurs
+   */
   getAlert = () => {
     if (this.props.showAlert) {
-
       return (
         <div style={{ position: "fixed", display: "inline-block", bottom: 70, right:15, zIndex: 1 }}>
           <Alert style={{paddingRight:60}} {...this.props.alertProps} onClose={this.props.dismissAlert} />

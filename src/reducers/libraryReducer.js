@@ -5,7 +5,7 @@ const initialState = {
     isAuthenticated: false,
     musicKitInstance: null,
     loadingState: LOADINGSTATES.LOADING,
-    musicKitLoaded: false
+    musicKitLoaded: false,
 }
 
 export default (state = initialState, action) => {
