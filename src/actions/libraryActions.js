@@ -22,16 +22,16 @@ export const playSong = (atIndex, songItems, nextSongOnError) => dispatch => {
                     type: PLAY_SONG,
                 })
             }).catch((error) => {
-    
+
                 let songName = songItems ? songItems[atIndex].attributes.name : "";
-    
+
                 dispatch(createAlert({
                     message: "Error occured while trying to play \"" + songName + "\":",
                     description: error.description,
                     type: "error",
                     closable: true
                 }));
-    
+
                 if (nextSongOnError) {
                     atIndex++;
                     sQ();
@@ -43,8 +43,8 @@ export const playSong = (atIndex, songItems, nextSongOnError) => dispatch => {
             })
         } catch (error) {
             console.log(error)
-        }   
-        
+        }
+
     }
 
     // Create this as a function, incase of error it can be called again.
@@ -103,7 +103,8 @@ export const fetchUserSongs = () => dispatch => {
                     })
                 }
             }).catch((e) => {
-                console.log("I Caught A Bug Gee");
+                window.MusicKit.getInstance().unauthorize();
+                window.location.reload();
                 console.log(e)
             });
         } else {
@@ -139,9 +140,10 @@ export const setupMusicKit = () => dispatch => {
         window.MusicKit.configure({
             developerToken: developerToken,
             app: {
-                name: 'Apple Music Web Player',
+                name: 'Cider Player',
                 build: '0.0.1'
-            }
+            },
+            storefrontId: "us"
         });
 
         var musicKitInstance = window.MusicKit.getInstance();

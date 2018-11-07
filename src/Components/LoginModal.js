@@ -21,16 +21,15 @@ class LoginModal extends Component {
       >
       <Spin spinning={!this.props.musicKitLoaded} tip="Loading MusicKitJS" >
       <div className="login-modal">
-        <h1>Login To Apple Music</h1>
-        
-        {this.props.isAuthenticated ? "Authed" : "Not Authed"}
-        <p>[Insert App Name Here] requires you to sign in with your Apple ID that is associated with your Apple Music account. The popup window is fully controlled by Apple™ and credentials will not be stored. If you would like to 
-          deauthorize [inset app name here] from your apple account follow the instructions listed here: <a target="_blank" rel="noopener noreferrer" href="https://support.apple.com/en-us/HT207830">https://support.apple.com/en-us/HT207830</a>
+        <h1>Cider Player</h1>
+
+        <p>Cider Player requires you to sign in with your Apple ID that is associated with your Apple Music account. The upcoming popup window is fully controlled by Apple™ and credentials will not be stored. If you would like to 
+          deauthorize Cider Player from your apple account follow the instructions listed here: <a target="_blank" rel="noopener noreferrer" href="https://support.apple.com/en-us/HT207830">https://support.apple.com/en-us/HT207830</a>
         </p>
-        <br /><br /><br /><br />
+        <br /><br /><br />
         <AppleButton onClick={() => this.onClick()} inverseSelection btnWidth={120} title={"Login"} />
-        <br />
-        Made Possible with <a target="_blank" rel="noopener noreferrer" href="https://developer.apple.com/documentation/musickitjs" >MusicKitJS</a> | Devloped by Jonathan Dolbee
+        <br /><br />
+        Made Possible with <a target="_blank" rel="noopener noreferrer" href="https://developer.apple.com/documentation/musickitjs" >MusicKitJS</a> | Developed by Jonathan Dolbee
         
       </div>
       </Spin>
