@@ -5,7 +5,7 @@ import { PAGENAMES, LOADINGSTATES, SUBPAGENAMES } from './consts';
 
 const initialState = {
     page: { currentPage: PAGENAMES.LIBRARY, currentSubPage: SUBPAGENAMES.SONGS, showAlert: false},
-    library : {isAuthenticated : false, musicKitInstance: {}, loadingState: LOADINGSTATES.LOADING, musicKitLoaded: false}
+    library : {isAuthenticated : false, musicKitInstance: {}, loadingState: LOADINGSTATES.LOADING, playlistLoadingState: LOADINGSTATES.LOADING, musicKitLoaded: false}
 };
 
 const middleWare = [thunk];

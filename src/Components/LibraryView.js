@@ -1,23 +1,37 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchUserSongs, playSong } from '../actions/libraryActions';
+import { fetchUserSongs, playSong, fetchUserPlaylists } from '../actions/libraryActions';
 import { updateSubPage } from '../actions/pageActions';
 import { LOADINGSTATES, SUBPAGENAMES } from '../consts';
 import { Row, Col, Spin, Divider, Icon, Dropdown, Menu } from 'antd';
 import AppleButton from '../UIElements/AppleButton';
 import { APPLE_GREY, APPLE_PINK } from '../UIElements/ColorConsts';
 import VirtualizedSongList from './VirtualizedSongList';
+import PlaylistsGridList from './PlaylistsGridList';
 
 class LibraryView extends Component {
 
     componentWillMount = () => {
-        this.props.fetchUserSongs();
+        if(!this.props.songs) this.props.fetchUserSongs();
+        
+        if(!this.props.playlists) this.props.fetchUserPlaylists();
+        
     }
 
-    getSongs = () => {
-        if ((this.props.loadingState >= LOADINGSTATES.LOADEDPARTIAL) && this.props.songs && this.props.currentSubPage === SUBPAGENAMES.SONGS) {
-            return <VirtualizedSongList />
+    getView = () => {
+        switch (this.props.currentSubPage) {
+            case SUBPAGENAMES.SONGS:
+                if ((this.props.loadingState >= LOADINGSTATES.LOADEDPARTIAL) && this.props.songs) {
+                    return <VirtualizedSongList />
+                }
+                break;
+            case SUBPAGENAMES.PLAYLISTS:
+                if ((this.props.playlistLoadingState >= LOADINGSTATES.LOADEDPARTIAL) && this.props.playlists) {
+                    return <PlaylistsGridList />
+                }
+                break;
         }
+
     }
 
     /**
@@ -128,7 +142,7 @@ class LibraryView extends Component {
                     </Col>
                 </Row>
                 <Divider style={{ margin: "15px 0px 15px 0px" }} />
-                {this.getSongs()}
+                {this.getView()}
             </div>
         )
     }
@@ -136,9 +150,11 @@ class LibraryView extends Component {
 
 const mapStateToProps = state => ({
     songs: state.library.songs,
+    playlists: state.library.playlists,
+    playlistLoadingState: state.library.playlistLoadingState,
     loadingState: state.library.loadingState,
     musicKitInstance: state.library.musicKitInstance,
     currentSubPage: state.page.currentSubPage,
 });
 
-export default connect(mapStateToProps, { fetchUserSongs, playSong, updateSubPage })(LibraryView);
+export default connect(mapStateToProps, { fetchUserSongs, playSong, updateSubPage, fetchUserPlaylists })(LibraryView);

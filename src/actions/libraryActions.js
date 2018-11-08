@@ -1,4 +1,4 @@
-import { FETCH_USER_SONGS, AUTHENTICATE_USER, SETUP_MUSICKIT, PLAY_SONG } from './types';
+import { FETCH_USER_SONGS, AUTHENTICATE_USER, SETUP_MUSICKIT, PLAY_SONG, FETCH_USER_PLAYLISTS } from './types';
 import { developerToken } from '../private.js'
 import { LOADINGSTATES } from '../consts';
 import { createAlert } from './pageActions';
@@ -43,8 +43,6 @@ export const setupMusicKit = () => dispatch => {
 export const playSong = (atIndex, songItems, nextSongOnError) => dispatch => {
     var musicKitInstance = window.MusicKit.getInstance();
 
-    
-
     let changeIndex = () => {
 
         try {
@@ -85,24 +83,24 @@ export const playSong = (atIndex, songItems, nextSongOnError) => dispatch => {
             return;
         };
 
-        
+
 
         musicKitInstance.setQueue(songItems)
             .then(() => {
 
                 // If the queue is shuffled, then the index of the song we want to play is going to be different
-                if (musicKitInstance.player.shuffleMode === 1 && atIndex !== -1){
+                if (musicKitInstance.player.shuffleMode === 1 && atIndex !== -1) {
                     // Find the index of the song we want to play, in the shuffled songs
-                    for(let i = 0; i < musicKitInstance.player.queue.items.length; i++ ){
-                        if (musicKitInstance.player.queue.items[i].id === songItems[atIndex].id){
+                    for (let i = 0; i < musicKitInstance.player.queue.items.length; i++) {
+                        if (musicKitInstance.player.queue.items[i].id === songItems[atIndex].id) {
                             atIndex = i;
                             break;
                         }
                     }
-                }else if (atIndex === -1){
+                } else if (atIndex === -1) {
                     atIndex = 0;
                 }
-                
+
                 changeIndex();
             })
             .catch((error) => {
@@ -120,6 +118,45 @@ export const playSong = (atIndex, songItems, nextSongOnError) => dispatch => {
 
     sQ();
 
+
+}
+
+export const fetchUserPlaylists = () => dispatch => {
+    var musicKitInstance = window.MusicKit.getInstance();
+
+    let offset = 0;
+    let playlistArray = [];
+
+    let getPlaylists = () => {
+        if (musicKitInstance.api.library) {
+            musicKitInstance.api.library.playlists(null, { offset: offset, limit: 100 }).then((playlists) => {
+                playlistArray = playlistArray.concat(playlists);
+                if (playlists.length !== 0) {
+                    offset += 100
+                    getPlaylists();
+                    dispatch({
+                        type: FETCH_USER_PLAYLISTS,
+                        payload: playlistArray,
+                        playlistLoadingState: LOADINGSTATES.LOADEDPARTIAL
+                    })
+                } else {
+                    dispatch({
+                        type: FETCH_USER_PLAYLISTS,
+                        payload: playlistArray,
+                        playlistLoadingState: LOADINGSTATES.LOADED
+                    })
+                }
+            }).catch((e) => {
+                window.MusicKit.getInstance().unauthorize();
+                window.location.reload();
+                console.log(e)
+            });
+        } else {
+            getPlaylists();
+        }
+    }
+    getPlaylists();
+    
 
 }
 
