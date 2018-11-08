@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { fetchUserSongs, playSong } from '../actions/libraryActions';
-import { updateSubPage } from '../actions/pageActions';
-import { LOADINGSTATES, SUBPAGENAMES } from '../consts';
+import { LOADINGSTATES } from '../consts';
 import { Row, Col, Spin, Divider, Icon, Dropdown, Menu } from 'antd';
 import AppleButton from '../UIElements/AppleButton';
 import { APPLE_GREY, APPLE_PINK } from '../UIElements/ColorConsts';
@@ -15,33 +14,17 @@ class LibraryView extends Component {
     }
 
     getSongs = () => {
-        if ((this.props.loadingState >= LOADINGSTATES.LOADEDPARTIAL) && this.props.songs && this.props.currentSubPage === SUBPAGENAMES.SONGS) {
+        if ((this.props.loadingState >= LOADINGSTATES.LOADEDPARTIAL) && this.props.songs) {
             return <VirtualizedSongList />
         }
     }
 
-    /**
-     * Returns the amount of items in the view, along with a loading idicator if its not fully loaded.
-     */
-    getItemCount = () => {
-        let amountNumber = () => {
-            switch (this.props.currentSubPage) {
-                case SUBPAGENAMES.SONGS:
-                    return this.props.songs.length
-                case SUBPAGENAMES.PLAYLISTS:
-                    return 0;
-            }
-        };
-
-
+    getSongCount = () => {
         switch (this.props.loadingState) {
             case LOADINGSTATES.LOADEDPARTIAL:
-                return <span>
-                    <Spin indicator={<Icon type="loading" spin />} />
-                    {amountNumber()}
-                </span>
+                return <span><Spin indicator={<Icon type="loading" spin />}></Spin> {this.props.songs.length}</span>
             case LOADINGSTATES.LOADED:
-                return amountNumber()
+                return this.props.songs.length
             default:
                 return "Loading"
         }
@@ -51,37 +34,23 @@ class LibraryView extends Component {
         const menu = (
             <Menu>
                 <Menu.Item>
-                    <a>Albums</a>
+                    <a>1st menu item</a>
                 </Menu.Item>
                 <Menu.Item>
-                    <a>Artists</a>
+                    <a>2nd menu item</a>
                 </Menu.Item>
                 <Menu.Item>
-                    <a onClick={() => { this.props.updateSubPage(SUBPAGENAMES.PLAYLISTS) }}>Playlists</a>
-                </Menu.Item>
-                <Menu.Item>
-                    <a onClick={() => { this.props.updateSubPage(SUBPAGENAMES.SONGS) }}>Songs</a>
+                    <a>3rd menu item</a>
                 </Menu.Item>
             </Menu>
         );
+
 
         return (<Dropdown overlay={menu}>
             <a href="#">
                 <span style={{ color: APPLE_PINK, paddingRight: 5 }}>Library</span><Icon style={{ color: APPLE_PINK }} type="down" />
             </a>
         </Dropdown>)
-    }
-
-    /**
-     * Returns the name of the current view
-     */
-    getCurrentViewText = () => {
-        switch (this.props.currentSubPage) {
-            case SUBPAGENAMES.SONGS:
-                return "Songs";
-            case SUBPAGENAMES.PLAYLISTS:
-                return "Playlists";
-        }
     }
 
     render() {
@@ -97,15 +66,15 @@ class LibraryView extends Component {
                 </Row>
                 <Row>
                     <Col span={24}>
-                        <span style={{ fontSize: "3em", color: "black" }}><b>{this.getCurrentViewText()}</b></span>
+                        <span style={{ fontSize: "3em", color: "black" }}><b>Songs</b></span>
                     </Col>
                 </Row>
                 <Row>
                     <Col span={6}>
-                        <div style={{ fontSize: "1.5em", color: APPLE_GREY, paddingTop: '7px' }}>{this.getItemCount()} {this.getCurrentViewText()}</div>
+                        <div style={{ fontSize: "1.5em", color: APPLE_GREY, paddingTop: '7px' }}>{this.getSongCount()} Songs</div>
                     </Col>
                     <div style={{ display: "inline", float: "right" }}>
-                        <span style={{ marginRight: "15px" }}>
+                        <span style={{marginRight: "15px"}}>
                             <AppleButton
                                 onClick={() => {
                                     this.props.musicKitInstance.player.shuffleMode = 0;
@@ -113,7 +82,7 @@ class LibraryView extends Component {
                                 }}
                                 btnWidth={"160px"}
                                 icon="play-arrow"
-
+                                
                                 title="Play"
                                 type="filled"
                             />
@@ -121,8 +90,8 @@ class LibraryView extends Component {
                         <AppleButton onClick={() => {
                             this.props.musicKitInstance.player.shuffleMode = 1;
                             this.props.playSong(-1, this.props.songs, true);
-
-                        }} btnWidth={"160px"} icon="shuffle" title="Shuffle" type="filled" />
+                            
+                            }} btnWidth={"160px"} icon="shuffle"  title="Shuffle" type="filled" />
                     </div>
                     <Col span={6}>
                     </Col>
@@ -137,8 +106,7 @@ class LibraryView extends Component {
 const mapStateToProps = state => ({
     songs: state.library.songs,
     loadingState: state.library.loadingState,
-    musicKitInstance: state.library.musicKitInstance,
-    currentSubPage: state.page.currentSubPage,
+    musicKitInstance: state.library.musicKitInstance
 });
 
-export default connect(mapStateToProps, { fetchUserSongs, playSong, updateSubPage })(LibraryView);
+export default connect(mapStateToProps, { fetchUserSongs, playSong })(LibraryView);

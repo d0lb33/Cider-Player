@@ -6,13 +6,6 @@ export const PAGENAMES = {
     SEARCH : 4
 }
 
-export const SUBPAGENAMES = {
-    SONGS : 0,
-    PLAYLISTS : 1,
-    ALBUMS : 2,
-    ARTISTS: 3,
-}
-
 export const LOADINGSTATES = {
     LOADINGERROR : 0,
     LOADING : 1,

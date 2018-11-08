@@ -1,10 +1,10 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import rootReducer from './reducers/';
-import { PAGENAMES, LOADINGSTATES, SUBPAGENAMES } from './consts';
+import { PAGENAMES, LOADINGSTATES } from './consts';
 
 const initialState = {
-    page: { currentPage: PAGENAMES.LIBRARY, currentSubPage: SUBPAGENAMES.SONGS, showAlert: false},
+    page: { currentPage: PAGENAMES.LIBRARY, showAlert: false },
     library : {isAuthenticated : false, musicKitInstance: {}, loadingState: LOADINGSTATES.LOADING, musicKitLoaded: false}
 };
 
