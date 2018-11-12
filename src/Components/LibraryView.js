@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import { fetchUserSongs, playSong, fetchUserPlaylists } from '../actions/libraryActions';
-import { updateSubPage } from '../actions/pageActions';
+import { updateSubPage, updateSubPageRouting } from '../actions/pageActions';
 import { LOADINGSTATES, SUBPAGENAMES } from '../consts';
 import { Row, Col, Spin, Divider, Icon, Dropdown, Menu } from 'antd';
 import AppleButton from '../UIElements/AppleButton';
@@ -20,6 +21,7 @@ class LibraryView extends Component {
             amountOfItems: 0, // This is the count that is displayed for the amount of items.
             currentView: null, // The view that will be shown
             currentViewName: "Songs", // The name of the current view to be displayed next to the item count
+            showBackButton: false, // Shows the back button that removes the last item in route, only show if more then 1 item in route array.
 
         }
     }
@@ -29,7 +31,9 @@ class LibraryView extends Component {
     }
 
     updateStateWithProps = (props) => {
-        switch (props.currentSubPage) {
+        var i = props.subPageRouting.length-1;
+        i === 0 ? this.setState({showBackButton: false}) : this.setState({showBackButton: true});
+        switch (props.subPageRouting[i].page) {
             case SUBPAGENAMES.SONGS:
                 this.setState({
                     loadingState: props.loadingState,
@@ -53,7 +57,6 @@ class LibraryView extends Component {
 
     componentWillMount = () => {
         if (!this.props.songs) this.props.fetchUserSongs();
-
         if (!this.props.playlists) this.props.fetchUserPlaylists();
         this.updateStateWithProps(this.props)
     }
@@ -86,10 +89,12 @@ class LibraryView extends Component {
                     <a>Artists</a>
                 </Menu.Item>
                 <Menu.Item>
-                    <a onClick={() => { this.props.updateSubPage(SUBPAGENAMES.PLAYLISTS) }}>Playlists</a>
+                    <a onClick={() => {
+                        this.props.updateSubPageRouting([{ page: SUBPAGENAMES.PLAYLISTS }])
+                    }}>Playlists</a>
                 </Menu.Item>
                 <Menu.Item>
-                    <a onClick={() => { this.props.updateSubPage(SUBPAGENAMES.SONGS) }}>Songs</a>
+                    <a onClick={() => { this.props.updateSubPageRouting([{ page: SUBPAGENAMES.SONGS }]) }}>Songs</a>
                 </Menu.Item>
             </Menu>
         );
@@ -175,6 +180,7 @@ const mapStateToProps = state => ({
     loadingState: state.library.loadingState,
     musicKitInstance: state.library.musicKitInstance,
     currentSubPage: state.page.currentSubPage,
+    subPageRouting: state.page.subPageRouting
 });
 
-export default connect(mapStateToProps, { fetchUserSongs, playSong, updateSubPage, fetchUserPlaylists })(LibraryView);
+export default connect(mapStateToProps, { fetchUserSongs, playSong, updateSubPage, updateSubPageRouting, fetchUserPlaylists })(LibraryView);

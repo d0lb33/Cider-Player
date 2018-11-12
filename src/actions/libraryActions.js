@@ -179,7 +179,6 @@ export const fetchUserSongs = () => dispatch => {
                         loadingState: LOADINGSTATES.LOADEDPARTIAL
                     })
                 } else {
-                    console.log(songs)
                     dispatch({
                         type: FETCH_USER_SONGS,
                         payload: songArray,
