@@ -1,4 +1,4 @@
-import { FETCH_USER_SONGS, AUTHENTICATE_USER, SETUP_MUSICKIT, PLAY_SONG, FETCH_USER_PLAYLISTS } from './types';
+import { FETCH_USER_SONGS, AUTHENTICATE_USER, SETUP_MUSICKIT, PLAY_SONG, FETCH_USER_PLAYLISTS, FETCH_PLAYLIST_SONGS} from './types';
 import { developerToken } from '../private.js'
 import { LOADINGSTATES } from '../consts';
 import { createAlert } from './pageActions';
@@ -82,8 +82,6 @@ export const playSong = (atIndex, songItems, nextSongOnError) => dispatch => {
             changeIndex()
             return;
         };
-
-
 
         musicKitInstance.setQueue(songItems)
             .then(() => {
@@ -186,8 +184,8 @@ export const fetchUserSongs = () => dispatch => {
                     })
                 }
             }).catch((e) => {
-                window.MusicKit.getInstance().unauthorize();
-                window.location.reload();
+                //window.MusicKit.getInstance().unauthorize();
+                //window.location.reload();
                 console.log(e)
             });
         } else {
@@ -196,6 +194,20 @@ export const fetchUserSongs = () => dispatch => {
 
     }
     getSongs();
+}
+
+/**
+ * Fetches the songs in a playlist with the specified id
+ * @param {String} playlistID ID of a playlist
+ */
+export const fetchPlaylistSongs = (playlistID) => dispatch => {
+    var musicKitInstance = window.MusicKit.getInstance();
+    musicKitInstance.api.library.playlist(playlistID).then((playlist) => {
+        dispatch({
+            type: FETCH_PLAYLIST_SONGS,
+            playlistSongs: playlist.relationships.tracks.data
+        })
+    })
 }
 
 export const authenticateUser = () => dispatch => {

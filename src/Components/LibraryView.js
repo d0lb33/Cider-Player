@@ -33,26 +33,27 @@ class LibraryView extends Component {
     updateStateWithProps = (props) => {
         var i = props.subPageRouting.length-1;
         i === 0 ? this.setState({showBackButton: false}) : this.setState({showBackButton: true});
-        switch (props.subPageRouting[i].page) {
-            case SUBPAGENAMES.SONGS:
-                this.setState({
-                    loadingState: props.loadingState,
-                    showPlayShuffle: true,
-                    amountOfItems: props.songs ? props.songs.length : 0,
-                    currentView: props.songs ? <VirtualizedSongList /> : <span></span>,
-                    currentViewName: "Songs"
-                });
-                break;
-            case SUBPAGENAMES.PLAYLISTS:
-                this.setState({
-                    loadingState: props.playlistLoadingState,
-                    showPlayShuffle: false,
-                    amountOfItems: props.playlists ? props.playlists.length : 0,
-                    currentView: props.songs ? <PlaylistsGridList /> : <span></span>,
-                    currentViewName: "Playlists"
-                });
-                break;
-        }
+
+            switch (props.subPageRouting[i].page) {
+                case SUBPAGENAMES.SONGS:
+                    this.setState({
+                        loadingState: props.loadingState,
+                        showPlayShuffle: true,
+                        amountOfItems: props.songs ? props.songs.length : 0,
+                        currentView: props.songs ? <VirtualizedSongList /> : <span></span>,
+                        currentViewName: "Songs"
+                    });
+                    break;
+                case SUBPAGENAMES.PLAYLISTS:
+                    this.setState({
+                        loadingState: props.playlistLoadingState,
+                        showPlayShuffle: false,
+                        amountOfItems: props.playlists ? props.playlists.length : 0,
+                        currentView: props.songs ? <PlaylistsGridList /> : <span></span>,
+                        currentViewName: "Playlists"
+                    });
+                    break;
+            }
     }
 
     componentWillMount = () => {
@@ -175,6 +176,7 @@ class LibraryView extends Component {
 
 const mapStateToProps = state => ({
     songs: state.library.songs,
+    playlistSongs: state.library.playlistSongs,
     playlists: state.library.playlists,
     playlistLoadingState: state.library.playlistLoadingState,
     loadingState: state.library.loadingState,

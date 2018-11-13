@@ -1,11 +1,11 @@
-import { SETUP_MUSICKIT, AUTHENTICATE_USER, FETCH_USER_SONGS, PLAY_SONG, FETCH_USER_PLAYLISTS, } from '../actions/types';
+import { SETUP_MUSICKIT, AUTHENTICATE_USER, FETCH_USER_SONGS, PLAY_SONG, FETCH_USER_PLAYLISTS, FETCH_PLAYLIST_SONGS, } from '../actions/types';
 import { LOADINGSTATES } from '../consts';
 
 const initialState = {
     isAuthenticated: false,
     musicKitInstance: null,
     loadingState: LOADINGSTATES.LOADING,
-    playlistLoadingState : LOADINGSTATES.LOADING,
+    playlistLoadingState: LOADINGSTATES.LOADING,
     musicKitLoaded: false,
 }
 
@@ -40,6 +40,11 @@ export default (state = initialState, action) => {
                 ...state,
                 playlists: action.payload,
                 playlistLoadingState: action.playlistLoadingState
+            }
+        case FETCH_PLAYLIST_SONGS:
+            return {
+                ...state,
+                playlistSongs: action.playlistSongs,
             }
         default:
             return state;
