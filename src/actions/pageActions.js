@@ -7,12 +7,12 @@ export const updatePage = (pageEnum) => dispatch => {
     });
 }
 
-export const updateSubPage = (subPageEnum) => dispatch => {
+/*export const updateSubPage = (subPageEnum) => dispatch => {
     dispatch({
         type: UPDATE_SUBPAGE,
         payload: subPageEnum,
     });
-}
+}*/
 
 /**
  * 

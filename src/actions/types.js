@@ -9,3 +9,4 @@ export const SETUP_MUSICKIT = "SETUP_MUSICKIT";
 export const CREATE_ALERT = "CREATE_ALERT";
 export const DISMISS_ALERT = "DISMISS_ALERT";
 export const PLAY_SONG = "PLAY_SONG";
+export const SET_SONGS_IN_VIEW = "SET_SONGS_IN_VIEW";

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import { Row, Col } from 'antd';
 import { formatImgSrc, SUBPAGENAMES } from '../consts';
-import { fetchPlaylistSongs } from '../actions/libraryActions';
+import { fetchPlaylistSongs, setSongsInView } from '../actions/libraryActions';
 import { updateSubPageRouting } from '../actions/pageActions';
 
 class PlaylistsGridList extends Component {
@@ -17,7 +17,7 @@ class PlaylistsGridList extends Component {
                         onClick={() => {
                             this.props.fetchPlaylistSongs(playlist.id);
                             var x = this.props.subPageRouting;
-                            x.push({ page: SUBPAGENAMES.SONGS });
+                            x.push({ page: SUBPAGENAMES.SONGS, viewName: playlist.attributes.name });
                             this.props.updateSubPageRouting(x)
                         }}
                         src={formatImgSrc(playlist.attributes.artwork.url, 200, 200)}></img>

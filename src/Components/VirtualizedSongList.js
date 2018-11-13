@@ -13,7 +13,7 @@ class VirtualizedSongList extends Component {
         super(props);
 
         this.state = {
-            songs: [{attributes: {name : "Loading"}}]
+            songs: [{ attributes: { name: "Loading" } }]
         }
         this.rowRenderer = this.rowRenderer.bind(this);
     }
@@ -23,22 +23,13 @@ class VirtualizedSongList extends Component {
     }
 
     x = (props) => {
-        if (props.subPageRouting.length === 1) {
-            this.setState({
-                songs: props.songs
-            })
-        } else {
-            console.log(this.state)
-            if (props.playlistSongs){
-                this.setState({
-                    songs: props.playlistSongs
-                })
-            }
-        }
+        this.setState({
+            songs: props.songs
+        })
     }
     componentWillReceiveProps = (props) => {
         this.x(props)
-        
+
     }
 
     rowRenderer({
@@ -57,10 +48,8 @@ class VirtualizedSongList extends Component {
                     this.props.playSong(index, this.state.songs);
                 }}>
                     <div style={{ borderRadius: "5px", float: "left", backgroundColor: "#e8e8e8" }}>
-                    {console.log(this.state)}
-                    {console.log(index)}
                         <img
-                            
+
                             alt={this.state.songs[index].attributes.name + " artwork"}
                             style={{ borderRadius: "5px" }}
                             width={50}

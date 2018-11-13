@@ -4,7 +4,7 @@ const initialState = {
     currentPage: {},
     currentSubPage: SUBPAGENAMES.SONGS,
     showAlert: false,
-    subPageRouting: [{ page: SUBPAGENAMES.SONGS }]
+    subPageRouting: [{ page: SUBPAGENAMES.SONGS, viewName: "Songs" }]
 }
 
 export default (state = initialState, action) => {

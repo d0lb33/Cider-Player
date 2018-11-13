@@ -1,4 +1,4 @@
-import { SETUP_MUSICKIT, AUTHENTICATE_USER, FETCH_USER_SONGS, PLAY_SONG, FETCH_USER_PLAYLISTS, FETCH_PLAYLIST_SONGS, } from '../actions/types';
+import { SETUP_MUSICKIT, AUTHENTICATE_USER, FETCH_USER_SONGS, PLAY_SONG, FETCH_USER_PLAYLISTS, FETCH_PLAYLIST_SONGS, SET_SONGS_IN_VIEW, } from '../actions/types';
 import { LOADINGSTATES } from '../consts';
 
 const initialState = {
@@ -32,7 +32,7 @@ export default (state = initialState, action) => {
         case FETCH_USER_SONGS:
             return {
                 ...state,
-                songs: action.payload,
+                librarySongs: action.payload,
                 loadingState: action.loadingState
             }
         case FETCH_USER_PLAYLISTS:
@@ -45,6 +45,11 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 playlistSongs: action.playlistSongs,
+            }
+        case SET_SONGS_IN_VIEW:
+            return {
+                ...state,
+                songs: action.songs,
             }
         default:
             return state;

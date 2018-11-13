@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
-import { fetchUserSongs, playSong, fetchUserPlaylists } from '../actions/libraryActions';
-import { updateSubPage, updateSubPageRouting } from '../actions/pageActions';
+import { fetchUserSongs, playSong, fetchUserPlaylists, setSongsInView } from '../actions/libraryActions';
+import { updateSubPageRouting } from '../actions/pageActions';
 import { LOADINGSTATES, SUBPAGENAMES } from '../consts';
 import { Row, Col, Spin, Divider, Icon, Dropdown, Menu } from 'antd';
 import AppleButton from '../UIElements/AppleButton';
@@ -31,29 +31,34 @@ class LibraryView extends Component {
     }
 
     updateStateWithProps = (props) => {
-        var i = props.subPageRouting.length-1;
-        i === 0 ? this.setState({showBackButton: false}) : this.setState({showBackButton: true});
 
-            switch (props.subPageRouting[i].page) {
-                case SUBPAGENAMES.SONGS:
-                    this.setState({
-                        loadingState: props.loadingState,
-                        showPlayShuffle: true,
-                        amountOfItems: props.songs ? props.songs.length : 0,
-                        currentView: props.songs ? <VirtualizedSongList /> : <span></span>,
-                        currentViewName: "Songs"
-                    });
-                    break;
-                case SUBPAGENAMES.PLAYLISTS:
-                    this.setState({
-                        loadingState: props.playlistLoadingState,
-                        showPlayShuffle: false,
-                        amountOfItems: props.playlists ? props.playlists.length : 0,
-                        currentView: props.songs ? <PlaylistsGridList /> : <span></span>,
-                        currentViewName: "Playlists"
-                    });
-                    break;
-            }
+        var lastIndex = props.subPageRouting.length - 1;
+
+        if (lastIndex === 0) {
+           this.props.setSongsInView(props.librarySongs);
+        }
+        props.songs ? console.log(props.songs.length) : console.log();
+
+        switch (props.subPageRouting[lastIndex].page) {
+            case SUBPAGENAMES.SONGS:
+                this.setState({
+                    loadingState: props.loadingState,
+                    showPlayShuffle: true,
+                    amountOfItems: props.songs ? props.songs.length : 0,
+                    currentView: props.songs ? <VirtualizedSongList /> : <span></span>,
+                    currentViewName: props.subPageRouting[lastIndex].viewName
+                });
+                break;
+            case SUBPAGENAMES.PLAYLISTS:
+                this.setState({
+                    loadingState: props.playlistLoadingState,
+                    showPlayShuffle: false,
+                    amountOfItems: props.playlists ? props.playlists.length : 0,
+                    currentView: props.playlists ? <PlaylistsGridList /> : <span></span>,
+                    currentViewName: props.subPageRouting[lastIndex].viewName
+                });
+                break;
+        }
     }
 
     componentWillMount = () => {
@@ -91,11 +96,11 @@ class LibraryView extends Component {
                 </Menu.Item>
                 <Menu.Item>
                     <a onClick={() => {
-                        this.props.updateSubPageRouting([{ page: SUBPAGENAMES.PLAYLISTS }])
+                        this.props.updateSubPageRouting([{ page: SUBPAGENAMES.PLAYLISTS, viewName: "Playlists" }])
                     }}>Playlists</a>
                 </Menu.Item>
                 <Menu.Item>
-                    <a onClick={() => { this.props.updateSubPageRouting([{ page: SUBPAGENAMES.SONGS }]) }}>Songs</a>
+                    <a onClick={() => { this.props.updateSubPageRouting([{ page: SUBPAGENAMES.SONGS, viewName: "Songs" }]) }}>Songs</a>
                 </Menu.Item>
             </Menu>
         );
@@ -105,18 +110,6 @@ class LibraryView extends Component {
                 <span style={{ color: APPLE_PINK, paddingRight: 5 }}>Library</span><Icon style={{ color: APPLE_PINK }} type="down" />
             </a>
         </Dropdown>)
-    }
-
-    /**
-     * Returns the name of the current view
-     */
-    getCurrentViewText = () => {
-        switch (this.props.currentSubPage) {
-            case SUBPAGENAMES.SONGS:
-                return "Songs";
-            case SUBPAGENAMES.PLAYLISTS:
-                return "Playlists";
-        }
     }
 
     /**
@@ -163,7 +156,7 @@ class LibraryView extends Component {
                 </Row>
                 <Row>
                     <Col span={6}>
-                        <div style={{ fontSize: "1.5em", color: APPLE_GREY, paddingTop: '7px' }}>{this.getItemCount()} {this.state.currentViewName}</div>
+                        <div style={{ fontSize: "1.5em", color: APPLE_GREY, paddingTop: '7px' }}>{this.getItemCount()} Items</div>
                     </Col>
                     {this.getPlayShuffleButtons()}
                 </Row>
@@ -180,9 +173,10 @@ const mapStateToProps = state => ({
     playlists: state.library.playlists,
     playlistLoadingState: state.library.playlistLoadingState,
     loadingState: state.library.loadingState,
+    librarySongs: state.library.librarySongs,
     musicKitInstance: state.library.musicKitInstance,
     currentSubPage: state.page.currentSubPage,
     subPageRouting: state.page.subPageRouting
 });
 
-export default connect(mapStateToProps, { fetchUserSongs, playSong, updateSubPage, updateSubPageRouting, fetchUserPlaylists })(LibraryView);
+export default connect(mapStateToProps, { fetchUserSongs, playSong, updateSubPageRouting, fetchUserPlaylists, setSongsInView })(LibraryView);
