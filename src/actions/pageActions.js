@@ -7,13 +7,6 @@ export const updatePage = (pageEnum) => dispatch => {
     });
 }
 
-/*export const updateSubPage = (subPageEnum) => dispatch => {
-    dispatch({
-        type: UPDATE_SUBPAGE,
-        payload: subPageEnum,
-    });
-}*/
-
 /**
  * 
  * @param {Array[Object]} NewRouteArray Pass the new route array.

@@ -129,6 +129,7 @@ export const fetchUserPlaylists = () => dispatch => {
         if (musicKitInstance.api.library) {
             musicKitInstance.api.library.playlists(null, { offset: offset, limit: 100 }).then((playlists) => {
                 playlistArray = playlistArray.concat(playlists);
+
                 if (playlists.length !== 0) {
                     offset += 100
                     getPlaylists();
@@ -144,10 +145,9 @@ export const fetchUserPlaylists = () => dispatch => {
                         playlistLoadingState: LOADINGSTATES.LOADED
                     })
                 }
-            }).catch((e) => {
+            }).catch(() => {
                 window.MusicKit.getInstance().unauthorize();
                 window.location.reload();
-                console.log(e)
             });
         } else {
             getPlaylists();
@@ -183,11 +183,9 @@ export const fetchUserSongs = () => dispatch => {
                         loadingState: LOADINGSTATES.LOADED
                     })
                 }
-            }).catch((e) => {
-                /*Uncomment when done with routing*/
-                //window.MusicKit.getInstance().unauthorize();
-                //window.location.reload();
-                console.log(e)
+            }).catch(() => {
+                window.MusicKit.getInstance().unauthorize();
+                window.location.reload();
             });
         } else {
             getSongs();
@@ -235,7 +233,6 @@ export const authenticateUser = () => dispatch => {
         }
     });
 }
-
 
 /**
  * This sets the songs state that the view reads from. 
