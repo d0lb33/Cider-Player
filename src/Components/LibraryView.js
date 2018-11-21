@@ -31,10 +31,8 @@ class LibraryView extends Component {
     }
 
     updateStateWithProps = (props) => {
-
-        console.log("Called")
-
         var lastIndex = props.subPageRouting.length - 1;
+        console.log(props.subPageRouting[lastIndex])
 
         // Needed to set the view to songs on first load
         if (lastIndex === 0) {
@@ -103,27 +101,29 @@ class LibraryView extends Component {
         if (!this.state.showBackButton) {
 
             const menu = (
-                <Menu>
-                    <Menu.Item>
-                        <a>Albums</a>
-                    </Menu.Item>
-                    <Menu.Item>
-                        <a>Artists</a>
-                    </Menu.Item>
-                    <Menu.Item>
-                        <a onClick={() => {
-                            this.props.updateSubPageRouting([{ page: SUBPAGENAMES.PLAYLISTS, viewName: "Playlists" }])
-                        }}>Playlists</a>
-                    </Menu.Item>
-                    <Menu.Item>
-                        <a onClick={() => { this.props.updateSubPageRouting([{ page: SUBPAGENAMES.SONGS, viewName: "Songs" }]) }}>Songs</a>
-                    </Menu.Item>
-                </Menu>
+                <span >
+                    <Menu>
+                        <Menu.Item>
+                            <a>Albums</a>
+                        </Menu.Item>
+                        <Menu.Item>
+                            <a>Artists</a>
+                        </Menu.Item>
+                        <Menu.Item>
+                            <a onClick={() => {
+                                this.props.updateSubPageRouting([{ page: SUBPAGENAMES.PLAYLISTS, viewName: "Playlists" }])
+                            }}>Playlists</a>
+                        </Menu.Item>
+                        <Menu.Item>
+                            <a onClick={() => { this.props.updateSubPageRouting([{ page: SUBPAGENAMES.SONGS, viewName: "Songs" }]) }}>Songs</a>
+                        </Menu.Item>
+                    </Menu>
+                </span>
             );
 
             return (<Dropdown overlay={menu}>
                 <a href="#">
-                    <span style={{ color: APPLE_PINK, paddingRight: 5 }}>Library</span><Icon style={{ color: APPLE_PINK }} type="down" />
+                    <span style={{ color: APPLE_PINK, paddingRight: 5, fontSize: "1.4em"}}>Library</span><Icon style={{ color: APPLE_PINK, fontSize: "1.4em" }} type="down" />
                 </a>
             </Dropdown>)
         }
@@ -207,15 +207,15 @@ class LibraryView extends Component {
         if (!this.state.showBackButton) return;
         return (
             <div >
-                <a 
-                style={{color:APPLE_PINK}}
-                onClick={() => {
-                    var route = this.props.subPageRouting;
-                    route.pop();
-                    this.props.updateSubPageRouting(route);
-                    this.updateStateWithProps(this.props)
-                }}>{"< Back"}</a>
-        </div>
+                <a
+                    style={{ color: APPLE_PINK, fontSize: "1.4em" }}
+                    onClick={() => {
+                        var route = this.props.subPageRouting;
+                        route.pop();
+                        this.props.updateSubPageRouting(route);
+                        this.updateStateWithProps(this.props)
+                    }}>{"< Back"}</a>
+            </div>
         )
     }
 
@@ -251,7 +251,7 @@ const mapStateToProps = state => ({
     librarySongs: state.library.librarySongs,
     musicKitInstance: state.library.musicKitInstance,
     currentSubPage: state.page.currentSubPage,
-    subPageRouting: state.page.subPageRouting
+    subPageRouting: state.page.subPageRouting,
 });
 
 export default connect(mapStateToProps, { fetchUserSongs, playSong, updateSubPageRouting, fetchUserPlaylists, setSongsInView })(LibraryView);

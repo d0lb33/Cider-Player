@@ -243,3 +243,27 @@ Themes the antd slider for the volume progress slider.
 .icon-wrapper .apple-icon:last-child {
   right: 0;
 }
+
+.ant-dropdown {
+  border: 1px solid grey;
+}
+
+.ant-dropdown-trigger {
+text-decoration: none !important;
+}
+
+.ant-menu-item:hover{
+  background-color: #ff004f;
+}
+
+.ant-menu-item a:hover {
+  color: white !important;
+}
+
+.ant-menu-item-selected, .ant-menu-item-selected a {
+  background-color: white !important;
+  color: #ff004f !important;
+}
+.ant-menu-item-selected a:hover {
+  color: black !important;
+}
