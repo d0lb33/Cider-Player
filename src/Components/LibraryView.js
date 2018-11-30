@@ -99,22 +99,23 @@ class LibraryView extends Component {
 
     getTypeDropdown = () => {
         if (!this.state.showBackButton) {
-
             const menu = (
                 <span >
-                    <Menu>
-                        <Menu.Item>
+                    <Menu
+                    defaultSelectedKeys={[this.props.subPageRouting[this.props.subPageRouting.length - 1].viewName]}
+                    >
+                        <Menu.Item key="4">
                             <a>Albums</a>
                         </Menu.Item>
-                        <Menu.Item>
+                        <Menu.Item key="3">
                             <a>Artists</a>
                         </Menu.Item>
-                        <Menu.Item>
+                        <Menu.Item key="Playlists">
                             <a onClick={() => {
                                 this.props.updateSubPageRouting([{ page: SUBPAGENAMES.PLAYLISTS, viewName: "Playlists" }])
                             }}>Playlists</a>
                         </Menu.Item>
-                        <Menu.Item>
+                        <Menu.Item key="Songs">
                             <a onClick={() => { this.props.updateSubPageRouting([{ page: SUBPAGENAMES.SONGS, viewName: "Songs" }]) }}>Songs</a>
                         </Menu.Item>
                     </Menu>

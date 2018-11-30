@@ -244,8 +244,18 @@ Themes the antd slider for the volume progress slider.
   right: 0;
 }
 
-.ant-dropdown {
-  border: 1px solid grey;
+
+/*
+Themes the antd dropdown. 
+*/
+.ant-menu-vertical {
+  border: 1px solid lightgray !important;
+  border-radius: 5px;
+
+}
+
+.ant-menu-inline, .ant-menu-vertical, .ant-menu-vertical-left {
+  border-right: none;
 }
 
 .ant-dropdown-trigger {
@@ -261,9 +271,13 @@ text-decoration: none !important;
 }
 
 .ant-menu-item-selected, .ant-menu-item-selected a {
-  background-color: white !important;
   color: #ff004f !important;
 }
+.ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
+  background-color: white !important;
+  color: #ff004f !important;
+}  
+
 .ant-menu-item-selected a:hover {
   color: black !important;
 }
