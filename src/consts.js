@@ -54,10 +54,13 @@ export function formatImgSrc(src, h, w) {
 export function calculateTimeOfSongs(songArray) {
 
     var time = 0;
-
-    songArray.map((song) => {
-        time += song.attributes.durationInMillis
-    });
+    try {
+        songArray.map((song) => {
+            time += song.attributes.durationInMillis
+        });
+    } catch (error) {
+        console.log(error)
+    }
 
     const formatted = window.MusicKit.formattedMilliseconds(time);
     const hours = formatted.hours;
