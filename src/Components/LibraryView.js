@@ -32,7 +32,6 @@ class LibraryView extends Component {
 
     updateStateWithProps = (props) => {
         var lastIndex = props.subPageRouting.length - 1;
-        console.log(props.subPageRouting[lastIndex])
 
         // Needed to set the view to songs on first load
         if (lastIndex === 0) {

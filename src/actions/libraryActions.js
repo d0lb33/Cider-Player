@@ -1,4 +1,4 @@
-import { FETCH_USER_SONGS, AUTHENTICATE_USER, SETUP_MUSICKIT, PLAY_SONG, FETCH_USER_PLAYLISTS, FETCH_PLAYLIST_SONGS, SET_SONGS_IN_VIEW } from './types';
+import { FETCH_USER_SONGS, AUTHENTICATE_USER, SETUP_MUSICKIT, PLAY_SONG, FETCH_USER_PLAYLISTS, FETCH_PLAYLIST_SONGS, SET_SONGS_IN_VIEW, SONG_LOADING_CHECKER } from './types';
 import { developerToken } from '../private.js'
 import { LOADINGSTATES } from '../consts';
 import { createAlert } from './pageActions';
@@ -117,6 +117,47 @@ export const playSong = (atIndex, songItems, nextSongOnError) => dispatch => {
     sQ();
 
 
+}
+
+/**
+ * Keep MusicKit in check and make sures users dont experience a stall.
+ * @param {Numver} songID Provide the id of the song you wish to make sure is playing
+ * @param {Number} atIndex Provide the index at which this song is located
+ * If the songID provided is located in the nowPlayingItem slot of MusicKitJS and its playback
+ * state is waiting, we will assume that MusicKitJS goofed and the song needs to be reloaded.
+ */
+export const songLoadingChecker = (songID, atIndex, ) => dispatch => {
+
+    var musicKitInstance = window.MusicKit.getInstance();
+    let timeToWait = 5000; // Wait 5 seconds before checking if song is playing;
+
+    let songChecker = () => setTimeout(() => {
+        // Sometimes this is null even when there is an item. Ugh apple. 
+        if (!musicKitInstance.player.nowPlayingItem) return;
+
+        // if they arent equal, then the song was changed and we don't need to check for this particular song.
+        // Checks if they are still "waiting" or "stalled"
+        if (musicKitInstance.player.nowPlayingItem.id === songID && musicKitInstance.player.playbackState === window.MusicKit.PlaybackStates.waiting) {
+            console.log("Song stalled on loading, trying again!");
+
+            // Increase time.
+            timeToWait += 5000;
+            if (timeToWait === 15000) {
+                // Assume at this point this song aint playing so lets go to the next one
+                dispatch(playSong(atIndex + 1));
+            } else {
+                // Send the play command again, start another songChecker timer to check this one.
+                songChecker();
+                dispatch(playSong(atIndex));
+            }
+        }
+
+        dispatch({
+            type: SONG_LOADING_CHECKER
+        })
+    }, timeToWait);
+
+    songChecker();
 }
 
 export const fetchUserPlaylists = () => dispatch => {

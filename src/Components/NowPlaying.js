@@ -7,7 +7,7 @@ import GreyBackground from '../icons/GreyBackground.png';
 import SongProgressSlider from './SongProgressSlider';
 import { APPLE_PINK } from '../UIElements/ColorConsts';
 import { Slider, Divider, Icon } from 'antd';
-import { playSong } from '../actions/libraryActions';
+import { playSong, songLoadingChecker } from '../actions/libraryActions';
 import UpNextView from './UpNextView';
 import { CustomIcon } from '../UIElements/CustomIcons';
 
@@ -28,6 +28,16 @@ class NowPlaying extends Component {
         // Check for a playback state change to know when to update the ui
         this.props.musicKitInstance.addEventListener('playbackStateDidChange', (e) => {
             this.updateStateWithCurrentSongAttributes();
+        });
+
+        this.props.musicKitInstance.addEventListener('mediaItemWillChange', (e) => {
+            this.props.musicKitInstance.player.queue.items.map((item, i) => {
+                if (!item.playParams) return;
+                if (item.attributes.playParams.id === e.item.playParams.id){
+                    console.log("Matched at " + i)
+                    this.props.songLoadingChecker(e.item.id, i);
+                }
+            })
         });
     }
 
@@ -55,6 +65,7 @@ class NowPlaying extends Component {
         switch (this.props.musicKitInstance.player.playbackState) {
             case window.MusicKit.PlaybackStates.playing:
             case window.MusicKit.PlaybackStates.paused:
+            case window.MusicKit.PlaybackStates.waiting:
                 if (this.props.musicKitInstance.player.nowPlayingItem) {
                     currentImgSrc = formatImgSrc(this.props.musicKitInstance.player.nowPlayingItem.attributes.artwork.url, 60, 60);
                     currentSongName = this.props.musicKitInstance.player.nowPlayingItem.attributes.name;
@@ -65,7 +76,6 @@ class NowPlaying extends Component {
                 }
                 break;
             case window.MusicKit.PlaybackStates.loading:
-            case window.MusicKit.PlaybackStates.waiting:
                 currentSongName = "Loading";
                 break;
             case window.MusicKit.PlaybackStates.none:
@@ -336,10 +346,10 @@ class NowPlaying extends Component {
             // Turn shuffle off
             this.props.musicKitInstance.player.shuffleMode = 0;
 
-            
+
             let nowPlayingItem = this.props.musicKitInstance.player.nowPlayingItem;
-            
-            if (nowPlayingItem === null){
+
+            if (nowPlayingItem === null) {
                 return;
             }
 
@@ -430,4 +440,4 @@ const mapStateToProps = (state) => ({
     songs: state.library.songs
 })
 
-export default connect(mapStateToProps, { playSong })(NowPlaying);
+export default connect(mapStateToProps, { playSong, songLoadingChecker })(NowPlaying);
