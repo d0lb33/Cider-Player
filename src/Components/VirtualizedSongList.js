@@ -17,8 +17,6 @@ class VirtualizedSongList extends Component {
     rowRenderer({
         key,         // Unique key within array of rows
         index,       // Index of row within collection
-        isScrolling, // The List is currently being scrolled
-        isVisible,   // This row is visible within the List (eg it is not an overscanned row)
         style        // Style object to be applied to row (to position it)
     }) {
         return (
@@ -31,6 +29,7 @@ class VirtualizedSongList extends Component {
                 }}>
                     <div style={{ borderRadius: "5px", float: "left", backgroundColor: "#e8e8e8" }}>
                         <img
+
                             alt={this.props.songs[index].attributes.name + " artwork"}
                             style={{ borderRadius: "5px" }}
                             width={50}
@@ -69,7 +68,6 @@ class VirtualizedSongList extends Component {
                     <AutoSizer disableHeight>
                         {({ width }) => (
                             <List
-
                                 ref={this.songList}
                                 autoHeight
                                 height={height}
@@ -87,12 +85,13 @@ class VirtualizedSongList extends Component {
                 )}
             </WindowScroller>
         )
-
     }
 }
 
 const mapStateToProps = state => ({
     songs: state.library.songs,
+    playlistSongs: state.library.playlistSongs,
+    subPageRouting: state.page.subPageRouting,
     musicKitInstance: state.library.musicKitInstance
 })
 

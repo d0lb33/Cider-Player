@@ -1,8 +1,10 @@
-import { UPDATE_PAGE, DISMISS_ALERT, CREATE_ALERT } from '../actions/types';
-
+import { UPDATE_PAGE, DISMISS_ALERT, CREATE_ALERT, UPDATE_SUBPAGE, UPDATE_SUB_PAGE_ROUTE } from '../actions/types';
+import { SUBPAGENAMES } from '../consts';
 const initialState = {
     currentPage: {},
-    showAlert:false
+    currentSubPage: SUBPAGENAMES.SONGS,
+    showAlert: false,
+    subPageRouting: [{ page: SUBPAGENAMES.SONGS, viewName: "Songs" }]
 }
 
 export default (state = initialState, action) => {
@@ -11,6 +13,16 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 currentPage: action.payload
+            }
+        case UPDATE_SUBPAGE:
+            return {
+                ...state,
+                currentSubPage: action.payload
+            }
+        case UPDATE_SUB_PAGE_ROUTE:
+            return {
+                ...state,
+                subPageRouting: action.payload
             }
         case CREATE_ALERT:
             return {

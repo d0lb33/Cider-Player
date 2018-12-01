@@ -1,4 +1,4 @@
-import { FETCH_USER_SONGS, AUTHENTICATE_USER, SETUP_MUSICKIT, PLAY_SONG } from './types';
+import { FETCH_USER_SONGS, AUTHENTICATE_USER, SETUP_MUSICKIT, PLAY_SONG, FETCH_USER_PLAYLISTS, FETCH_PLAYLIST_SONGS, SET_SONGS_IN_VIEW } from './types';
 import { developerToken } from '../private.js'
 import { LOADINGSTATES } from '../consts';
 import { createAlert } from './pageActions';
@@ -43,8 +43,6 @@ export const setupMusicKit = () => dispatch => {
 export const playSong = (atIndex, songItems, nextSongOnError) => dispatch => {
     var musicKitInstance = window.MusicKit.getInstance();
 
-    
-
     let changeIndex = () => {
 
         try {
@@ -85,24 +83,22 @@ export const playSong = (atIndex, songItems, nextSongOnError) => dispatch => {
             return;
         };
 
-        
-
         musicKitInstance.setQueue(songItems)
             .then(() => {
 
                 // If the queue is shuffled, then the index of the song we want to play is going to be different
-                if (musicKitInstance.player.shuffleMode === 1 && atIndex !== -1){
+                if (musicKitInstance.player.shuffleMode === 1 && atIndex !== -1) {
                     // Find the index of the song we want to play, in the shuffled songs
-                    for(let i = 0; i < musicKitInstance.player.queue.items.length; i++ ){
-                        if (musicKitInstance.player.queue.items[i].id === songItems[atIndex].id){
+                    for (let i = 0; i < musicKitInstance.player.queue.items.length; i++) {
+                        if (musicKitInstance.player.queue.items[i].id === songItems[atIndex].id) {
                             atIndex = i;
                             break;
                         }
                     }
-                }else if (atIndex === -1){
+                } else if (atIndex === -1) {
                     atIndex = 0;
                 }
-                
+
                 changeIndex();
             })
             .catch((error) => {
@@ -119,6 +115,45 @@ export const playSong = (atIndex, songItems, nextSongOnError) => dispatch => {
     }
 
     sQ();
+
+
+}
+
+export const fetchUserPlaylists = () => dispatch => {
+    var musicKitInstance = window.MusicKit.getInstance();
+
+    let offset = 0;
+    let playlistArray = [];
+
+    let getPlaylists = () => {
+        if (musicKitInstance.api.library) {
+            musicKitInstance.api.library.playlists(null, { offset: offset, limit: 100 }).then((playlists) => {
+                playlistArray = playlistArray.concat(playlists);
+
+                if (playlists.length !== 0) {
+                    offset += 100
+                    getPlaylists();
+                    dispatch({
+                        type: FETCH_USER_PLAYLISTS,
+                        payload: playlistArray,
+                        playlistLoadingState: LOADINGSTATES.LOADEDPARTIAL
+                    })
+                } else {
+                    dispatch({
+                        type: FETCH_USER_PLAYLISTS,
+                        payload: playlistArray,
+                        playlistLoadingState: LOADINGSTATES.LOADED
+                    })
+                }
+            }).catch(() => {
+                window.MusicKit.getInstance().unauthorize();
+                window.location.reload();
+            });
+        } else {
+            getPlaylists();
+        }
+    }
+    getPlaylists();
 
 
 }
@@ -142,17 +177,15 @@ export const fetchUserSongs = () => dispatch => {
                         loadingState: LOADINGSTATES.LOADEDPARTIAL
                     })
                 } else {
-
                     dispatch({
                         type: FETCH_USER_SONGS,
                         payload: songArray,
                         loadingState: LOADINGSTATES.LOADED
                     })
                 }
-            }).catch((e) => {
+            }).catch(() => {
                 window.MusicKit.getInstance().unauthorize();
                 window.location.reload();
-                console.log(e)
             });
         } else {
             getSongs();
@@ -162,6 +195,25 @@ export const fetchUserSongs = () => dispatch => {
     getSongs();
 }
 
+/**
+ * Fetches the songs in a playlist with the specified id
+ * @param {String} playlistID ID of a playlist
+ */
+export const fetchPlaylistSongs = (playlistID) => dispatch => {
+    var musicKitInstance = window.MusicKit.getInstance();
+    musicKitInstance.api.library.playlist(playlistID).then((playlist) => {
+        dispatch(setSongsInView(playlist.relationships.tracks.data));
+
+        dispatch({
+            type: FETCH_PLAYLIST_SONGS,
+            playlistSongs: playlist.relationships.tracks.data
+        })
+    })
+}
+
+/**
+ * Authenticates the user with the MusicKitJS library
+ */
 export const authenticateUser = () => dispatch => {
     var musicKitInstance = window.MusicKit.getInstance();
     musicKitInstance.authorize();
@@ -182,4 +234,14 @@ export const authenticateUser = () => dispatch => {
     });
 }
 
-
+/**
+ * This sets the songs state that the view reads from. 
+ * Update this when you want to change the songs that are currently viewable.
+ * @param {Array} songs Array of songs from music kit
+ */
+export const setSongsInView = (songs) => dispatch => {
+    dispatch({
+        type: SET_SONGS_IN_VIEW,
+        songs: songs,
+    })
+}
