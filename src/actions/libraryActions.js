@@ -141,8 +141,8 @@ export const songLoadingChecker = (songID, atIndex, ) => dispatch => {
             console.log("Song stalled on loading, trying again!");
 
             // Increase time.
-            timeToWait += 5000;
-            if (timeToWait === 15000) {
+            timeToWait += 10000;
+            if (timeToWait > 15000) {
                 // Assume at this point this song aint playing so lets go to the next one
                 dispatch(playSong(atIndex + 1));
             } else {
