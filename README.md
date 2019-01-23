@@ -1,7 +1,10 @@
+# Project scrapped for now. Busy with schoolwork and other applications. A great alternative is [Musi.sh](https://musi.sh)
+## No license, so feel free to do whatever you want with this code. Feel free to contribute as well.
+
 # **Cider Player**
 A React based application that mimicks the iPad UI of Apple Music to create a seamless experience from the iPad and Desktop. Feel free and empowered to listen to your Apple Music Library online, with the interface your most familiar with.
 
-[Insert Image Here, But Ya Know Its Still Crap So Wait]
+
 
 Huge thanks to Apple for there [MusicKitJS](https://developer.apple.com/documentation/musickitjs "MusicKitJS") api.
 **Please note that this API is still in beta and there are a few bugs that are not quite worked out yet.**
