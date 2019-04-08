@@ -51,15 +51,18 @@ class SongProgressSlider extends Component {
      * Gets the marks that display at the begining and end of the track beneath it.
      */
     getMarks = () => {
-        if(this.props.musicKitInstance.player.currentPlaybackDuration === 0){
-            return;
+        if(this.props.musicKitInstance.player.currentPlaybackDuration === 0 || this.props.musicKitInstance.player.nowPlayingItem === null){
+            return {
+                0: "- : -",
+            };
         }
+
         const marks = {
             0: window.MusicKit.formatMediaTime(this.state.progress),
             [this.props.musicKitInstance.player.currentPlaybackDuration]: "-" + window.MusicKit.formatMediaTime(this.state.timeRemaining)
           };
 
-          return marks;
+        return marks;
     }
 
     render() {
@@ -90,7 +93,8 @@ class SongProgressSlider extends Component {
 }
 
 const mapStateToProps = state => ({
-    musicKitInstance: state.library.musicKitInstance
+    musicKitInstance: state.library.musicKitInstance,
+    librarySongs : state.library.librarySongs
 });
 
 export default connect(mapStateToProps, null)(SongProgressSlider)

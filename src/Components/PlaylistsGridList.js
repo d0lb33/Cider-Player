@@ -10,15 +10,19 @@ class PlaylistsGridList extends Component {
     renderGridItems = () => {
         let items = this.props.playlists.map((playlist) => {
             return (
-                <Col key={playlist.id} xs={24} sm={12} md={6} lg={5} xl={4}>
+                <Col 
+                className="grid-item"
+
+                onClick={() => {
+                    
+                    this.props.fetchPlaylistSongs(playlist.id);
+                    var x = this.props.subPageRouting;
+                    x.push({ page: SUBPAGENAMES.SONGS, viewName: playlist.attributes.name, artworkSrc: formatImgSrc(playlist.attributes.artwork.url, 200, 200) });
+                    this.props.updateSubPageRouting(x)
+                }}
+                key={playlist.id} xs={24} sm={12} md={6} lg={5} xl={4}>
                     <div
-                        onClick={() => {
-                            this.props.fetchPlaylistSongs(playlist.id);
-                            var x = this.props.subPageRouting;
-                            x.push({ page: SUBPAGENAMES.SONGS, viewName: playlist.attributes.name, artworkSrc: formatImgSrc(playlist.attributes.artwork.url, 200, 200) });
-                            this.props.updateSubPageRouting(x)
-                        }}
-                        style={{ fontSize: "1.0em", fontWeight: "bold", color: "black", margin: "auto", marginBottom: "30px", cursor: "pointer" }}>
+                        >
                         <img
                         style={{width: "100%", height: "100%"}}
                             src={formatImgSrc(playlist.attributes.artwork.url, 500, 500)}>
