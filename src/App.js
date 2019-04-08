@@ -7,6 +7,7 @@ import { dismissAlert } from "./actions/pageActions";
 import LibraryView from './Components/LibraryView';
 import { PAGENAMES } from './consts';
 import { Alert } from 'antd';
+import SearchView from './Components/SearchView';
 
 class App extends Component {
 
@@ -16,7 +17,14 @@ class App extends Component {
   }
 
   getCurrentView = () => {
-    if (this.props.musicKitLoaded && this.props.isAuthenticated && this.props.currentPage === PAGENAMES.LIBRARY) return <LibraryView />
+    if (this.props.musicKitLoaded && this.props.isAuthenticated){
+      switch(this.props.currentPage) {
+        case PAGENAMES.LIBRARY:
+          return <LibraryView />
+        case PAGENAMES.SEARCH:
+          return <SearchView />
+      }
+    } 
   }
 
   getAlert = () => {

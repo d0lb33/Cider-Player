@@ -20,7 +20,7 @@ import { PAGENAMES, LOADINGSTATES, SUBPAGENAMES } from './consts';
  */
 
 const initialState = {
-    page: { currentPage: PAGENAMES.LIBRARY, subPageRouting: [{page : SUBPAGENAMES.SONGS, viewName: "Songs"}], currentSubPage: SUBPAGENAMES.SONGS, showAlert: false },
+    page: { currentPage: PAGENAMES.SEARCH, subPageRouting: [{page : SUBPAGENAMES.SONGS, viewName: "Songs"}], currentSubPage: SUBPAGENAMES.SONGS, showAlert: false },
     library: { isAuthenticated: false, musicKitInstance: {}, loadingState: LOADINGSTATES.LOADING, playlistLoadingState: LOADINGSTATES.LOADING, musicKitLoaded: false }
 };
 
