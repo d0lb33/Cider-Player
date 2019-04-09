@@ -1,5 +1,10 @@
 body {
 }
+
+.now-playing-open {
+overflow: hidden;
+}
+
 .bottom-nav-bar {
   position: fixed;
   background-color: white;

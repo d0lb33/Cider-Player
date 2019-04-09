@@ -97,6 +97,7 @@ class NowPlaying extends Component {
      * Appends the open class to the nowPlaying item to create an amazing animation! Along with showing the blurBackground div.
      */
     showView = () => {
+        document.body.classList.add("now-playing-open");
         this.setState({ openClass: "open" });
     }
 
@@ -104,6 +105,7 @@ class NowPlaying extends Component {
      * Slides the nowPlaying view down into its minimified position.
      */
     hideView = (e) => {
+        document.body.classList.remove("now-playing-open");
         e.preventDefault();
         e.stopPropagation();
         this.setState({ openClass: "" })
