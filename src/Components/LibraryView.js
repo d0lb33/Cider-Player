@@ -170,7 +170,7 @@ class LibraryView extends Component {
                         <br />
                         <Col span={12}>
                             <div style={{ marginTop: 30 }}>
-                                <span class="page-title"><b>{this.state.currentViewName}</b></span>
+                                <span className="page-title"><b>{this.state.currentViewName}</b></span>
                                 <br />
                                 <span style={{ fontSize: "1.5em", color: APPLE_GREY, paddingTop: '7px' }}>{this.getItemCount()} Items - {calculateTimeOfSongs(this.props.songs)}</span>
                             </div>
