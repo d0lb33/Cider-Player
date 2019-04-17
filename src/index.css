@@ -129,10 +129,19 @@ overflow: hidden;
 
 .listItem {
   cursor: pointer;
+  transition: .5s ease;
+}
+
+.listItem:hover {
+  transform: scale(1.001);
+  background-color: #ff005171;
+  color: white !important;
+  border-radius: 10px;
 }
 
 .listItem:active {
   background-color: #e8e8e8;
+  transform: scale(.96);
 }
 
 .nowPlayingArtwork {
@@ -263,6 +272,10 @@ Themes the antd slider for the volume progress slider.
   background-color: #ff0051d3;
   color: white;
   transform: scale(1.02);
+}
+
+.grid-item:active {
+  transform: scale(.96);
 }
 
 .page-title {

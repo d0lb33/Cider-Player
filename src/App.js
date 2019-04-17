@@ -7,7 +7,7 @@ import { dismissAlert } from "./actions/pageActions";
 import LibraryView from './Components/LibraryView';
 import { PAGENAMES } from './consts';
 import { Alert } from 'antd';
-import SearchView from './Components/SearchView';
+import SearchView from './Components/SearchView/SearchView';
 
 class App extends Component {
 
