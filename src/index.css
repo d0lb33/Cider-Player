@@ -129,19 +129,16 @@ overflow: hidden;
 
 .listItem {
   cursor: pointer;
-  transition: .5s ease;
+  transition: .3s ease;
 }
 
 .listItem:hover {
-  transform: scale(1.001);
-  background-color: #ff005171;
-  color: white !important;
   border-radius: 10px;
 }
 
 .listItem:active {
   background-color: #e8e8e8;
-  transform: scale(.96);
+  transform: scale(.989);
 }
 
 .nowPlayingArtwork {
