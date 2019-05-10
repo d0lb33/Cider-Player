@@ -10,7 +10,7 @@ let clearBtnStyle = {
     float: "right", paddingRight: "10px", color: "#f80759", cursor: "pointer"
 }
 
-export default class RecentTrendingView extends Component {
+export default class RecentTrending extends Component {
 
     constructor(props) {
         super(props);
@@ -90,18 +90,25 @@ export default class RecentTrendingView extends Component {
         }
     }
 
+    getClearBtn = () => {
+        console.log(this.state)
+        if(this.state.recentSearchItems.length !== 0){
+            return <Col xs={4} onClick={() => this.clearRecentSearchItems()}><span style={clearBtnStyle}>Clear</span></Col>
+        }
+    }
+
     render() {
         return (
             <div>
                 {/* 
-          * Recent and trending component/format
-          */}
+                * Recent and trending component/format
+                */}
                 <Row>
                     <Col xs={24} sm={12}>
                         <div style={{ paddingTop: 10 }}>
                             <Row>
                                 <Col xs={20} style={rfStyle}>Recent</Col>
-                                <Col xs={4} onClick={() => this.clearRecentSearchItems()}><span style={clearBtnStyle}>Clear</span></Col>
+                                {this.getClearBtn()}
                             </Row>
                             {this.getRecentSearchList()}
                         </div>
@@ -110,9 +117,9 @@ export default class RecentTrendingView extends Component {
                         <div style={{ paddingTop: 10 }}>
                             <div style={rfStyle}>
                                 Trending
-              </div>
+                            </div>
                             Error: Not able to fetch trending
-            </div>
+                        </div>
                     </Col>
                 </Row>
             </div>

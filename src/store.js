@@ -2,7 +2,7 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import rootReducer from './reducers/';
 import { PAGENAMES, LOADINGSTATES, SUBPAGENAMES } from './consts';
-
+import {initialState as libraryState} from './reducers/libraryReducer';
 /**
  * Routes for the subpage will exist in the following format: 
  *
@@ -21,7 +21,7 @@ import { PAGENAMES, LOADINGSTATES, SUBPAGENAMES } from './consts';
 
 const initialState = {
     page: { currentPage: PAGENAMES.SEARCH, subPageRouting: [{page : SUBPAGENAMES.SONGS, viewName: "Songs"}], currentSubPage: SUBPAGENAMES.SONGS, showAlert: false },
-    library: { isAuthenticated: false, musicKitInstance: {}, loadingState: LOADINGSTATES.LOADING, playlistLoadingState: LOADINGSTATES.LOADING, musicKitLoaded: false }
+    library: libraryState
 };
 
 const middleWare = [thunk];

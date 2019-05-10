@@ -34,6 +34,7 @@ class VirtualizedSongList extends Component {
                             style={{ borderRadius: "5px" }}
                             width={50}
                             height={50}
+                            onError={() => {console.log("HANDLE THIS JONATHAN< DAMN")}}
                             src={formatImgSrc(this.props.songs[index].attributes.artwork.url, 200, 200)}>
                         </img>
                     </div>
@@ -53,8 +54,6 @@ class VirtualizedSongList extends Component {
 
                     </div>
                 </div>
-
-
             </div>
         )
     }

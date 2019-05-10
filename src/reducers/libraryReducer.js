@@ -1,12 +1,16 @@
-import { SETUP_MUSICKIT, AUTHENTICATE_USER, FETCH_USER_SONGS, PLAY_SONG, FETCH_USER_PLAYLISTS, FETCH_PLAYLIST_SONGS, SET_SONGS_IN_VIEW, SONG_LOADING_CHECKER } from '../actions/types';
+import { SETUP_MUSICKIT, AUTHENTICATE_USER, FETCH_USER_SONGS, PLAY_SONG, FETCH_USER_PLAYLISTS, FETCH_PLAYLIST_SONGS, SET_SONGS_IN_VIEW, SONG_LOADING_CHECKER, FETCH_SEARCH_RESULTS } from '../actions/types';
 import { LOADINGSTATES } from '../consts';
 
-const initialState = {
+export const initialState = {
     isAuthenticated: false,
-    musicKitInstance: null,
+    musicKitInstance: {},
     loadingState: LOADINGSTATES.LOADING,
     playlistLoadingState: LOADINGSTATES.LOADING,
     musicKitLoaded: false,
+    search : { 
+        searchHints : [],
+        searchResults : {}
+    }
 }
 
 export default (state = initialState, action) => {
@@ -18,6 +22,12 @@ export default (state = initialState, action) => {
                 musicKitInstance: action.musicKitInstance,
                 musicKitLoaded: action.musicKitLoaded
 
+            }
+        case FETCH_SEARCH_RESULTS:
+            state.search.searchHints = action.search.searchHints;
+            state.search.searchResults = action.search.searchResults
+            return {
+                ...state,
             }
         case AUTHENTICATE_USER:
             return {

@@ -1,4 +1,4 @@
-import { FETCH_USER_SONGS, AUTHENTICATE_USER, SETUP_MUSICKIT, PLAY_SONG, FETCH_USER_PLAYLISTS, FETCH_PLAYLIST_SONGS, SET_SONGS_IN_VIEW, SONG_LOADING_CHECKER } from './types';
+import { FETCH_USER_SONGS, AUTHENTICATE_USER, SETUP_MUSICKIT, PLAY_SONG, FETCH_USER_PLAYLISTS, FETCH_PLAYLIST_SONGS, SET_SONGS_IN_VIEW, SONG_LOADING_CHECKER, FETCH_SEARCH_RESULTS } from './types';
 import { developerToken } from '../private.js'
 import { LOADINGSTATES } from '../consts';
 import { createAlert } from './pageActions';
@@ -225,6 +225,9 @@ export const fetchUserSongs = () => dispatch => {
                     })
                 }
             }).catch(() => {
+                /**
+                 * TODO: Shouldn't log out user here!
+                 */
                 window.MusicKit.getInstance().unauthorize();
                 window.location.reload();
             });
@@ -285,4 +288,51 @@ export const setSongsInView = (songs) => dispatch => {
         type: SET_SONGS_IN_VIEW,
         songs: songs,
     })
+}
+
+/**
+ * Returns search hints, and everything etc.
+ * @param {*} searchTerm The search term you'd like to search for 
+ */
+export const fetchSearchResults = (searchTerm) => dispatch => {
+    var musicKitInstance = window.MusicKit.getInstance();
+    var storefront = musicKitInstance._apiStorefrontId;
+    console.log("Your storefront should be: " + storefront)
+    console.log("Your search term will be: " + searchTerm)
+
+    var search = { 
+        searchHints : [],
+        searchResults : {}
+    };
+
+    var headers = new Headers({
+        Authorization: "Bearer " + musicKitInstance.developerToken,
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        "Music-User-Token": "" + musicKitInstance.musicUserToken
+    });
+
+    fetch(`https://api.music.apple.com/v1/catalog/${storefront}/search/hints?term=${searchTerm}&limit=5`, { headers: headers })
+        .then(res => res.json())
+        .then(res => {
+            if (!res.results) return // CALL ERROR HERE
+            search.searchHints = res.results.terms
+            dispatch({
+                type: FETCH_SEARCH_RESULTS,
+                search : search
+            })
+        })
+
+    fetch(`https://api.music.apple.com/v1/catalog/${storefront}/search?term="${searchTerm}"&limit=5`, { headers: headers })
+        .then(res => res.json())
+        .then(res => {
+            if (!res.results) return // CALL ERROR HERE
+            search.searchResults = res.results
+            dispatch({
+                type: FETCH_SEARCH_RESULTS,
+                search: search
+            })
+        })
+
+    
 }

@@ -42,6 +42,10 @@ export function getPageName(pageID) {
  * @param {Number} w // Image width
  */
 export function formatImgSrc(src, h, w) {
+    if(src === undefined || h === undefined || w === undefined){
+        return src
+    }
+
     src = src.replace("{w}", w);
     src = src.replace("{h}", h);
     return src;
