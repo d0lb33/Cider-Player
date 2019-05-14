@@ -302,7 +302,7 @@ export const fetchSearchResults = (searchTerm) => dispatch => {
 
     var search = { 
         searchHints : [],
-        searchResults : {}
+        searchResults : {},
     };
 
     var headers = new Headers({
@@ -332,6 +332,14 @@ export const fetchSearchResults = (searchTerm) => dispatch => {
                 type: FETCH_SEARCH_RESULTS,
                 search: search
             })
+        })
+
+    fetch(`https://api.music.apple.com/v1/catalog/${storefront}/charts?types=songs`, { headers: headers })
+        .then(res => res.json())
+        .then(res => {
+            console.log(res)
+
+            if (!res.results) return // CALL ERROR HERE
         })
 
     

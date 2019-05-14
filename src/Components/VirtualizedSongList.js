@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { formatImgSrc } from '../consts';
 import { playSong } from '../actions/libraryActions';
 import { Row, Col } from 'antd';
+import CellItem from './CellItem';
 
 
 class VirtualizedSongList extends Component {
@@ -20,43 +21,19 @@ class VirtualizedSongList extends Component {
         style        // Style object to be applied to row (to position it)
     }) {
         return (
-            <div
+            <CellItem 
+                firstCol={this.props.songs[index].attributes.name}
+                secondCol={this.props.songs[index].attributes.artistName}
+                thirdCol={this.props.songs[index].attributes.albumName}
                 key={key}
                 style={style}
-            >
-                <div className="listItem" onClick={() => {
-                    this.props.playSong(index, this.props.songs);
-                }}>
-                    <div style={{ borderRadius: "5px", float: "left", backgroundColor: "#e8e8e8" }}>
-                        <img
-
-                            alt={this.props.songs[index].attributes.name + " artwork"}
-                            style={{ borderRadius: "5px" }}
-                            width={50}
-                            height={50}
-                            onError={() => {console.log("HANDLE THIS JONATHAN< DAMN")}}
-                            src={formatImgSrc(this.props.songs[index].attributes.artwork.url, 200, 200)}>
-                        </img>
-                    </div>
-
-                    <div style={{ borderBottom: "1px solid #e8e8e8", lineHeight: "50px", marginLeft: 60, fontSize: "1.2em" }}>
-                        <Row gutter={20}>
-                            <Col className="ellipsis" span={10}>
-                                {this.props.songs[index].attributes.name}
-                            </Col>
-                            <Col className="ellipsis" span={7}>
-                                <span style={{ color: "#99999b" }}>{this.props.songs[index].attributes.artistName}</span>
-                            </Col>
-                            <Col className="ellipsis" span={7}>
-                                <span style={{ color: "#99999b" }}>{this.props.songs[index].attributes.albumName}</span>
-                            </Col>
-                        </Row>
-
-                    </div>
-                </div>
-            </div>
+                imgSrc={this.props.songs[index].attributes.artwork.url}
+                cellItemClicked={() => {this.props.playSong(index, this.props.songs)}}
+            />
         )
     }
+
+
     /* Great guide on react-virtualized
      * https://blog.logrocket.com/rendering-large-lists-with-react-virtualized-82741907a6b3
      */

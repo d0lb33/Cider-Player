@@ -54,7 +54,7 @@ class LibraryView extends Component {
                     loadingState: props.loadingState,
                     showPlayShuffle: true,
                     amountOfItems: props.songs ? props.songs.length : 0,
-                    currentView: props.songs ? <VirtualizedSongList /> : <span></span>,
+                    currentView: props.songs ? <VirtualizedSongList /> : <span>Please put a loading indicator here jonathan</span>,
                     currentViewName: props.subPageRouting[lastIndex].viewName,
                     artworkSrc: props.subPageRouting[lastIndex].artworkSrc
                 });
@@ -64,7 +64,7 @@ class LibraryView extends Component {
                     loadingState: props.playlistLoadingState,
                     showPlayShuffle: false,
                     amountOfItems: props.playlists ? props.playlists.length : 0,
-                    currentView: props.playlists ? <PlaylistsGridList /> : <span></span>,
+                    currentView: props.playlists ? <PlaylistsGridList /> : <span>Please put a loading indicator here jonathan</span>,
                     currentViewName: props.subPageRouting[lastIndex].viewName,
                     artworkSrc: props.subPageRouting[lastIndex].artworkSrc
                 });

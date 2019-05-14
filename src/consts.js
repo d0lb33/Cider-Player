@@ -1,3 +1,6 @@
+import React, { Component } from 'react'
+import { Row, Col } from 'antd';
+
 export const PAGENAMES = {
     LIBRARY: 0,
     FOR_YOU: 1,
@@ -42,7 +45,7 @@ export function getPageName(pageID) {
  * @param {Number} w // Image width
  */
 export function formatImgSrc(src, h, w) {
-    if(src === undefined || h === undefined || w === undefined){
+    if (src === undefined || h === undefined || w === undefined) {
         return src
     }
 
@@ -89,4 +92,43 @@ export function calculateTimeOfSongs(songArray) {
     return hours + " " + hoursWord + " and " + minutes + " " + minutesWord;
 
 
+}
+
+/**
+     * Generates a cell item
+     */
+export function cellItem(firstRow, secondRow, thirdRow, imgSrc, key) {
+    return (<div
+        key={key}
+    >
+        <div className="listItem" onClick={() => {
+            console.log("clicked")
+        }}>
+            {imgSrc ? <div style={{ borderRadius: "5px", float: "left", backgroundColor: "#e8e8e8" }}>
+                <img
+                    alt={firstRow + " artwork"}
+                    style={{ borderRadius: "5px" }}
+                    width={50}
+                    height={50}
+                    onError={() => { console.log("HANDLE THIS JONATHAN< DAMN") }}
+                    src={formatImgSrc(imgSrc, 200, 200)}>
+                </img>
+            </div> : ""}
+
+            <div style={{ borderBottom: "1px solid #e8e8e8", lineHeight: "50px", marginLeft: 60, fontSize: "1.2em" }}>
+                <Row gutter={20}>
+                    <Col className="ellipsis" span={10}>
+                        {firstRow}
+                    </Col>
+                    <Col className="ellipsis" span={7}>
+                        <span style={{ color: "#99999b" }}>{secondRow}</span>
+                    </Col>
+                    <Col className="ellipsis" span={7}>
+                        <span style={{ color: "#99999b" }}>{thirdRow}</span>
+                    </Col>
+                </Row>
+
+            </div>
+        </div>
+    </div>)
 }
