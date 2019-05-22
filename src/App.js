@@ -23,6 +23,8 @@ class App extends Component {
           return <LibraryView />
         case PAGENAMES.SEARCH:
           return <SearchView />
+        default:
+          return <h1>UNEXPECTED ERROR</h1>
       }
     } 
   }

@@ -2,9 +2,7 @@ import React, { Component } from 'react'
 import { WindowScroller, AutoSizer, List } from 'react-virtualized';
 import 'react-virtualized/styles.css'; // only needs to be imported once
 import { connect } from 'react-redux';
-import { formatImgSrc } from '../consts';
 import { playSong } from '../actions/libraryActions';
-import { Row, Col } from 'antd';
 import CellItem from './CellItem';
 
 

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import { fetchUserSongs, playSong, fetchUserPlaylists, setSongsInView } from '../actions/libraryActions';
 import { updateSubPageRouting } from '../actions/pageActions';
@@ -69,6 +68,8 @@ class LibraryView extends Component {
                     artworkSrc: props.subPageRouting[lastIndex].artworkSrc
                 });
                 break;
+            default:
+                console.log("SHIT IS BAD!")
         }
     }
 
@@ -104,7 +105,7 @@ class LibraryView extends Component {
                     defaultSelectedKeys={[this.props.subPageRouting[this.props.subPageRouting.length - 1].viewName]}
                     >
                         <Menu.Item key="4">
-                            <a>Albums</a>
+                            <a href="#">Albums</a>
                         </Menu.Item>
                         <Menu.Item key="3">
                             <a>Artists</a>

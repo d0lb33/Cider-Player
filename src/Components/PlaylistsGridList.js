@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import { Row, Col } from 'antd';
 import { formatImgSrc, SUBPAGENAMES } from '../consts';
-import { fetchPlaylistSongs, setSongsInView } from '../actions/libraryActions';
+import { fetchPlaylistSongs } from '../actions/libraryActions';
 import { updateSubPageRouting } from '../actions/pageActions';
 
 class PlaylistsGridList extends Component {
@@ -24,6 +24,7 @@ class PlaylistsGridList extends Component {
                     <div
                         >
                         <img
+                        alt={playlist.id}
                         style={{width: "100%", height: "100%"}}
                             src={formatImgSrc(playlist.attributes.artwork.url, 500, 500)}>
                         </img>

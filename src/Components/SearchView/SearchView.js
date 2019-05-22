@@ -12,7 +12,6 @@ class SearchView extends Component {
 
     this.state = {
       inputValue: "",
-      showResults : false
     }
   }
 
@@ -20,9 +19,8 @@ class SearchView extends Component {
    * Handles the search input and updates the UI based off of it
    */
   handleSearchInput = (e) => {
-    if (e.target.value == "") {
+    if (e.target.value === "") {
       this.setState({
-        showResults: false,
         inputValue: e.target.value,
       })
     } else {
@@ -37,7 +35,6 @@ class SearchView extends Component {
    * Only when the user stops typing
    */
   debounceSearchResults = _.debounce(() =>  {
-    this.setState({showResults : true})
     this.props.fetchSearchResults(this.state.inputValue);
   }, 500)
 
@@ -47,8 +44,8 @@ class SearchView extends Component {
    * or the RecentTrendingView
    */
   getBottomArea = () => {
-    if (this.state.showResults){
-      return <DropDownSearchResults />
+    if (this.state.inputValue !== ""){
+      return <DropDownSearchResults currentSearchTerm={this.state.inputValue} />
     } else {
       return <RecentTrending />
     }

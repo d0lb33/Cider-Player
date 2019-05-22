@@ -25,13 +25,10 @@ import RadioWavesGrey from '../icons/radio-waves-grey.png';
 import SearchPink from '../icons/search-pink.png';
 import SearchGrey from '../icons/search-grey.png';
 import ShufflePink from '../icons/shuffle-pink.png';
-import ShuffleGrey from '../icons/shuffle-grey.png';
 import ShuffleWhite from '../icons/shuffle-white.png';
 import VolumeUpPink from '../icons/volume-up-pink.png';
-import VolumeUpGrey from '../icons/volume-up-grey.png';
 import VolumeUpDarkGrey from '../icons/volume-up-darkGrey.png';
 import VolumeDownPink from '../icons/volume-down-pink.png';
-import VolumeDownGrey from '../icons/volume-down-grey.png';
 import VolumeDownDarkGrey from '../icons/volume-down-darkGrey.png';
 
 // Here for future cases.

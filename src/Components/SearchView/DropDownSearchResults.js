@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import CellItem from '../CellItem';
+import { addRecentlySearchedItem } from '../../actions/recentTrendingActions';
+
 
 var titleStyle = {
     fontSize: "1.2em",
@@ -16,9 +18,9 @@ class DropDownSearchResults extends Component {
     generateSuggestedTerms = () => {
         if (this.props.searchHints.length > 0) {
             var hintCellArray = [];
-            hintCellArray.push(<div style={titleStyle}>Suggested:</div>);
+            hintCellArray.push(<div key="TITLE KEY" style={titleStyle}>Suggested:</div>);
             this.props.searchHints.forEach((hint, i) => {
-                hintCellArray.push(<div key={i + hint} style={{ cursor: "pointer", fontSize : "1.1em" }}>{hint}</div>)
+                hintCellArray.push(<div onClick={() => {this.cellItemClicked(hint, "hint")}} key={i + hint} style={{ cursor: "pointer", fontSize : "1.1em" }}>{hint}</div>)
             });
             return hintCellArray
         }
@@ -28,9 +30,9 @@ class DropDownSearchResults extends Component {
      * Returns a JSX object with songs
      */
     generateSongResults = () => {
-        if(this.props.searchResults.songs != undefined){
+        if(this.props.searchResults.songs !== undefined){
             var songCellArray = [];
-            songCellArray.push(<div style={titleStyle}>Songs:</div>)
+            songCellArray.push(<div key="SONG TITLE KEY" style={titleStyle}>Songs:</div>)
             this.props.searchResults.songs.data.forEach((data, i) => {
                 var song = data.attributes
                 songCellArray.push(
@@ -40,7 +42,7 @@ class DropDownSearchResults extends Component {
                         secondCol={song.artistName}
                         thirdCol={song.albumName}
                         imgSrc={song.artwork.url}
-                        cellItemClicked={() => {console.log("Works???")}}
+                        cellItemClicked={() => {this.cellItemClicked(song, "song")}}
                          />
                     )
             })
@@ -52,9 +54,9 @@ class DropDownSearchResults extends Component {
      * Returns a JSX object with albums
      */
     generateAlbumResults = () => {
-        if(this.props.searchResults.albums != undefined){
+        if(this.props.searchResults.albums !== undefined){
             var albumCellArray = [];
-            albumCellArray.push(<div style={titleStyle}>Albums:</div>)
+            albumCellArray.push(<div key="ALBUM TITLE KEY" style={titleStyle}>Albums:</div>)
             this.props.searchResults.albums.data.forEach((data, i) => {
                 var album = data.attributes
                 albumCellArray.push(
@@ -64,7 +66,7 @@ class DropDownSearchResults extends Component {
                         secondCol={album.artistName}
                         thirdCol={album.releaseDate.substring(0, 4)}
                         imgSrc={album.artwork.url}
-                        cellItemClicked={() => { console.log("Works???") }}
+                        cellItemClicked={() => { this.cellItemClicked(album, "album") }}
                     />
                 )
             })
@@ -76,9 +78,9 @@ class DropDownSearchResults extends Component {
      * Returns a JSX object with artists
      */
     generateArtistResults = () => {
-        if(this.props.searchResults.artists != undefined){
+        if(this.props.searchResults.artists !== undefined){
             var artistCellArray = [];
-            artistCellArray.push(<div style={titleStyle}>Artists:</div>)
+            artistCellArray.push(<div key="ARTIST TITLE KEY" style={titleStyle}>Artists:</div>)
             this.props.searchResults.artists.data.forEach((data, i) => {
                 var artist = data.attributes
                 console.log(artist)
@@ -88,7 +90,7 @@ class DropDownSearchResults extends Component {
                         key={i + artist.name}
                         firstCol={artist.name}
                         thirdCol={artist.genreNames ? artist.genreNames[0] : null}
-                        cellItemClicked={() => { console.log("Works???") }}
+                        cellItemClicked={() => { this.cellItemClicked(artist,"artist") }}
                     />
                     )
             })
@@ -96,6 +98,35 @@ class DropDownSearchResults extends Component {
         }
     }
 
+    /** 
+     * Every search cell item should call this function with the event
+     * it wants to trigger. Helps make sure the item is added to the recent
+     * search results.
+     * @param {object} data The data of the object
+     * @param {String} eventType the event youd like to happen
+     */
+    cellItemClicked = (data, eventType) => {
+        switch (eventType) {
+            case "song":
+                break;
+            case "album":
+                break;
+            case "artist":
+                break;
+            case "hint":
+                break;
+            default:
+                break;
+        }
+
+        if (eventType === "hint"){
+            this.props.addRecentlySearchedItem(data)
+        }else{
+            this.props.addRecentlySearchedItem(this.props.currentSearchTerm)
+        }
+    }
+
+    
 
     render() {
         return (
@@ -114,4 +145,4 @@ const mapStateToProps = state => ({
     searchHints: state.library.search.searchHints
 });
 
-export default connect(mapStateToProps)(DropDownSearchResults)
+export default connect(mapStateToProps, {addRecentlySearchedItem})(DropDownSearchResults)

@@ -1,4 +1,4 @@
-import { UPDATE_PAGE, CREATE_ALERT, DISMISS_ALERT, UPDATE_SUBPAGE, UPDATE_SUB_PAGE_ROUTE} from './types';
+import { UPDATE_PAGE, CREATE_ALERT, DISMISS_ALERT, UPDATE_SUB_PAGE_ROUTE} from './types';
 
 export const updatePage = (pageEnum) => dispatch => {
     dispatch({

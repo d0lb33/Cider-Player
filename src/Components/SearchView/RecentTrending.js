@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
-import { Input, Col, Row } from 'antd';
+import { Col, Row } from 'antd';
+import { connect } from 'react-redux';
+import { getRecentlySearchedItems, addRecentlySearchedItem, clearRecentlySearchedItems } from '../../actions/recentTrendingActions';
+
 
 
 let rfStyle = {
@@ -10,7 +13,7 @@ let clearBtnStyle = {
     float: "right", paddingRight: "10px", color: "#f80759", cursor: "pointer"
 }
 
-export default class RecentTrending extends Component {
+class RecentTrending extends Component {
 
     constructor(props) {
         super(props);
@@ -21,9 +24,18 @@ export default class RecentTrending extends Component {
     }
 
     componentWillMount = () => {
+        this.props.getRecentlySearchedItems();
         this.setState({
-            recentSearchItems : this.getRecentSearchItems()
+            recentSearchItems : this.props.searchTerms 
         })
+    }
+    
+    componentWillReceiveProps = (incomingProps) => {
+        if(this.props !== incomingProps){
+            this.setState({
+                recentSearchItems : incomingProps.searchTerms
+            }) 
+        }
     }
 
     /**
@@ -38,62 +50,22 @@ export default class RecentTrending extends Component {
         // Map through them and display here
         var recentResultList = []; // Array of recent elements
         try {
-            this.state.recentSearchItems.map((searchQuery, i) => {
-                recentResultList.push(<h4>{searchQuery}</h4>)
+            this.state.recentSearchItems.forEach((searchQuery, i) => {
+                recentResultList.unshift(<h4 key={searchQuery + i}>{searchQuery}</h4>)
             })
         } catch (error) {
-            this.clearRecentSearchItems()
+            /**
+             * TODO: Call action clear all
+             */
+            //this.clearRecentSearchItems()
         }
 
         return <div>{recentResultList}</div>;
     }
 
-    /**
-     * Clears all recently searched items
-     */
-    clearRecentSearchItems = () => {
-        localStorage.removeItem("searchItems");
-        this.setState({
-            recentSearchItems: []
-        })
-    }
-
-    /**
-     * Adds a recently searched item to the localstorage array and updates the UI
-     * @param {String} item The string you want to add to the search history list
-     */
-    addRecentSearchItem = (item) => {
-        if (item === null || item === "") return;
-        var currentItems = this.getRecentSearchItems();
-        currentItems.push(item)
-        // TODO: check if there are more then 5 items in this array
-        localStorage.setItem("searchItems", JSON.stringify(currentItems));
-        this.setState({
-            recentSearchItems: currentItems
-        })
-    }
-
-    /**
-     * Returns the recently search items of the user from localstorage
-     */
-    getRecentSearchItems = () => {
-        try {
-            let items = localStorage.getItem("searchItems");
-            if (items === null) {
-                return []
-            } else {
-                return JSON.parse(items);
-            }
-        } catch (error) {
-            // parsing error, return an empty array
-            return [];
-        }
-    }
-
     getClearBtn = () => {
-        console.log(this.state)
         if(this.state.recentSearchItems.length !== 0){
-            return <Col xs={4} onClick={() => this.clearRecentSearchItems()}><span style={clearBtnStyle}>Clear</span></Col>
+            return <Col xs={4} onClick={() => this.props.clearRecentlySearchedItems()}><span style={clearBtnStyle}>Clear</span></Col>
         }
     }
 
@@ -113,7 +85,7 @@ export default class RecentTrending extends Component {
                             {this.getRecentSearchList()}
                         </div>
                     </Col>
-                    <Col sm={24} sm={12}>
+                    <Col xs={24} sm={12}>
                         <div style={{ paddingTop: 10 }}>
                             <div style={rfStyle}>
                                 Trending
@@ -126,3 +98,10 @@ export default class RecentTrending extends Component {
         )
     }
 }
+
+const mapStateToProps = state => ({
+    searchTerms: state.recentTrending.recentlySearchedTerms,
+    searchTermsLength : state.recentTrending.recentlySearchedTerms.length
+});
+  
+export default connect(mapStateToProps, { getRecentlySearchedItems, addRecentlySearchedItem, clearRecentlySearchedItems})(RecentTrending)

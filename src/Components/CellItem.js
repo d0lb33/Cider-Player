@@ -1,12 +1,10 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types';
 import {formatImgSrc} from '../consts'
 import { Row, Col } from 'antd';
 export default class CellItem extends Component {
   render() {
     return (
         <div
-        key={this.props.key}
         style={this.props.style}
     >
         <div className="listItem" onClick={() => {

@@ -6,7 +6,7 @@ import { formatImgSrc } from '../consts';
 import GreyBackground from '../icons/GreyBackground.png';
 import SongProgressSlider from './SongProgressSlider';
 import { APPLE_PINK } from '../UIElements/ColorConsts';
-import { Slider, Divider, Icon } from 'antd';
+import { Slider, Divider } from 'antd';
 import { playSong, songLoadingChecker } from '../actions/libraryActions';
 import UpNextView from './UpNextView';
 import { CustomIcon } from '../UIElements/CustomIcons';
@@ -31,13 +31,13 @@ class NowPlaying extends Component {
         });
 
         this.props.musicKitInstance.addEventListener('mediaItemWillChange', (e) => {
-            this.props.musicKitInstance.player.queue.items.map((item, i) => {
+            this.props.musicKitInstance.player.queue.items.forEach((item, i) => {
                 if (!item.playParams) return;
                 if (item.attributes.playParams.id === e.item.playParams.id){
                     console.log("Matched at " + i)
                     this.props.songLoadingChecker(e.item.id, i);
                 }
-            })
+            });
         });
     }
 
@@ -359,7 +359,7 @@ class NowPlaying extends Component {
             let wasPlaying = this.props.musicKitInstance.player.isPlaying;
 
             // Maps through unshuffled songs to find the index of the nowPlayingItem
-            this.props.songs.map((song, i) => {
+            this.props.songs.forEach((song, i) => {
                 if (song.attributes.name === nowPlayingItem.attributes.name) {
                     if (song.attributes.albumName === nowPlayingItem.attributes.albumName) {
                         // Ideally we want to find an id to compare, but for some reason they are different after setting shuffle to true.
